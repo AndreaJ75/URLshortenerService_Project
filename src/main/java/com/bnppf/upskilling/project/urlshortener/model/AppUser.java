@@ -1,20 +1,44 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name="app-user")
 public class AppUser {
 
+    @Id
+    @SequenceGenerator(name="app-user-seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app-user-seq")
     private Long id;
+    @Column(name="UID")
     private String uid;
+    @Column(name="name")
     private String name;
+    @Column(name="firstName")
     private String firstName;
+    @Column(name="email")
     private String email;
+    @Column(name="creation-date")
     private Date creationDate;
+    @Column(name="update-date")
     private Date updateDate;
 
-    private List<AuthorizationLevel> authorizationLevelList;
+    /**
+     * Many user are linked to many authorization role
+     * we generation a jointure table to show this relation
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "app-user-autorization",
+            joinColumns = @JoinColumn(name = "app-user-id"),
+            inverseJoinColumns = @JoinColumn(name = "authorization-id"))
+    private Set<AuthorizationLevel> authorizationLevelSet;
+
+    /**
+     * One user can possess many UrlLink
+     */
+    @OneToMany(mappedBy = "appUser")
     private Set<UrlLink> urlLinkSet;
 
 
@@ -51,8 +75,8 @@ public class AppUser {
         return updateDate;
     }
 
-    public List<AuthorizationLevel> getAuthorizationLevelList() {
-        return authorizationLevelList;
+    public Set<AuthorizationLevel> getAuthorizationLevelList() {
+        return authorizationLevelSet;
     }
 
     public Set<UrlLink> getUrlLinkSet() {
@@ -92,8 +116,8 @@ public class AppUser {
         this.updateDate = updateDate;
     }
 
-    public void setAuthorizationLevelList(List<AuthorizationLevel> authorizationLevelList) {
-        this.authorizationLevelList = authorizationLevelList;
+    public void setAuthorizationLevelSet(Set<AuthorizationLevel> authorizationLevelList) {
+        this.authorizationLevelSet = authorizationLevelSet;
     }
 
     public void setUrlLinkSet(Set<UrlLink> urlLinkSet) {

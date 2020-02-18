@@ -2,22 +2,42 @@ package com.bnppf.upskilling.project.urlshortener.model;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.persistence.*;
 import java.net.URL;
 import java.util.Date;
 
+@Entity
+@Table(name="url-link")
 public class UrlLink {
 
+
+    @Id
+    @SequenceGenerator(name="url-link-seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "url-link-seq")
     private Long id;
+    @Column(name="url-long")
     private URL UrlLong;
+    @Column(name="url-short-key")
     private String UrlShortKey;
+    @Column(name="password")
     private BCrypt Urlpassword;
+    @Column(name="url-title")
     private String UrlTitle;
+    @Column(name="click-number")
     private Double clickNumber;
+    @Column(name="max-click-number")
     private Double maxClickNumber = Double.MAX_VALUE;
+    @Column(name="expiration-date")
     private Date expirationDate;
+    @Column(name="creation-date")
     private Date creationDate;
+    @Column(name="update-date")
     private Date updateDate;
 
+    /**
+     * Many UrlLink belong to one appUser
+     */
+    @ManyToOne
     private AppUser appUser;
 
     /**
