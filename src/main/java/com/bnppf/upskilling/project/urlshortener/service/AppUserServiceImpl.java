@@ -2,6 +2,7 @@ package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import static com.sun.tools.doclint.Entity.exist;
 import static com.sun.tools.doclint.Entity.isValid;
 
+@Service
 public class AppUserServiceImpl implements AppUserService {
 
 
