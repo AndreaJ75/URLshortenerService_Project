@@ -3,6 +3,7 @@ package com.bnppf.upskilling.project.urlshortener.service;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public interface UrlLinkService {
@@ -18,50 +19,50 @@ public interface UrlLinkService {
 
     /**
      * Get all URL link
-     * @return url Set
+     * @return url List
      */
-    Set<UrlLink> getUrlSet();
+    List<UrlLink> getUrlList();
 
     /**
-     * Get UrlLink set for a specific Application User
+     * Get UrlLink list for a specific Application User
      * @param AppUserId
-     * @return UrlLink set created by the specific AppUser sorted by ascending creation date
+     * @return UrlLink list created by the specific AppUser sorted by ascending creation date
      */
-    Set<UrlLink> getUrlSetForOneAppUserSortedByAscCreationDate (Long AppUserId);
+    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (Long AppUserId);
 
 
     // Hors MVP -----------------------------------
     /**
-     * Get set of UrlLink from its title
+     * Get list of UrlLink from its title
      * @param urlLinkTitle
-     * @return urlLink set sorted by title
+     * @return urlLink list sorted by title
      */
-    Set<UrlLink> getUrlSetSortedByTitle(String urlLinkTitle);
+    List<UrlLink> getUrlListSortedByTitle(String urlLinkTitle);
 
 
     // Hors MVP -----------------------------------
     /**
-     * Get set of UrlLink from its creation date
+     * Get list of UrlLink from its creation date
      * @param urlLinkCreationDate
-     * @return url set sorted by creation date
+     * @return url list sorted by creation date
      */
-    Set<UrlLink> getUrlSetSortedByCreationdate(Date urlLinkCreationDate);
+    List<UrlLink> getUrlListSortedByCreationdate(Date urlLinkCreationDate);
 
 
     // Hors MVP -----------------------------------
     /**
-     * Get set of UrlLink from its expiration date
+     * Get list of UrlLink from its expiration date
      * @param urlLinkExpirationDate
-     * @return url set sorted by expiration date
+     * @return url list sorted by expiration date
      */
-    Set<UrlLink> getUrlSetSortedByExpirationdate(Date urlLinkExpirationDate);
+    List<UrlLink> getUrlListSortedByExpirationdate(Date urlLinkExpirationDate);
 
     /**
-     * Get UrlLink set sorted by click number
+     * Get UrlLink List sorted by click number
      * @param clickNumber
-     * @return url set sorted by lick number
+     * @return url List sorted by lick number
      */
-    Set<UrlLink> getUrlSetSortedByClickNumber(Double clickNumber);
+    List<UrlLink> getUrlListSortedByClickNumber(Double clickNumber);
 
     /**
      * Update one UrlLink for one user
@@ -72,11 +73,11 @@ public interface UrlLinkService {
 
 
     /**
-     * Update a set of Url link for one App user
-     * @param urlLinkSet
-     * @return UrlLink set updated
+     * Update a list of Url link for one App user
+     * @param urlLinkList
+     * @return UrlLink list updated
      */
-    Set<UrlLink> updateUrlLinkSet(Set<UrlLink> urlLinkSet);
+    List<UrlLink> updateUrlLinkList(List<UrlLink> urlLinkList);
 
     /**
      * Delete one UrlLink by Id
@@ -87,8 +88,8 @@ public interface UrlLinkService {
 
     /**
      * Delete a list of Url
-     * @param urlLinkIdSetToBeDeleted
+     * @param urlLinkIdListToBeDeleted
      * @return status of delete
      */
-    boolean deleteUrlLinkSet(Set<Long> urlLinkIdSetToBeDeleted);
+    boolean deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted);
 }

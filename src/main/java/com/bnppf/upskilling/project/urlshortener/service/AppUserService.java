@@ -3,7 +3,7 @@ package com.bnppf.upskilling.project.urlshortener.service;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 public interface AppUserService  {
 
@@ -19,22 +19,22 @@ public interface AppUserService  {
      * include ADMIN and USER only (not GUEST)
      * @return
      */
-    Set<AppUser> getAppUserSet();
+    List<AppUser> getAppUserList();
 
     /**
      * Get user from Application user by its UID
      * @param appUserUID
      * @return appUser
      */
-    AppUser getAppUserByUID(String appUserUID);
+    Optional<AppUser> getAppUserByUID(String appUserUID);
 
 
     /**
-     * Get Application user by its Name
+     * Get Application user by its Name (can retrieve many Appusers)
      * @param appUserName
-     * @return appUser
+     * @return appUserList
      */
-    AppUser getAppUserByName(String appUserName);
+    Optional<List<AppUser>> getAppUserListByName(String appUserName);
 
     /**
      * Update on Application user
@@ -53,11 +53,11 @@ public interface AppUserService  {
     boolean deleteAppUser(Long appUserIdToDelete);
 
     /**
-     * Delete UserSet from their id
-     * @param appUserIdSetToDelete
+     * Delete UserList from their id
+     * @param appUserIdListToDelete
      * @return resulted status return by delete
      */
-    boolean deleteAppUserSet(Long appUserIdSetToDelete);
+    boolean deleteAppUserList(Long appUserIdListToDelete);
 
 
 }

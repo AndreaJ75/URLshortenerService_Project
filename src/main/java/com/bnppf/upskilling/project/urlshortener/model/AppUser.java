@@ -123,4 +123,26 @@ public class AppUser {
     public void setUrlLinkSet(Set<UrlLink> urlLinkSet) {
         this.urlLinkSet = urlLinkSet;
     }
+
+    /**
+     * Override on equals method to check equality between 2 AppUser
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof AppUser) || obj == null){
+            return false;
+        } else {
+            AppUser appUser = (AppUser) obj;
+            return (appUser.id == this.id
+                    &&  appUser.authorizationLevelSet == this.authorizationLevelSet
+                    &&  appUser.creationDate == this.creationDate
+                    &&  appUser.email == this.email
+                    &&  appUser.firstName == this.firstName
+                    &&  appUser.name == this.name
+                    &&  appUser.uid == this.uid);
+        }
+
+    }
 }

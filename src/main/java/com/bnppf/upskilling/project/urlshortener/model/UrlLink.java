@@ -16,13 +16,13 @@ public class UrlLink {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "url-link-seq")
     private Long id;
     @Column(name="url-long")
-    private URL UrlLong;
+    private URL urlLong;
     @Column(name="url-short-key")
-    private String UrlShortKey;
+    private String urlShortKey;
     @Column(name="password")
-    private BCrypt Urlpassword;
+    private BCrypt urlpassword;
     @Column(name="url-title")
-    private String UrlTitle;
+    private String urlTitle;
     @Column(name="click-number")
     private Double clickNumber;
     @Column(name="max-click-number")
@@ -50,19 +50,19 @@ public class UrlLink {
     }
 
     public URL getUrlLong() {
-        return UrlLong;
+        return urlLong;
     }
 
     public String getUrlShortKey() {
-        return UrlShortKey;
+        return urlShortKey;
     }
 
     public BCrypt getUrlpassword() {
-        return Urlpassword;
+        return urlpassword;
     }
 
     public String getUrlTitle() {
-        return UrlTitle;
+        return urlTitle;
     }
 
     public Double getClickNumber() {
@@ -99,19 +99,19 @@ public class UrlLink {
     }
 
     public void setUrlLong(URL urlLong) {
-        UrlLong = urlLong;
+        this.urlLong = urlLong;
     }
 
     public void setUrlShortKey(String urlShortKey) {
-        UrlShortKey = urlShortKey;
+        this.urlShortKey = urlShortKey;
     }
 
     public void setUrlpassword(BCrypt urlpassword) {
-        Urlpassword = urlpassword;
+        this.urlpassword = urlpassword;
     }
 
     public void setUrlTitle(String urlTitle) {
-        UrlTitle = urlTitle;
+        this.urlTitle = urlTitle;
     }
 
     public void setClickNumber(Double clickNumber) {
@@ -136,5 +136,19 @@ public class UrlLink {
 
     public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof UrlLink) || obj == null) {
+            return false;
+        } else {
+            UrlLink urlLink = (UrlLink) obj;
+            return (urlLink.id == this.id
+                    && urlLink.urlShortKey.equals(this.urlShortKey)
+                    && urlLink.urlpassword == this.urlpassword
+                    && urlLink.urlLong.equals(this.urlLong));
+        }
     }
 }
