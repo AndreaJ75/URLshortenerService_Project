@@ -13,8 +13,7 @@ public interface AppUserRepository extends JpaRepository <AppUser, Long>{
     Optional<AppUser> findByUidEquals(String UID);
 
 
-    @Query("SELECT appUserList FROM AppUser appUser where appUser.name = :name")
-    Optional<List<AppUser>> findAllByName(String name);
-
+    @Query("SELECT appUserList FROM AppUser appUser where appUser.name = :name ORDER BY name ASC")
+    Optional<List<AppUser>> findAppUsersSortByName(String name);
 
 }

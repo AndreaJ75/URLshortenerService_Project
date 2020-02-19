@@ -55,9 +55,9 @@ public interface AppUserService  {
     /**
      * Delete UserList from their id
      * @param appUserIdListToDelete
-     * @return resulted status return by delete
+     * @return resulted status return by delete for each AppUser
      */
-    boolean deleteAppUserList(Long appUserIdListToDelete);
+    List<Boolean> deleteAppUserList(List<Long> appUserIdListToDelete);
 
 
 }
