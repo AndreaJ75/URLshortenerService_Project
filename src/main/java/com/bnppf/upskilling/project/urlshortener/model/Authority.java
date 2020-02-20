@@ -3,22 +3,23 @@ package com.bnppf.upskilling.project.urlshortener.model;
 import javax.persistence.*;
 import java.util.Set;
 
-public class Authorization {
+@Entity
+public class Authority {
 
     @Id
-    @SequenceGenerator(name="app-user-seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app-user-seq")
+    @SequenceGenerator(name="app_user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     private Long id;
 
-    @Column(name="authorization-level")
+    @Column(name="authorization_level")
     @Enumerated(EnumType.STRING)
     private AuthorizationLevel authorizationLevel;
 
     /**
      * Many user are linked to many authorization role
-     * we link the set of appuser to the related set of Authorization level
+     * we link the set of appuser to the related set of Authority level
      */
-    @ManyToMany(mappedBy = "authorizationLevelSet")
+    @ManyToMany(mappedBy = "authorities")
     private Set<AppUser> appUserSet;
 
     /**

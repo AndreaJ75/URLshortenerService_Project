@@ -2,17 +2,15 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/bnppf/urlshortener")
+@RequestMapping("/api/bnppf/user")
 public class AppUserController {
 
 
@@ -36,14 +34,25 @@ public class AppUserController {
      * @return appUserCreated
      */
     @PostMapping
-    public ResponseEntity<AppUser> createAppUser(AppUser appUser) {
+    public ResponseEntity<AppUser> createAppUser(@RequestBody AppUser appUser) {
         return ResponseEntity.ok(appUserService.createAppUser(appUser));
     }
 
-
-    @GetMapping
-    public ResponseEntity<List<AppUser>> getListOfAllAppUsers(){
+    @GetMapping("/all")
+    public ResponseEntity<List<AppUser>> getListOfAllAppUsers() {
         return ResponseEntity.ok(appUserService.getAppUserList());
+    }
+
+
+    @GetMapping("/{uid}")
+    public ResponseEntity<AppUser> getAppUserByUID(@PathVariable("uid") String UID) {
+        Optional<AppUser> userOptional = appUserService.getAppUserByUID(UID);
+
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok(userOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 

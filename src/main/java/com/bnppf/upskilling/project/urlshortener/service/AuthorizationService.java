@@ -1,23 +1,23 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
-import com.bnppf.upskilling.project.urlshortener.model.Authorization;
+import com.bnppf.upskilling.project.urlshortener.model.Authority;
 
 public interface AuthorizationService {
 
 
     /**
-     * Creation of an Authorization level
-     * @param authorizationToBeCreated
+     * Creation of an Authority level
+     * @param authorityToBeCreated
      * @return autorization created
      */
-    Authorization createAuthorization(Authorization authorizationToBeCreated);
+    Authority createAuthorization(Authority authorityToBeCreated);
 
 
     /**
-     * Authorization to be updated
-     * @param authorizationToBeUpdated
+     * Authority to be updated
+     * @param authorityToBeUpdated
      * @return authorization updated
      */
-    Authorization updateAuthorization(Authorization authorizationToBeUpdated);
+    Authority updateAuthorization(Authority authorityToBeUpdated);
 
 }

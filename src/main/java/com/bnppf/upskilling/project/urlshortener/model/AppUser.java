@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name="app-user")
+@Table(name="app_user")
 public class AppUser {
 
     @Id
-    @SequenceGenerator(name="app-user-seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app-user-seq")
+    @SequenceGenerator(name="app_user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     private Long id;
     @Column(name="UID")
     private String uid;
@@ -20,9 +20,9 @@ public class AppUser {
     private String firstName;
     @Column(name="email")
     private String email;
-    @Column(name="creation-date")
+    @Column(name="creation_date")
     private Date creationDate;
-    @Column(name="update-date")
+    @Column(name="update_date")
     private Date updateDate;
 
     /**
@@ -30,10 +30,10 @@ public class AppUser {
      * we generation a jointure table to show this relation
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "app-user-autorization",
-            joinColumns = @JoinColumn(name = "app-user-id"),
-            inverseJoinColumns = @JoinColumn(name = "authorization-id"))
-    private Set<AuthorizationLevel> authorizationLevelSet;
+    @JoinTable(name = "app_user_autorization",
+            joinColumns = @JoinColumn(name = "app_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authorization_id"))
+    private Set<Authority> authorities;
 
     /**
      * One user can possess many UrlLink
@@ -75,8 +75,8 @@ public class AppUser {
         return updateDate;
     }
 
-    public Set<AuthorizationLevel> getAuthorizationLevelList() {
-        return authorizationLevelSet;
+    public Set<Authority> getAuthorities() {
+        return authorities;
     }
 
     public Set<UrlLink> getUrlLinkSet() {
@@ -116,8 +116,8 @@ public class AppUser {
         this.updateDate = updateDate;
     }
 
-    public void setAuthorizationLevelSet(Set<AuthorizationLevel> authorizationLevelList) {
-        this.authorizationLevelSet = authorizationLevelSet;
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     public void setUrlLinkSet(Set<UrlLink> urlLinkSet) {
@@ -129,20 +129,8 @@ public class AppUser {
      * @param obj
      * @return
      */
-    @Override
-    public boolean equals(Object obj){
-        if (!(obj instanceof AppUser) || obj == null){
-            return false;
-        } else {
-            AppUser appUser = (AppUser) obj;
-            return (appUser.id == this.id
-                    &&  appUser.authorizationLevelSet == this.authorizationLevelSet
-                    &&  appUser.creationDate == this.creationDate
-                    &&  appUser.email == this.email
-                    &&  appUser.firstName == this.firstName
-                    &&  appUser.name == this.name
-                    &&  appUser.uid == this.uid);
-        }
-
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        return this.uid.equals((AppUser) obj.);
+//    }
 }

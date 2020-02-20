@@ -28,14 +28,6 @@ public interface AppUserService  {
      */
     Optional<AppUser> getAppUserByUID(String appUserUID);
 
-
-    /**
-     * Get Application user by its Name (can retrieve many Appusers)
-     * @param appUserName
-     * @return appUserList
-     */
-    Optional<List<AppUser>> getAppUserListByName(String appUserName);
-
     /**
      * Update on Application user
      * @param appUserToUpdated

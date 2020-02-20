@@ -1,37 +1,38 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
+//import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import java.net.URL;
 import java.util.Date;
 
 @Entity
-@Table(name="url-link")
+@Table(name="url_link")
 public class UrlLink {
 
 
     @Id
-    @SequenceGenerator(name="url-link-seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "url-link-seq")
+    @SequenceGenerator(name="url_link_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "url_link_seq")
     private Long id;
-    @Column(name="url-long")
+
+    @Column(name="url_long")
     private URL urlLong;
-    @Column(name="url-short-key")
+    @Column(name="url_short_key")
     private String urlShortKey;
     @Column(name="password")
-    private BCrypt urlpassword;
-    @Column(name="url-title")
+    private String urlpassword;
+    @Column(name="url_title")
     private String urlTitle;
-    @Column(name="click-number")
+    @Column(name="click_number")
     private Double clickNumber;
-    @Column(name="max-click-number")
+    @Column(name="max_click_number")
     private Double maxClickNumber = Double.MAX_VALUE;
-    @Column(name="expiration-date")
+    @Column(name="expiration_date")
     private Date expirationDate;
-    @Column(name="creation-date")
+    @Column(name="creation_date")
     private Date creationDate;
-    @Column(name="update-date")
+    @Column(name="update_date")
     private Date updateDate;
 
     /**
@@ -57,7 +58,7 @@ public class UrlLink {
         return urlShortKey;
     }
 
-    public BCrypt getUrlpassword() {
+    public String getUrlpassword() {
         return urlpassword;
     }
 
@@ -106,7 +107,7 @@ public class UrlLink {
         this.urlShortKey = urlShortKey;
     }
 
-    public void setUrlpassword(BCrypt urlpassword) {
+    public void setUrlpassword(String urlpassword) {
         this.urlpassword = urlpassword;
     }
 

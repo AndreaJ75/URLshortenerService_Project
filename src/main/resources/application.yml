@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/change
+    username: change
+    password: change
+
+  ldap:
+    embedded:
+      ldif: classpath:test-server.ldif
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+app:
+  jwt:
+    # Clé secrete du jeton en base 64
+    secret: QVBESkhVSURHWUdZdWhjamV6aGd1aDg4MDdISkhVRTlmY2NoeTM0NTNjamg3ODk2Cg==

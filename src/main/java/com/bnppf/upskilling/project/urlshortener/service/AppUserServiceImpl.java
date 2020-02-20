@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sun.tools.doclint.Entity.exist;
-import static com.sun.tools.doclint.Entity.isValid;
-
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
@@ -47,32 +44,8 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public Optional<AppUser> getAppUserByUID(String appUserUID) {
-        Optional appUser = appUserRepository.findByUidEquals(appUserUID);
-
-        if (appUser.isPresent()){
-            return appUser;
-        } else {
-            return null;
-        }
+        return appUserRepository.findByUid(appUserUID);
     }
-
-    /**
-     * Fin an App user by its Name
-     * @param appUserName
-     * @return appUserList (some collaborators may have the same name)
-     */
-
-    @Override
-    public Optional<List<AppUser>> getAppUserListByName(String appUserName) {
-        Optional appUserList = appUserRepository.findAppUsersSortByName(appUserName);
-
-        if (appUserList.isPresent()) {
-            return appUserList;
-        } else {
-            return null;
-        }
-    }
-
 
     /**
      * Update AppUser
