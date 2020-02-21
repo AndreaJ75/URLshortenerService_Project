@@ -1,5 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
+import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 
 import java.util.Date;
@@ -27,7 +28,7 @@ public interface UrlLinkService {
      * @param AppUserId
      * @return UrlLink list created by the specific AppUser sorted by ascending creation date
      */
-    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (Long AppUserId);
+    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser AppUserId);
 
 
     // Hors MVP -----------------------------------

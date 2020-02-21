@@ -1,5 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
+import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.repository.UrllinkRepository;
 import org.springframework.stereotype.Service;
@@ -26,18 +27,19 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     @Override
     public UrlLink createUrl(UrlLink urlLinkToBeCreated) {
 
-        return null;
+        return urllinkRepository.save(urlLinkToBeCreated);
     }
 
     @Override
     public List<UrlLink> getUrlList() {
-        return null;
+        return urllinkRepository.findAll();
     }
 
     @Override
-    public List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate(Long AppUserId) {
-        return null;
+    public List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate(AppUser appUser) {
+        return urllinkRepository.findByAppUserOrderByCreationDateAsc(appUser);
     }
+
 
     @Override
     public List<UrlLink> getUrlListSortedByTitle(String urlLinkTitle) {

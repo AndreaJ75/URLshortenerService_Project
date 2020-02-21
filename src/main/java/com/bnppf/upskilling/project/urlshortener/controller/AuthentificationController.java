@@ -29,7 +29,7 @@ public class AuthentificationController {
 
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JwtToken> authenticateUser(@RequestBody LoginPassword loginPassword){
+    public ResponseEntity<JwtToken> authenticateUser(@RequestBody LoginPassword loginPassword) {
 
         /**
          * On instancie un objet UsernamePasswordAuthenticationToken qui implémente AuthenticateManager
@@ -51,8 +51,6 @@ public class AuthentificationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return ResponseEntity.ok().body(tokenProvider.createToken(authentication));
-
-
 
 
     }

@@ -4,6 +4,7 @@ import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,5 +56,8 @@ public class AppUserController {
         }
     }
 
-
+    @GetMapping
+    public String getCurrentUserLogin() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 }

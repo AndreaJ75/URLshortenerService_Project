@@ -7,6 +7,8 @@ spring:
   ldap:
     embedded:
       ldif: classpath:test-server.ldif
+      base-dn: dc=springframework,dc=org
+      port: 8389
 
   jpa:
     hibernate:
@@ -16,3 +18,7 @@ app:
   jwt:
     # Clé secrete du jeton en base 64
     secret: QVBESkhVSURHWUdZdWhjamV6aGd1aDg4MDdISkhVRTlmY2NoeTM0NTNjamg3ODk2Cg==
+
+logging:
+  level:
+    ROOT: debug
