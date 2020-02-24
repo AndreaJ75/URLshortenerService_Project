@@ -2,6 +2,7 @@ package com.bnppf.upskilling.project.urlshortener.model;
 
 //import org.springframework.security.crypto.bcrypt.BCrypt;
 
+
 import javax.persistence.*;
 import java.net.URL;
 import java.util.Date;

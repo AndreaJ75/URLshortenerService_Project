@@ -1,5 +1,7 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -39,6 +41,7 @@ public class AppUser {
      * One user can possess many UrlLink
      */
     @OneToMany(mappedBy = "appUser")
+    @JsonIgnore
     private Set<UrlLink> urlLinkSet;
 
 
