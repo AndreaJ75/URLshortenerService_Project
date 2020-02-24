@@ -8,9 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UrllinkRepository extends JpaRepository<UrlLink, Long> {
+public interface UrlLinkRepository extends JpaRepository<UrlLink, Long> {
 
        List<UrlLink> findByAppUserOrderByCreationDateAsc(AppUser appUser);
+
+       List<UrlLink> findByAppUserOrderByExpirationDateAsc(AppUser appUser);
+
+       List<UrlLink> findByAppUserOrderByClickNumberDesc(AppUser appUser);
 
 
 }

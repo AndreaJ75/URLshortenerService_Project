@@ -3,7 +3,6 @@ package com.bnppf.upskilling.project.urlshortener.service;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 
-import java.util.Date;
 import java.util.List;
 
 public interface UrlLinkService {
@@ -24,45 +23,36 @@ public interface UrlLinkService {
     List<UrlLink> getUrlList();
 
     /**
-     * Get UrlLink list for a specific Application User
-     * @param AppUserId
+     * Get UrlLink list for a specific Application User sorted by ASC creation date
+     * @param appUser
      * @return UrlLink list created by the specific AppUser sorted by ascending creation date
      */
-    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser AppUserId);
+    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser appUser);
 
 
     // Hors MVP -----------------------------------
     /**
-     * Get list of UrlLink from its title
-     * @param urlLinkTitle
-     * @return urlLink list sorted by title
+     * Get list of UrlLink for a specific AppUser from its title
+     * @param appUser
+     * @return urlLink list of a user sorted by title
      */
-    List<UrlLink> getUrlListSortedByTitle(String urlLinkTitle);
-
-
-    // Hors MVP -----------------------------------
-    /**
-     * Get list of UrlLink from its creation date
-     * @param urlLinkCreationDate
-     * @return url list sorted by creation date
-     */
-    List<UrlLink> getUrlListSortedByCreationdate(Date urlLinkCreationDate);
+    List<UrlLink> getUrlListForOneAppUserSortedByTitle(AppUser appUser);
 
 
     // Hors MVP -----------------------------------
     /**
      * Get list of UrlLink from its expiration date
-     * @param urlLinkExpirationDate
+     * @param appUser
      * @return url list sorted by expiration date
      */
-    List<UrlLink> getUrlListSortedByExpirationdate(Date urlLinkExpirationDate);
+    List<UrlLink> getUrlListForOneAppUserSortedByExpirationdate(AppUser appUser);
 
     /**
      * Get UrlLink List sorted by click number
-     * @param clickNumber
+     * @param appUser
      * @return url List sorted by lick number
      */
-    List<UrlLink> getUrlListSortedByClickNumber(Double clickNumber);
+    List<UrlLink> getUrlListForOneAppUserSortedByClickNumber(AppUser appUser);
 
     /**
      * Update one UrlLink for one user
@@ -91,5 +81,5 @@ public interface UrlLinkService {
      * @param urlLinkIdListToBeDeleted
      * @return status of delete
      */
-    boolean deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted);
+    List<Boolean> deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted);
 }

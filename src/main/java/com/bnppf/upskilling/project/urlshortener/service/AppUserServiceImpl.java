@@ -55,13 +55,12 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser updateAppUser(AppUser appUserToUpdated) {
 
-        if (appUserRepository.existsById(appUserToUpdated.getId()))
-        {
+        if (appUserRepository.existsById(appUserToUpdated.getId())){
             return appUserRepository.save(appUserToUpdated);
         } else {
             return null;
         }
-    }
+        }
 
     /**
      * Delete AppUser from its Id

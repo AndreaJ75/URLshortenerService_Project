@@ -10,9 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/bnppf/urlservice")
 public class AuthentificationController {
 
     private AuthenticationManager authenticationManager;
@@ -33,8 +35,8 @@ public class AuthentificationController {
 
         /**
          * On instancie un objet UsernamePasswordAuthenticationToken qui implémente AuthenticateManager
-         * (AuthenticateManager étant une Interface ne peut pas être instancier...alors que Username....le peut)
-         * L'objet Username ... est créé grâce à login/mot de passe (= principal + credential)
+         * (AuthenticateManager étant une Interface ne peut pas être instancier...alors que UsernamePasswordAuth..le peut)
+         * L'objet UsernamePasswordAuth ... est créé grâce au login/mot de passe (= principal + credential)
          */
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginPassword.getLogin(), loginPassword.getPassword());

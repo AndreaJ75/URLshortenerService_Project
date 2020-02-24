@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/bnppf/user")
+@RequestMapping("/api/bnppf/urlservice/user")
 public class AppUserController {
 
 
@@ -23,14 +23,16 @@ public class AppUserController {
 
     /**
      * AppUser Service injection inside of the controller constructor (to be able to access Services created Method)
+     *
      * @param appUserService
      */
-    public AppUserController(AppUserService appUserService){
+    public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 
     /**
      * Request/Response for AppUser creation
+     *
      * @param appUser
      * @return appUserCreated
      */
@@ -56,8 +58,46 @@ public class AppUserController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
+        AppUser userToUpdate = appUserService.updateAppUser(appUser);
+
+        if (userToUpdate != null) {
+            return ResponseEntity.ok(userToUpdate);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @DeleteMapping("/user/{appUserId}")
+    public ResponseEntity<Void> deleteAppUser(@PathVariable Long appUserId) {
+        boolean status = appUserService.deleteAppUser(appUserId);
+
+        if (status == true) {
+            return ResponseEntity.ok().body(null);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/user/List<{appUserId}>")
+    public ResponseEntity<Void> deleteAppUserList(@PathVariable List<Long> appUserIdList) {
+        List<Boolean> statusList = appUserService.deleteAppUserList(appUserIdList);
+
+        ResponseEntity res = null;
+
+        for (int i =0 ; i< statusList.size(); i++) {
+
+            if (statusList.get(i) == true) {
+                res = ResponseEntity.ok().body(null);
+            } else {
+                res = ResponseEntity.notFound().build();
+            }
+        } return res;
+    }
+
     @GetMapping
-    public String getCurrentUserLogin() {
+    public String getCurrentUserLogin () {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
