@@ -1,6 +1,5 @@
 package com.bnppf.upskilling.project.urlshortener.controller;
 
-import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import org.springframework.http.HttpStatus;
@@ -8,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.net.URL;
 import java.util.List;
 
 @RestController
@@ -23,29 +23,39 @@ public class UrlLinkController {
 
 
     @PostMapping
-    public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlLink urlLinkToBeCreated) {
-        return ResponseEntity.ok(urlLinkService.createUrl(urlLinkToBeCreated));
+    public ResponseEntity<UrlLink> createUrlLink(@RequestBody URL urlLinkToBeCreated) {
+        return ResponseEntity.ok(urlLinkService.createUrlForGuest(urlLinkToBeCreated));
     }
 
+
+//    @PostMapping
+//    public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlLink urlLinkToBeCreated) {
+//        return ResponseEntity.ok(urlLinkService.createUrl(urlLinkToBeCreated));
+//    }
+
+//    @GetMapping("/all")
+//    public ResponseEntity<List<UrlLink>> getUrlLinkList(){
+//        return ResponseEntity.ok(urlLinkService.getUrlList());
+//    }
+
+//    @GetMapping("/listurlsortcreationdate/user")
+//    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByCreationDate(@RequestBody AppUser appUser){
+//        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByAscCreationDate(appUser));
+//    }
+//
+//    @GetMapping("/listurlsortexpirationdate/user")
+//    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByExpirationDate(@RequestBody AppUser appUser){
+//        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByExpirationdate(appUser));
+//    }
+//
+//    @GetMapping("/listurlsortclicknumberdesc/user")
+//    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByClickNumber(@RequestBody AppUser appUser){
+//        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByClickNumber(appUser));
+//    }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UrlLink>> getUrlLinkList(){
-        return ResponseEntity.ok(urlLinkService.getUrlList());
-    }
-
-    @GetMapping("/listurlsortcreationdate/user")
-    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByCreationDate(@RequestBody AppUser appUser){
-        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByAscCreationDate(appUser));
-    }
-
-    @GetMapping("/listurlsortexpirationdate/user")
-    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByExpirationDate(@RequestBody AppUser appUser){
-        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByExpirationdate(appUser));
-    }
-
-    @GetMapping("/listurlsortclicknumberdesc/user")
-    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByClickNumber(@RequestBody AppUser appUser){
-        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByClickNumber(appUser));
+    public ResponseEntity<List<UrlLink>> getAllUrlLinks(){
+        return ResponseEntity.ok(urlLinkService.getAllUrlLinks(0, 15, "creationDate"));
     }
 
     @PutMapping("updateurl/user")

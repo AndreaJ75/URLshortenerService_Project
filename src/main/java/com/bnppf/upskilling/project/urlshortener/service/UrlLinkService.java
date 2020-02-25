@@ -1,58 +1,74 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
-import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 
+import java.net.URL;
 import java.util.List;
 
 public interface UrlLinkService {
 
 
-    /**
-     * Creation a a new URL link
-     * @param urlLinkToBeCreated
-     * @return urllink created
-     */
-    UrlLink createUrl(UrlLink urlLinkToBeCreated);
-
-
-    /**
-     * Get all URL link
-     * @return url List
-     */
-    List<UrlLink> getUrlList();
+//    /**
+//     * Creation a a new URL link
+//     * @param urlLinkToBeCreated
+//     * @return urllink created
+//     */
+//    UrlLink createUrl(UrlLink urlLinkToBeCreated);
 
     /**
-     * Get UrlLink list for a specific Application User sorted by ASC creation date
-     * @param appUser
-     * @return UrlLink list created by the specific AppUser sorted by ascending creation date
+     * Creation of a new URLLink for GUEST
+     * @param urlToBeCreated
+     * @return URLLink created
      */
-    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser appUser);
+    UrlLink createUrlForGuest(URL urlToBeCreated);
+
+//    /**
+//     * Get all URL link
+//     * @return url List
+//     */
+//    List<UrlLink> getUrlList();
+
+//    /**
+//     * Get UrlLink list for a specific Application User sorted by ASC creation date
+//     * @param appUser
+//     * @return UrlLink list created by the specific AppUser sorted by ascending creation date
+//     */
+//    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser appUser);
+//
+//
+//    // Hors MVP -----------------------------------
+//    /**
+//     * Get list of UrlLink for a specific AppUser from its title
+//     * @param appUser
+//     * @return urlLink list of a user sorted by title
+//     */
+//    List<UrlLink> getUrlListForOneAppUserSortedByTitle(AppUser appUser);
+//
+//
+//    // Hors MVP -----------------------------------
+//    /**
+//     * Get list of UrlLink from its expiration date
+//     * @param appUser
+//     * @return url list sorted by expiration date
+//     */
+//    List<UrlLink> getUrlListForOneAppUserSortedByExpirationdate(AppUser appUser);
+//
+//    /**
+//     * Get UrlLink List sorted by click number
+//     * @param appUser
+//     * @return url List sorted by lick number
+//     */
+//    List<UrlLink> getUrlListForOneAppUserSortedByClickNumber(AppUser appUser);
 
 
-    // Hors MVP -----------------------------------
     /**
-     * Get list of UrlLink for a specific AppUser from its title
-     * @param appUser
-     * @return urlLink list of a user sorted by title
+     * get All URLLinks sorted by criteria: for ADMIN only
+     * @param pageNo
+     * @param pageSize
+     * @param sortBy
+     * @return
      */
-    List<UrlLink> getUrlListForOneAppUserSortedByTitle(AppUser appUser);
-
-
-    // Hors MVP -----------------------------------
-    /**
-     * Get list of UrlLink from its expiration date
-     * @param appUser
-     * @return url list sorted by expiration date
-     */
-    List<UrlLink> getUrlListForOneAppUserSortedByExpirationdate(AppUser appUser);
-
-    /**
-     * Get UrlLink List sorted by click number
-     * @param appUser
-     * @return url List sorted by lick number
-     */
-    List<UrlLink> getUrlListForOneAppUserSortedByClickNumber(AppUser appUser);
+    List<UrlLink> getAllUrlLinks (Integer pageNo, Integer pageSize, String sortBy);
 
     /**
      * Update one UrlLink for one user

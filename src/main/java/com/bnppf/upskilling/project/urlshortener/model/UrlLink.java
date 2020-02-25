@@ -5,7 +5,8 @@ package com.bnppf.upskilling.project.urlshortener.model;
 
 import javax.persistence.*;
 import java.net.URL;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name="url_link")
@@ -30,11 +31,11 @@ public class UrlLink {
     @Column(name="max_click_number")
     private Double maxClickNumber = Double.MAX_VALUE;
     @Column(name="expiration_date")
-    private Date expirationDate;
+    private LocalDateTime expirationDate;
     @Column(name="creation_date")
-    private Date creationDate;
+    private LocalDateTime creationDate;
     @Column(name="update_date")
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
     /**
      * Many UrlLink belong to one appUser
@@ -75,15 +76,15 @@ public class UrlLink {
         return maxClickNumber;
     }
 
-    public Date getExpirationDate() {
+    public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public Date getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
@@ -124,15 +125,15 @@ public class UrlLink {
         this.maxClickNumber = maxClickNumber;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(LocalDateTime expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 
