@@ -12,4 +12,6 @@ public class JwtToken {
     public void setToken(String token) {
         this.token = token;
     }
+
+
 }

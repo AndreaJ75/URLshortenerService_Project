@@ -1,8 +1,8 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlString;
 
-import java.net.URL;
 import java.util.List;
 
 public interface UrlLinkService {
@@ -20,7 +20,14 @@ public interface UrlLinkService {
      * @param urlToBeCreated
      * @return URLLink created
      */
-    UrlLink createUrlForGuest(URL urlToBeCreated);
+    UrlLink createUrlLink(UrlString urlToBeCreated);
+
+    /**
+     * CREATION OF NEW URLLINK FOR USERS
+     * @param urlToBeCreated
+     * @return
+     */
+    UrlLink createUrlForUser(UrlString urlToBeCreated);
 
 //    /**
 //     * Get all URL link

@@ -4,7 +4,6 @@ package com.bnppf.upskilling.project.urlshortener.model;
 
 
 import javax.persistence.*;
-import java.net.URL;
 import java.time.LocalDateTime;
 
 
@@ -19,13 +18,11 @@ public class UrlLink {
     private Long id;
 
     @Column(name="url_long")
-    private URL urlLong;
+    private String urlLong;
     @Column(name="url_short_key")
     private String urlShortKey;
     @Column(name="password")
     private String urlpassword;
-    @Column(name="url_title")
-    private String urlTitle;
     @Column(name="click_number")
     private Double clickNumber;
     @Column(name="max_click_number")
@@ -52,7 +49,7 @@ public class UrlLink {
         return id;
     }
 
-    public URL getUrlLong() {
+    public String getUrlLong() {
         return urlLong;
     }
 
@@ -62,10 +59,6 @@ public class UrlLink {
 
     public String getUrlpassword() {
         return urlpassword;
-    }
-
-    public String getUrlTitle() {
-        return urlTitle;
     }
 
     public Double getClickNumber() {
@@ -101,7 +94,7 @@ public class UrlLink {
         this.id = id;
     }
 
-    public void setUrlLong(URL urlLong) {
+    public void setUrlLong(String urlLong) {
         this.urlLong = urlLong;
     }
 
@@ -111,10 +104,6 @@ public class UrlLink {
 
     public void setUrlpassword(String urlpassword) {
         this.urlpassword = urlpassword;
-    }
-
-    public void setUrlTitle(String urlTitle) {
-        this.urlTitle = urlTitle;
     }
 
     public void setClickNumber(Double clickNumber) {

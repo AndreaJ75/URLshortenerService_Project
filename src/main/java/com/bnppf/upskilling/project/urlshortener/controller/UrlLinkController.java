@@ -2,12 +2,12 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlString;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
-import java.net.URL;
 import java.util.List;
 
 @RestController
@@ -22,9 +22,30 @@ public class UrlLinkController {
     public UrlLinkController(UrlLinkService urlLinkService) { this.urlLinkService = urlLinkService;  }
 
 
-    @PostMapping
-    public ResponseEntity<UrlLink> createUrlLink(@RequestBody URL urlLinkToBeCreated) {
-        return ResponseEntity.ok(urlLinkService.createUrlForGuest(urlLinkToBeCreated));
+    /**
+     * CREATE URLLink for GUEST
+     * @param urlLinkToBeCreated
+     * @return
+     */
+    @PostMapping("/guest")
+    public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlString urlLinkToBeCreated) {
+        return ResponseEntity.ok(urlLinkService.createUrlLink(urlLinkToBeCreated));
+    }
+
+
+    /**
+     * CREATE URLLink for USER
+     * @param urlLinkToBeCreated
+     * @return
+     */
+    @PostMapping("/user")
+    public ResponseEntity<UrlLink> createUrlForUser(@RequestBody UrlString urlLinkToBeCreated) {
+        /**
+         * Check if token is OK for considered User
+         * If so, create the corresponding URLLink -> createUrlLinkFor User
+         * Else sout "Wrong token"
+         */
+        return ResponseEntity.ok(urlLinkService.createUrlForUser(urlLinkToBeCreated));
     }
 
 

@@ -1,15 +1,18 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
+import com.bnppf.upskilling.project.urlshortener.configuration.jwt.SecurityUtils;
+import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
+import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import com.bnppf.upskilling.project.urlshortener.repository.UrlLinkRepository;
-import com.bnppf.upskilling.project.urlshortener.vm.KeyCalculation;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +28,19 @@ public class UrlLinkServiceImpl implements UrlLinkService {
      */
     private UrlLinkRepository urllinkRepository;
 
+    private AppUserRepository appUserRepository;
+
     /**
      * Injection of Repository inside Service Constructor
      * @param urllinkRepository
      */
-    public UrlLinkServiceImpl(UrlLinkRepository urllinkRepository){
+    public UrlLinkServiceImpl(UrlLinkRepository urllinkRepository, AppUserRepository appUserRepository) {
         this.urllinkRepository = urllinkRepository;
+        this.appUserRepository = appUserRepository;
     }
 
 
-
-    public UrlLink createUrlForGuest(URL urlToBeCreated) {
-
+    public UrlLink createCommon(UrlString urlToBeCreated){
         /**
          * Create URL shortKey
          */
@@ -58,17 +62,77 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          */
 
         UrlLink urlLinkToCreate = new UrlLink();
-            urlLinkToCreate.setUrlLong(urlToBeCreated);
-            urlLinkToCreate.setUrlShortKey(generatedKey);
-            urlLinkToCreate.setClickNumber(0D);
-            urlLinkToCreate.setMaxClickNumber(MAXCLICKNUMBER);
-            urlLinkToCreate.setExpirationDate(LocalDateTime.now().plusDays(10));
-            urlLinkToCreate.setCreationDate(LocalDateTime.now());
-            urlLinkToCreate.setUpdateDate(LocalDateTime.now());
 
-            return urllinkRepository.save(urlLinkToCreate);
+        urlLinkToCreate.setUrlLong(urlToBeCreated.toString());
+        urlLinkToCreate.setUrlShortKey(generatedKey);
+        urlLinkToCreate.setClickNumber(0D);
+        urlLinkToCreate.setMaxClickNumber(MAXCLICKNUMBER);
+        urlLinkToCreate.setExpirationDate(LocalDateTime.now().plusDays(10));
+        urlLinkToCreate.setCreationDate(LocalDateTime.now());
+        urlLinkToCreate.setUpdateDate(LocalDateTime.now());
+
+        return urlLinkToCreate;
+    }
+    /**
+     * CREATE URLLINK for GUEST
+     * @param urlToBeCreated
+     * @return created UrlLink
+     */
+    public UrlLink createUrlLink(UrlString urlToBeCreated) {
+
+        UrlLink urlLinkToBeCreated = this.createCommon(urlToBeCreated);
+
+        return urllinkRepository.save(urlLinkToBeCreated);
 
     }
+
+
+    /**
+     * CREATE URLLINK for USERS
+     * @param urlToBeCreated
+     * @return created UrlLink
+     */
+    public UrlLink createUrlForUser(UrlString urlToBeCreated) {
+
+        UrlLink urlLinkToBeCreated = this.createCommon(urlToBeCreated);
+
+        String loginConnected = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        System.out.println("LoginConnected " + loginConnected);
+
+        if(loginConnected !=""){
+            /**
+             * Feed max click number provided by user
+             *  urlLinkToCreate.setMaxClickNumber(maxClickNbrProvided);
+             */
+
+            /**
+             * Feed provided Url Password
+             *  urlLinkToCreate.setUrlpassword(urlPasswordProvided);
+             */
+
+            /**
+             * Feed provided Expiration Date
+             * urlLinkToCreate.setExpirationDate(expirationDateProvided);
+             */
+
+            /**
+             * Feed Connected AppUser using its Login = UID
+             */
+            String loginProvided = SecurityUtils.getUserLogin();
+            System.out.println("LoginProvided = " + loginProvided);
+            Optional<AppUser> userToCreate = appUserRepository.findByUid(loginProvided);
+            System.out.println("UserToCreate = " + userToCreate);
+
+            if (userToCreate.isPresent()) {
+                urlLinkToBeCreated.setAppUser(userToCreate.get());
+            } else {
+                urlLinkToBeCreated.setAppUser(null);
+            }
+        }
+        return urllinkRepository.save(urlLinkToBeCreated);
+    }
+
 
 //    /**
 //     * Create a new URL link attached to one user

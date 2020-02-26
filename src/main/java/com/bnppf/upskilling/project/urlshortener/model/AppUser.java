@@ -14,7 +14,7 @@ public class AppUser {
     @SequenceGenerator(name="app_user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     private Long id;
-    @Column(name="UID")
+    @Column(name="UID", unique = true)
     private String uid;
     @Column(name="name")
     private String name;

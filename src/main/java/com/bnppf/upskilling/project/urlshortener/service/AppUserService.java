@@ -51,5 +51,4 @@ public interface AppUserService  {
      */
     List<Boolean> deleteAppUserList(List<Long> appUserIdListToDelete);
 
-
 }
