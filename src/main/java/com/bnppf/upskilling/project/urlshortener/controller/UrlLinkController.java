@@ -2,7 +2,7 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
-import com.bnppf.upskilling.project.urlshortener.vm.UrlString;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/bnppf/urlservice/urllink")
+@RequestMapping("/api/urllinks")
 public class UrlLinkController {
 
     /**
@@ -28,7 +28,7 @@ public class UrlLinkController {
      * @return
      */
     @PostMapping("/guest")
-    public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlString urlLinkToBeCreated) {
+    public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         return ResponseEntity.ok(urlLinkService.createUrlLink(urlLinkToBeCreated));
     }
 
@@ -39,7 +39,7 @@ public class UrlLinkController {
      * @return
      */
     @PostMapping("/user")
-    public ResponseEntity<UrlLink> createUrlForUser(@RequestBody UrlString urlLinkToBeCreated) {
+    public ResponseEntity<UrlLink> createUrlForUser(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         /**
          * Check if token is OK for considered User
          * If so, create the corresponding URLLink -> createUrlLinkFor User
@@ -48,10 +48,9 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.createUrlForUser(urlLinkToBeCreated));
     }
 
-
-//    @PostMapping
-//    public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlLink urlLinkToBeCreated) {
-//        return ResponseEntity.ok(urlLinkService.createUrl(urlLinkToBeCreated));
+//    @GetMapping("/all/{sortBy}")
+//    public ResponseEntity<Page<UrlLink>> getAllUrlLinks(@RequestParam String sortBy) {
+//        return ResponseEntity.ok(urlLinkService.getAllUrlLinks(sortBy));
 //    }
 
 //    @GetMapping("/all")
@@ -74,12 +73,12 @@ public class UrlLinkController {
 //        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByClickNumber(appUser));
 //    }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<UrlLink>> getAllUrlLinks(){
-        return ResponseEntity.ok(urlLinkService.getAllUrlLinks(0, 15, "creationDate"));
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<List<UrlLink>> getAllUrlLinks(){
+//        return ResponseEntity.ok(urlLinkService.getAllUrlLinks(0, 15, "creationDate"));
+//    }
 
-    @PutMapping("updateurl/user")
+    @PutMapping()
     public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
 
         UrlLink urlLinkToUpdate = urlLinkService.updateUrlLink(urlLink);
@@ -91,43 +90,14 @@ public class UrlLinkController {
         }
     }
 
-    @PutMapping("updateurls/user")
-    public ResponseEntity<List<UrlLink>> updateAppUserUrls(@RequestBody List<UrlLink> urlLinkList){
-
-        List<UrlLink> urlLinkListToUpdate = urlLinkService.updateUrlLinkList(urlLinkList);
-
-        if (urlLinkListToUpdate != null) {
-            return ResponseEntity.ok(urlLinkListToUpdate);
-        } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @DeleteMapping("deleteurl/user")
-    public ResponseEntity<HttpStatus> deleteAppUserUrlLink(@PathParam("urlId") Long urlId){
-
-        boolean urlDeleteStatus = urlLinkService.deleteUrlLink(urlId);
-
-        if(urlDeleteStatus == true) {
-            return ResponseEntity.ok().body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @DeleteMapping()
+    public void deleteAppUserUrlLink(@PathParam("urlId") Long urlId){
+        urlLinkService.deleteUrlLink(urlId);
     }
 
     @DeleteMapping("deleurls/user")
-    public ResponseEntity<List<HttpStatus>> deleteAppUserUrlLinkList(@PathParam("urlIdList") List<Long> urlIdList) {
-
-        List<Boolean> urlDeleteListStatus = urlLinkService.deleteUrlLinkList(urlIdList);
-        ResponseEntity <List<HttpStatus>> urlDeleteStatusList = null;
-
-        for (int i = 0; i < urlDeleteListStatus.size(); i++) {
-            if (urlDeleteListStatus.get(i) == true) {
-                urlDeleteStatusList = ResponseEntity.ok().body(null);
-            } else
-                urlDeleteStatusList = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return urlDeleteStatusList;
+    public void deleteAppUserUrlLinkList(@PathParam("urlIdList") List<Long> urlIdList) {
+        urlLinkService.deleteUrlLinkList(urlIdList);
     }
 
 }

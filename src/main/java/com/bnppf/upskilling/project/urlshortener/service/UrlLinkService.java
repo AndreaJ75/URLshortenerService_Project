@@ -1,33 +1,32 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
-import com.bnppf.upskilling.project.urlshortener.vm.UrlString;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UrlLinkService {
 
-
-//    /**
-//     * Creation a a new URL link
-//     * @param urlLinkToBeCreated
-//     * @return urllink created
-//     */
-//    UrlLink createUrl(UrlLink urlLinkToBeCreated);
 
     /**
      * Creation of a new URLLink for GUEST
      * @param urlToBeCreated
      * @return URLLink created
      */
-    UrlLink createUrlLink(UrlString urlToBeCreated);
+    UrlLink createUrlLink(UrlFeedLink urlToBeCreated);
 
     /**
      * CREATION OF NEW URLLINK FOR USERS
      * @param urlToBeCreated
      * @return
      */
-    UrlLink createUrlForUser(UrlString urlToBeCreated);
+    UrlLink createUrlForUser(UrlFeedLink urlToBeCreated);
+
+    /**
+     * Get URLFromShortURL
+     */
+    Optional<UrlLink> getUrlLongFromShortUrl(String shortUrl);
 
 //    /**
 //     * Get all URL link
@@ -41,7 +40,7 @@ public interface UrlLinkService {
 //     * @return UrlLink list created by the specific AppUser sorted by ascending creation date
 //     */
 //    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser appUser);
-//
+
 //
 //    // Hors MVP -----------------------------------
 //    /**
@@ -68,14 +67,12 @@ public interface UrlLinkService {
 //    List<UrlLink> getUrlListForOneAppUserSortedByClickNumber(AppUser appUser);
 
 
-    /**
-     * get All URLLinks sorted by criteria: for ADMIN only
-     * @param pageNo
-     * @param pageSize
-     * @param sortBy
-     * @return
-     */
-    List<UrlLink> getAllUrlLinks (Integer pageNo, Integer pageSize, String sortBy);
+//    /**
+//     * get All URLLinks sorted by criteria: for ADMIN only
+//     * @param pageable
+//     * @return
+//     */
+//    List<UrlLink> getAllUrlLinks (Pageable pageable);
 
     /**
      * Update one UrlLink for one user
@@ -84,25 +81,17 @@ public interface UrlLinkService {
      */
     UrlLink updateUrlLink(UrlLink urlLinkToUpdate);
 
-
-    /**
-     * Update a list of Url link for one App user
-     * @param urlLinkList
-     * @return UrlLink list updated
-     */
-    List<UrlLink> updateUrlLinkList(List<UrlLink> urlLinkList);
-
     /**
      * Delete one UrlLink by Id
      * @param urlLinkIdToBeDeleted
      * @return status of delete
      */
-    boolean deleteUrlLink(Long urlLinkIdToBeDeleted);
+    void deleteUrlLink(Long urlLinkIdToBeDeleted);
 
     /**
      * Delete a list of Url
      * @param urlLinkIdListToBeDeleted
      * @return status of delete
      */
-    List<Boolean> deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted);
+    void deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted);
 }

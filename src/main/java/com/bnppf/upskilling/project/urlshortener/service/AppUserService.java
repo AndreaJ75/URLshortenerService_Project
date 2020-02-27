@@ -42,13 +42,13 @@ public interface AppUserService  {
      * @param appUserIdToDelete
      * @return resulted status return by delete
      */
-    boolean deleteAppUser(Long appUserIdToDelete);
+    void deleteAppUser(Long appUserIdToDelete);
 
     /**
      * Delete UserList from their id
      * @param appUserIdListToDelete
      * @return resulted status return by delete for each AppUser
      */
-    List<Boolean> deleteAppUserList(List<Long> appUserIdListToDelete);
+    void deleteAppUserList(List<Long> appUserIdListToDelete);
 
 }

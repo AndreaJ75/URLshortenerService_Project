@@ -31,7 +31,8 @@ public class Securityconfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/bnppf/urlservice/authenticate").permitAll()
+                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), secretKey))

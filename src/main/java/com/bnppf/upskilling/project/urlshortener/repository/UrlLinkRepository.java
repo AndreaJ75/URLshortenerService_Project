@@ -11,9 +11,13 @@ public interface UrlLinkRepository extends PagingAndSortingRepository <UrlLink, 
 
        Optional<UrlLink> findOneByUrlShortKey(String urlKeyToCheck);
 
+
+//
+//       Page<UrlLink> findAllByCreationDateOrClickNumberOrExpirationDate(Pageable pageable);
+
 //public interface UrlLinkRepository extends JpaRepository<UrlLink, Long> {}
 //       List<UrlLink> findByAppUserOrderByCreationDateAsc(AppUser appUser);
-//
+
 //       List<UrlLink> findByAppUserOrderByExpirationDateAsc(AppUser appUser);
 //
 //       List<UrlLink> findByAppUserOrderByClickNumberDesc(AppUser appUser);

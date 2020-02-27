@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/bnppf/urlservice/user")
+@RequestMapping("/api/user")
 public class AppUserController {
 
 
@@ -70,30 +70,13 @@ public class AppUserController {
     }
 
     @DeleteMapping("/user/{appUserId}")
-    public ResponseEntity<Void> deleteAppUser(@PathVariable Long appUserId) {
-        boolean status = appUserService.deleteAppUser(appUserId);
-
-        if (status == true) {
-            return ResponseEntity.ok().body(null);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void deleteAppUser(@PathVariable Long appUserId) {
+        appUserService.deleteAppUser(appUserId);
     }
 
     @DeleteMapping("/user/List<{appUserId}>")
-    public ResponseEntity<Void> deleteAppUserList(@PathVariable List<Long> appUserIdList) {
-        List<Boolean> statusList = appUserService.deleteAppUserList(appUserIdList);
-
-        ResponseEntity res = null;
-
-        for (int i =0 ; i< statusList.size(); i++) {
-
-            if (statusList.get(i) == true) {
-                res = ResponseEntity.ok().body(null);
-            } else {
-                res = ResponseEntity.notFound().build();
-            }
-        } return res;
+    public void deleteAppUserList(@PathVariable List<Long> appUserIdList) {
+        appUserService.deleteAppUserList(appUserIdList);
     }
 
     @GetMapping

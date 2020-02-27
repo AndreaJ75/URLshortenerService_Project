@@ -13,12 +13,13 @@ public class AppUserServiceImpl implements AppUserService {
 
     private AppUserRepository appUserRepository;
 
-    public AppUserServiceImpl(AppUserRepository appUserRepository){
+    public AppUserServiceImpl(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
     }
 
     /**
      * Create AppUser
+     *
      * @param appUserToBeCreated
      * @return created AppUser
      */
@@ -30,6 +31,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Find all existing AppUser
+     *
      * @return List of all existing App users
      */
     @Override
@@ -39,6 +41,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Find an Appuser by its UID
+     *
      * @param appUserUID
      * @return
      */
@@ -49,52 +52,46 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Update AppUser
+     *
      * @param appUserToUpdated
      * @return User updated
      */
     @Override
     public AppUser updateAppUser(AppUser appUserToUpdated) {
 
-        if (appUserRepository.existsById(appUserToUpdated.getId())){
+        if (appUserRepository.existsById(appUserToUpdated.getId())) {
             return appUserRepository.save(appUserToUpdated);
         } else {
             return null;
         }
-        }
+    }
 
     /**
      * Delete AppUser from its Id
+     *
      * @param appUserIdToDelete
      * @return status boolean(true/false)
      */
     @Override
-    public boolean deleteAppUser(Long appUserIdToDelete) {
-        if (appUserRepository.existsById(appUserIdToDelete)){
+    public void deleteAppUser(Long appUserIdToDelete) {
+        if (appUserRepository.existsById(appUserIdToDelete)) {
             appUserRepository.deleteById(appUserIdToDelete);
-            return true;
-        } else {
-            return false;
         }
     }
 
     /**
      * Delete a List of AppUser by their Ids
+     *
      * @param appUserIdListToDelete
      * @return status boolean(true/false) for each AppUser considered
      */
     @Override
-    public List<Boolean> deleteAppUserList(List<Long> appUserIdListToDelete) {
+    public void deleteAppUserList(List<Long> appUserIdListToDelete) {
 
-        List<Boolean> resList = null;
-
-        for (int i = 0; i < appUserIdListToDelete.size(); i++) {
-            if (appUserRepository.existsById(appUserIdListToDelete.get(i))) {
-                appUserRepository.deleteById(appUserIdListToDelete.get(i));
-                resList.add(true);
-            } else {
-                resList.add(false);
+        for (Long appUserId : appUserIdListToDelete) {
+            if (appUserRepository.existsById(appUserId)) {
+                appUserRepository.deleteById(appUserId);
             }
         }
-        return resList;
     }
 }

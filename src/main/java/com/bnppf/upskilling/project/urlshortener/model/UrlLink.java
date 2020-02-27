@@ -22,7 +22,7 @@ public class UrlLink {
     @Column(name="url_short_key")
     private String urlShortKey;
     @Column(name="password")
-    private String urlpassword;
+    private String urlPassword;
     @Column(name="click_number")
     private Double clickNumber;
     @Column(name="max_click_number")
@@ -57,8 +57,8 @@ public class UrlLink {
         return urlShortKey;
     }
 
-    public String getUrlpassword() {
-        return urlpassword;
+    public String getUrlPassword() {
+        return urlPassword;
     }
 
     public Double getClickNumber() {
@@ -102,8 +102,8 @@ public class UrlLink {
         this.urlShortKey = urlShortKey;
     }
 
-    public void setUrlpassword(String urlpassword) {
-        this.urlpassword = urlpassword;
+    public void setUrlPassword(String urlPassword) {
+        this.urlPassword = urlPassword;
     }
 
     public void setClickNumber(Double clickNumber) {
@@ -139,7 +139,7 @@ public class UrlLink {
             UrlLink urlLink = (UrlLink) obj;
             return (urlLink.id == this.id
                     && urlLink.urlShortKey.equals(this.urlShortKey)
-                    && urlLink.urlpassword == this.urlpassword
+                    && urlLink.urlPassword == this.urlPassword
                     && urlLink.urlLong.equals(this.urlLong));
         }
     }

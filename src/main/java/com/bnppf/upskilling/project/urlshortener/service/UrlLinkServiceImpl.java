@@ -1,20 +1,14 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
-import com.bnppf.upskilling.project.urlshortener.configuration.jwt.SecurityUtils;
+import com.bnppf.upskilling.project.urlshortener.configuration.Utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import com.bnppf.upskilling.project.urlshortener.repository.UrlLinkRepository;
-import com.bnppf.upskilling.project.urlshortener.vm.UrlString;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +26,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 
     /**
      * Injection of Repository inside Service Constructor
+     *
      * @param urllinkRepository
      */
     public UrlLinkServiceImpl(UrlLinkRepository urllinkRepository, AppUserRepository appUserRepository) {
@@ -40,7 +35,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     }
 
 
-    public UrlLink createCommon(UrlString urlToBeCreated){
+    public UrlLink createCommon(UrlFeedLink urlToBeCreated) {
         /**
          * Create URL shortKey
          */
@@ -51,8 +46,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          * Check if URL shortKey already exist : if so, keep on trying to find
          * new URL shortKey
          */
-        while(urlChecking.isPresent())
-        {
+        while (urlChecking.isPresent()) {
             generatedKey = KeyCalculation.URLKeyCalculation();
             urlChecking = urllinkRepository.findOneByUrlShortKey(generatedKey);
         }
@@ -63,7 +57,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 
         UrlLink urlLinkToCreate = new UrlLink();
 
-        urlLinkToCreate.setUrlLong(urlToBeCreated.toString());
+        urlLinkToCreate.setUrlLong(urlToBeCreated.getUrlLong());
         urlLinkToCreate.setUrlShortKey(generatedKey);
         urlLinkToCreate.setClickNumber(0D);
         urlLinkToCreate.setMaxClickNumber(MAXCLICKNUMBER);
@@ -73,12 +67,14 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 
         return urlLinkToCreate;
     }
+
     /**
      * CREATE URLLINK for GUEST
+     *
      * @param urlToBeCreated
      * @return created UrlLink
      */
-    public UrlLink createUrlLink(UrlString urlToBeCreated) {
+    public UrlLink createUrlLink(UrlFeedLink urlToBeCreated) {
 
         UrlLink urlLinkToBeCreated = this.createCommon(urlToBeCreated);
 
@@ -89,60 +85,51 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 
     /**
      * CREATE URLLINK for USERS
+     *
      * @param urlToBeCreated
      * @return created UrlLink
      */
-    public UrlLink createUrlForUser(UrlString urlToBeCreated) {
+    public UrlLink createUrlForUser(UrlFeedLink urlToBeCreated) {
 
         UrlLink urlLinkToBeCreated = this.createCommon(urlToBeCreated);
 
-        String loginConnected = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        /**
+         * Feed max click number provided by user
+         */
+        urlLinkToBeCreated.setMaxClickNumber(urlToBeCreated.getMaxClickNumber());
 
-        System.out.println("LoginConnected " + loginConnected);
+        /**
+         * Feed provided Url Password
+         */
+        urlLinkToBeCreated.setUrlPassword(urlToBeCreated.getAppPassword());
+        /**
+         * Feed provided Expiration Date
+         */
+        urlLinkToBeCreated.setExpirationDate(urlToBeCreated.getExpirationDate());
 
-        if(loginConnected !=""){
-            /**
-             * Feed max click number provided by user
-             *  urlLinkToCreate.setMaxClickNumber(maxClickNbrProvided);
-             */
+        /**
+         * Feed Connected AppUser using its Login = UID
+         */
+        String loginConnected = SecurityUtils.getCurrentUserLogin();
+        Optional<AppUser> userOptional = appUserRepository.findByUid(loginConnected);
 
-            /**
-             * Feed provided Url Password
-             *  urlLinkToCreate.setUrlpassword(urlPasswordProvided);
-             */
+        // code ci-dessous idem code d'après
+//        if (userOptional.isPresent()) {
+//            urlLinkToBeCreated.setAppUser(userOptional.get());
+//        }
 
-            /**
-             * Feed provided Expiration Date
-             * urlLinkToCreate.setExpirationDate(expirationDateProvided);
-             */
+        userOptional.ifPresent(urlLinkToBeCreated::setAppUser);
 
-            /**
-             * Feed Connected AppUser using its Login = UID
-             */
-            String loginProvided = SecurityUtils.getUserLogin();
-            System.out.println("LoginProvided = " + loginProvided);
-            Optional<AppUser> userToCreate = appUserRepository.findByUid(loginProvided);
-            System.out.println("UserToCreate = " + userToCreate);
-
-            if (userToCreate.isPresent()) {
-                urlLinkToBeCreated.setAppUser(userToCreate.get());
-            } else {
-                urlLinkToBeCreated.setAppUser(null);
-            }
-        }
         return urllinkRepository.save(urlLinkToBeCreated);
     }
 
+    /**
+     * Get URLLong from Short URL link
+     */
 
-//    /**
-//     * Create a new URL link attached to one user
-//     * @param urlLinkToBeCreated
-//     * @return creation status
-//     */
-//    @Override
-//    public UrlLink createUrl(UrlLink urlLinkToBeCreated) {
-//        return urllinkRepository.save(urlLinkToBeCreated);
-//    }
+    public Optional<UrlLink> getUrlLongFromShortUrl(String urlShort) {
+        return urllinkRepository.findOneByUrlShortKey(urlShort);
+    }
 
 //    /**
 //     * Find all UrlLink for all users => Admin functionnality
@@ -191,77 +178,44 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 //        return urllinkRepository.findByAppUserOrderByClickNumberDesc(appUser);
 //    }
 
-    public List<UrlLink> getAllUrlLinks(Integer pageNo, Integer pageSize, String sortBy){
-
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-        Page<UrlLink> pagedResult = urllinkRepository.findAll(paging);
-
-        if(pagedResult.hasContent()) {
-            return pagedResult.getContent();
-        } else {
-            return new ArrayList<UrlLink>();
-        }
-    }
+//    public List<UrlLink> getAllUrlLinks(String sortBy){
+//
+//        Pageable paging = PageRequest.of(0, 2, Sort.by(sortBy));
+//
+//        Page<UrlLink> pagedResult = urllinkRepository.findAllByCreationDateOrClickNumberOrExpirationDate(paging);
+//
+//        if(pagedResult.hasContent()) {
+//            return pagedResult.getContent();
+//        } else {
+//            return new ArrayList<UrlLink>();
+//        }
+//    }
 
     /**
      * Update one UrlLink on defined criteria
+     *
      * @param urlLinkToUpdate
      * @return
      */
     @Override
     public UrlLink updateUrlLink(UrlLink urlLinkToUpdate) {
-        if (urllinkRepository.existsById(urlLinkToUpdate.getId())){
+        if (urllinkRepository.existsById(urlLinkToUpdate.getId())) {
             return urllinkRepository.save(urlLinkToUpdate);
         } else {
             return null;
         }
     }
 
-    /**
-     * Update a list of UrlLink on different criteria (hors MVP)
-     * @param urlLinkList
-     * @return
-     */
     @Override
-    public List<UrlLink> updateUrlLinkList(List<UrlLink> urlLinkList) {
-
-        List<UrlLink> urlLinkListUpdated = new ArrayList<>();
-
-        for (int i = 0; i< urlLinkList.size(); i++) {
-
-            if (urllinkRepository.existsById(urlLinkList.get(i).getId())){
-                urllinkRepository.save(urlLinkList.get(i));
-            }
-            urlLinkListUpdated.add(urlLinkList.get(i));
-        }
-        return urlLinkListUpdated;
-    }
-
-    @Override
-    public boolean deleteUrlLink(Long urlLinkIdToBeDeleted) {
-        if (urllinkRepository.existsById(urlLinkIdToBeDeleted)){
-            urllinkRepository.deleteById(urlLinkIdToBeDeleted);
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteUrlLink(Long urlLinkIdToBeDeleted) {
+        urllinkRepository.deleteById(urlLinkIdToBeDeleted);
     }
 
 
     @Override
-    public List<Boolean> deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted) {
-
-        List<Boolean> resList = null;
-
-        for (int i = 0; i < urlLinkIdListToBeDeleted.size(); i++) {
-            if (urllinkRepository.existsById(urlLinkIdListToBeDeleted.get(i))) {
-                urllinkRepository.deleteById(urlLinkIdListToBeDeleted.get(i));
-                resList.add(true);
-            } else {
-                resList.add(false);
-            }
+    public void deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted) {
+        for (Long id : urlLinkIdListToBeDeleted) {
+            urllinkRepository.deleteById(id);
         }
-        return resList;
     }
 }
