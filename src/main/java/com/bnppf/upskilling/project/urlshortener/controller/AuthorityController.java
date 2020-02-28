@@ -3,10 +3,11 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
 import com.bnppf.upskilling.project.urlshortener.service.AuthorityService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/autolevel")
@@ -21,10 +22,13 @@ public class AuthorityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Authority>> getAutorityLevel(@RequestParam Iterable<Long> authorityId){
-        List<Authority> authorityList = authorityService.getAuthorityLevel(authorityId);
-
-        return ResponseEntity.ok(authorityList);
+    public ResponseEntity<Authority> getAutorityLevel(@RequestParam Long authorityId){
+        Optional<Authority> authorityOptional = authorityService.getAuthorityLevel(authorityId);
+        if(authorityOptional.isPresent()){
+            return ResponseEntity.ok(authorityOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
     }
 

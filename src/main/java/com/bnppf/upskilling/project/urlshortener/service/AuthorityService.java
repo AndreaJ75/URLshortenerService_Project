@@ -2,12 +2,12 @@ package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 
-import java.util.List;
+import java.util.Optional;
 
 
 public interface AuthorityService  {
 
-    List<Authority> getAuthorityLevel(Iterable<Long> authorityId);
+    Optional<Authority> getAuthorityLevel(Long authorityId);
 
     Authority createAuthoritylevel(Authority authority);
 
