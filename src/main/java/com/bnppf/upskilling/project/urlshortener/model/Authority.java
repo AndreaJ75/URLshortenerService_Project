@@ -1,5 +1,7 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -20,6 +22,7 @@ public class Authority {
      * we link the set of appuser to the related set of Authority level
      */
     @ManyToMany(mappedBy = "authorities")
+    @JsonIgnore
     private Set<AppUser> appUserSet;
 
     /**

@@ -21,7 +21,7 @@ public class UrlLink {
     private String urlLong;
     @Column(name="url_short_key")
     private String urlShortKey;
-    @Column(name="password")
+    @Column(name="url_password")
     private String urlPassword;
     @Column(name="click_number")
     private Double clickNumber;
