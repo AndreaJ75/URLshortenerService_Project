@@ -33,7 +33,12 @@ public class RedirectController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Location", urlLongRetrieved.get().getUrlLong());
 
+        // Update Number of click for given clicked UrlshortLink :
+        Double clickNumberForGivenUrl = urlLongRetrieved.get().getClickNumber() + 1D;
+        urlLongRetrieved.get().setClickNumber(clickNumberForGivenUrl);
+        urlLinkService.updateUrlLink(urlLongRetrieved.get());
+
+        // Redirect to Long url
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).headers(headers).build();
     }
-
 }

@@ -1,7 +1,7 @@
 package com.bnppf.upskilling.project.urlshortener.configuration.jwt;
 
 
-public class JwtToken {
+public class JWTToken {
 
     private String token;
 

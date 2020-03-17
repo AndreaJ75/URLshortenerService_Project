@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/change
-    username: change
-    password: change
+    url: jdbc:postgresql://localhost:5432/urlshortener
+    username: db-Andy
+    password: Koala75
 
   ldap:
     embedded:
@@ -18,7 +18,7 @@ app:
   jwt:
     # Clé secrete du jeton en base 64
     secret: QVBESkhVSURHWUdZdWhjamV6aGd1aDg4MDdISkhVRTlmY2NoeTM0NTNjamg3ODk2Cg==
-
-logging:
-  level:
-    ROOT: debug
+#
+#logging:
+#  level:
+#    ROOT: debug

@@ -2,10 +2,15 @@ package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public interface UrlLinkService {
 
 
@@ -28,51 +33,19 @@ public interface UrlLinkService {
      */
     Optional<UrlLink> getUrlLongFromShortUrl(String shortUrl);
 
-//    /**
-//     * Get all URL link
-//     * @return url List
-//     */
-//    List<UrlLink> getUrlList();
 
-//    /**
-//     * Get UrlLink list for a specific Application User sorted by ASC creation date
-//     * @param appUser
-//     * @return UrlLink list created by the specific AppUser sorted by ascending creation date
-//     */
-//    List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate (AppUser appUser);
+    /**
+     * GET all UrlLinks created by a User Sorted by default on urlLong ASC.
+     * @param pageable
+     * @return sorted UrlLinks (on urlLong ASC)) created by related user
+     */
+    Page <UrlLink> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable);
 
-//
-//    // Hors MVP -----------------------------------
-//    /**
-//     * Get list of UrlLink for a specific AppUser from its title
-//     * @param appUser
-//     * @return urlLink list of a user sorted by title
-//     */
-//    List<UrlLink> getUrlListForOneAppUserSortedByTitle(AppUser appUser);
-//
-//
-//    // Hors MVP -----------------------------------
-//    /**
-//     * Get list of UrlLink from its expiration date
-//     * @param appUser
-//     * @return url list sorted by expiration date
-//     */
-//    List<UrlLink> getUrlListForOneAppUserSortedByExpirationdate(AppUser appUser);
-//
-//    /**
-//     * Get UrlLink List sorted by click number
-//     * @param appUser
-//     * @return url List sorted by lick number
-//     */
-//    List<UrlLink> getUrlListForOneAppUserSortedByClickNumber(AppUser appUser);
-
-
-//    /**
-//     * get All URLLinks sorted by criteria: for ADMIN only
-//     * @param pageable
-//     * @return
-//     */
-//    List<UrlLink> getAllUrlLinks (Pageable pageable);
+    /**
+     * Get all URL link sorted (for ADMIN users only)
+     * @return url List
+     */
+    Page<UrlLink> getUrlListAllSorted(Pageable pageable);
 
     /**
      * Update one UrlLink for one user

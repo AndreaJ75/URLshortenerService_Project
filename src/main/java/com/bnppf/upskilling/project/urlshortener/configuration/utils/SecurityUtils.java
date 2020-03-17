@@ -1,4 +1,4 @@
-package com.bnppf.upskilling.project.urlshortener.configuration.Utils;
+package com.bnppf.upskilling.project.urlshortener.configuration.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 

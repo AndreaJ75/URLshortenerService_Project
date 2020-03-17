@@ -3,11 +3,17 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,7 +33,8 @@ public class UrlLinkController {
      * @param urlLinkToBeCreated
      * @return
      */
-    @PostMapping("/guest")
+    //=> OK testé
+    @PostMapping("/guest/post")
     public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         return ResponseEntity.ok(urlLinkService.createUrlLink(urlLinkToBeCreated));
     }
@@ -38,7 +45,8 @@ public class UrlLinkController {
      * @param urlLinkToBeCreated
      * @return
      */
-    @PostMapping("/user")
+    //=> OK testé
+    @PostMapping("/user/post")
     public ResponseEntity<UrlLink> createUrlForUser(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         /**
          * Check if token is OK for considered User
@@ -48,40 +56,30 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.createUrlForUser(urlLinkToBeCreated));
     }
 
-//    @GetMapping("/all/{sortBy}")
-//    public ResponseEntity<Page<UrlLink>> getAllUrlLinks(@RequestParam String sortBy) {
-//        return ResponseEntity.ok(urlLinkService.getAllUrlLinks(sortBy));
-//    }
+    //=> OK testé
+    @GetMapping("/user/getsorted")
+    public ResponseEntity<Page<UrlLink>> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable) {
+        return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
+    }
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<UrlLink>> getUrlLinkList(){
-//        return ResponseEntity.ok(urlLinkService.getUrlList());
-//    }
+    // Get all Urls from all users (for Admin only)
+    //=> OK testé
+    @GetMapping("/admin/urlall")
+    public ResponseEntity<Page<UrlLink>> getUrlLinkList (Pageable pageable ){
+        return ResponseEntity.ok(urlLinkService.getUrlListAllSorted(pageable));
+    }
 
-//    @GetMapping("/listurlsortcreationdate/user")
-//    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByCreationDate(@RequestBody AppUser appUser){
-//        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByAscCreationDate(appUser));
-//    }
-//
-//    @GetMapping("/listurlsortexpirationdate/user")
-//    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByExpirationDate(@RequestBody AppUser appUser){
-//        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByExpirationdate(appUser));
-//    }
-//
-//    @GetMapping("/listurlsortclicknumberdesc/user")
-//    public ResponseEntity<List<UrlLink>> getUrlLinkListForOneAppUserSortedByClickNumber(@RequestBody AppUser appUser){
-//        return ResponseEntity.ok(urlLinkService.getUrlListForOneAppUserSortedByClickNumber(appUser));
-//    }
-
-//    @GetMapping("/all")
-//    public ResponseEntity<List<UrlLink>> getAllUrlLinks(){
-//        return ResponseEntity.ok(urlLinkService.getAllUrlLinks(0, 15, "creationDate"));
-//    }
-
-    @PutMapping()
+    //=> A tester (voir si limitation des MAJ user uniquement sur 3 champs considérés)
+    @PutMapping("/user/put")
     public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
 
-        UrlLink urlLinkToUpdate = urlLinkService.updateUrlLink(urlLink);
+        UrlLink urlLinkToUpdate = new UrlLink();
+        urlLinkToUpdate.setMaxClickNumber(urlLink.getMaxClickNumber());
+        urlLinkToUpdate.setExpirationDate(urlLink.getExpirationDate());
+        urlLinkToUpdate.setUrlPassword(urlLink.getUrlPassword());
+        urlLinkToUpdate.setUpdateDate(LocalDateTime.now());
+
+        urlLinkService.updateUrlLink(urlLinkToUpdate);
 
         if (urlLinkToUpdate != null) {
             return ResponseEntity.ok(urlLinkToUpdate);
@@ -90,12 +88,14 @@ public class UrlLinkController {
         }
     }
 
-    @DeleteMapping()
+    //=> OK testé
+    @DeleteMapping("/user/deleteurl")
     public void deleteAppUserUrlLink(@PathParam("urlId") Long urlId){
         urlLinkService.deleteUrlLink(urlId);
     }
 
-    @DeleteMapping("deleurls/user")
+    //=> A tester
+    @DeleteMapping("/user/deleteurls")
     public void deleteAppUserUrlLinkList(@PathParam("urlIdList") List<Long> urlIdList) {
         urlLinkService.deleteUrlLinkList(urlIdList);
     }

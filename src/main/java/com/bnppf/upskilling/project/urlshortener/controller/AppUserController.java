@@ -14,40 +14,44 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class AppUserController {
 
-
     /**
      * Declaration of AppUser Service
      */
     private AppUserService appUserService;
 
-
     /**
      * AppUser Service injection inside of the controller constructor (to be able to access Services created Method)
-     *
      * @param appUserService
      */
     public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 
+    // ********************************************************************************
+    // ***************              CREATE                     ************************
+    // ********************************************************************************
     /**
      * Request/Response for AppUser creation
-     *
      * @param appUser
      * @return appUserCreated
      */
+    //=> OK testé
     @PostMapping
     public ResponseEntity<AppUser> createAppUser(@RequestBody AppUser appUser) {
         return ResponseEntity.ok(appUserService.createAppUser(appUser));
     }
 
-    @GetMapping("/all")
+    // ********************************************************************************
+    // ***************             READ                        ************************
+    // ********************************************************************************
+    //=> OK testé
+    @GetMapping("/admin/all")
     public ResponseEntity<List<AppUser>> getListOfAllAppUsers() {
         return ResponseEntity.ok(appUserService.getAppUserList());
     }
 
-
-    @GetMapping("/{uid}")
+    //=> OK testé
+    @GetMapping("admin/{uid}")
     public ResponseEntity<AppUser> getAppUserByUID(@PathVariable("uid") String UID) {
         Optional<AppUser> userOptional = appUserService.getAppUserByUID(UID);
 
@@ -58,6 +62,11 @@ public class AppUserController {
         }
     }
 
+    // ********************************************************************************
+    // ***************              UPDATE                     ************************
+    // ********************************************************************************
+
+    //=> OK testé
     @PutMapping
     public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
         AppUser userToUpdate = appUserService.updateAppUser(appUser);
@@ -69,18 +78,27 @@ public class AppUserController {
         }
     }
 
-    @DeleteMapping("/user/{appUserId}")
+    // ********************************************************************************
+    // ***************           READ   LOGIN ACCESS           ************************
+    // ********************************************************************************
+    @GetMapping
+    public String getCurrentUserLogin () {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    // ********************************************************************************
+    // ***************              DELETE                     ************************
+    // ********************************************************************************
+
+    //=> OK testé
+    @DeleteMapping("admin/{appUserId}")
     public void deleteAppUser(@PathVariable Long appUserId) {
         appUserService.deleteAppUser(appUserId);
     }
 
-    @DeleteMapping("/user/List<{appUserId}>")
+    //=> A tester
+    @DeleteMapping("/admin/{appUserIdList}>")
     public void deleteAppUserList(@PathVariable List<Long> appUserIdList) {
         appUserService.deleteAppUserList(appUserIdList);
-    }
-
-    @GetMapping
-    public String getCurrentUserLogin () {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

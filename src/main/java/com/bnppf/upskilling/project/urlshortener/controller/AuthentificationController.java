@@ -1,6 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.controller;
 
-import com.bnppf.upskilling.project.urlshortener.configuration.jwt.JwtToken;
+import com.bnppf.upskilling.project.urlshortener.configuration.jwt.JWTToken;
 import com.bnppf.upskilling.project.urlshortener.configuration.jwt.TokenProvider;
 import com.bnppf.upskilling.project.urlshortener.vm.LoginPassword;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class AuthentificationController {
 
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JwtToken> authenticateUser(@RequestBody LoginPassword loginPassword) {
+    public ResponseEntity<JWTToken> authenticateUser(@RequestBody LoginPassword loginPassword) {
 
         /**
          * On instancie un objet UsernamePasswordAuthenticationToken qui implémente AuthenticateManager

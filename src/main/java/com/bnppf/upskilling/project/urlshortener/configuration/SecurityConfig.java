@@ -13,10 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-
 @Configuration
 @EnableWebSecurity
-public class Securityconfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${app.jwt.secret:}")
     private String secretKey;
@@ -32,7 +31,8 @@ public class Securityconfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/*").permitAll()
+                .antMatchers("/api/urllinks/guest/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), secretKey))

@@ -1,14 +1,21 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
-import com.bnppf.upskilling.project.urlshortener.configuration.Utils.SecurityUtils;
+import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import com.bnppf.upskilling.project.urlshortener.repository.UrlLinkRepository;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
+import javassist.runtime.Desc;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +41,14 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         this.appUserRepository = appUserRepository;
     }
 
+    // ********************************************************************************
+    // ***************              CREATE                     ************************
+    // ********************************************************************************
+    /**
+     * Creation of UrlLink Common part (between Guest ad user)
+     * @param urlToBeCreated
+     * @return urlCreated
+     */
 
     public UrlLink createCommon(UrlFeedLink urlToBeCreated) {
         /**
@@ -82,7 +97,6 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 
     }
 
-
     /**
      * CREATE URLLINK for USERS
      *
@@ -122,6 +136,9 @@ public class UrlLinkServiceImpl implements UrlLinkService {
 
         return urllinkRepository.save(urlLinkToBeCreated);
     }
+    // ********************************************************************************
+    // ***************              READ                       ************************
+    // ********************************************************************************
 
     /**
      * Get URLLong from Short URL link
@@ -131,69 +148,37 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         return urllinkRepository.findOneByUrlShortKey(urlShort);
     }
 
-//    /**
-//     * Find all UrlLink for all users => Admin functionnality
-//     * @return List of UrlLink of all users
-//     */
-//    @Override
-//    public List<UrlLink> getUrlList() {
-//        return urllinkRepository.findAll();
-//    }
+    /**
+     * Find all UrlLink for all users => Admin functionnality
+     * @return List of UrlLink of all users
+     */
+    @Override
+    public Page<UrlLink> getUrlListAllSorted(Pageable pageable) {
+        return urllinkRepository.findAll(pageable);
+    }
 
-//    /**
-//     * Find all urllink for a dedicated user sorted by Asc creationDate
-//     * @param appUser
-//     * @return List of UrlLink for one usersorted by Asc creationDate
-//     */
-//    @Override
-//    public List<UrlLink> getUrlListForOneAppUserSortedByAscCreationDate(AppUser appUser) {
-//        return urllinkRepository.findByAppUserOrderByCreationDateAsc(appUser);
-//    }
+    @Override
+    public Page<UrlLink> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable) {
+         /**
+         //* Feed Connected AppUser using its Login = UID
+         //*/
+        String loginConnected = SecurityUtils.getCurrentUserLogin();
+        Optional<AppUser> userOptional = appUserRepository.findByUid(loginConnected);
 
-//
-//
-//    // Hors MVP => to be implemented
-//    @Override
-//    public List<UrlLink> getUrlListForOneAppUserSortedByTitle(AppUser appUser) {
-//        return null;
-//    }
+        if (userOptional.isPresent()) {
+            System.out.println(userOptional.get());
+            return urllinkRepository.findAllByAppUser(userOptional.get(), pageable);
+        } else {
+            return null;
+        }
+    }
 
-//    /**
-//     * Find a list of UrlLink for a dedicated user sorted by Asc expiration date
-//     * @param appUser
-//     * @return List of UrlLink for a dedicated user sorted by Asc expiration date
-//     */
-//    @Override
-//    public List<UrlLink> getUrlListForOneAppUserSortedByExpirationdate(AppUser appUser) {
-//        return urllinkRepository.findByAppUserOrderByExpirationDateAsc(appUser);
-//    }
-
-//    /**
-//     * Find list of UrlLink for a dedicated user sorted by Descending click Number
-//     * @param appUser
-//     * @return list of UrlLink for a dedicated user sorted by Descending click Number
-//     */
-//    @Override
-//    public List<UrlLink> getUrlListForOneAppUserSortedByClickNumber(AppUser appUser) {
-//        return urllinkRepository.findByAppUserOrderByClickNumberDesc(appUser);
-//    }
-
-//    public List<UrlLink> getAllUrlLinks(String sortBy){
-//
-//        Pageable paging = PageRequest.of(0, 2, Sort.by(sortBy));
-//
-//        Page<UrlLink> pagedResult = urllinkRepository.findAllByCreationDateOrClickNumberOrExpirationDate(paging);
-//
-//        if(pagedResult.hasContent()) {
-//            return pagedResult.getContent();
-//        } else {
-//            return new ArrayList<UrlLink>();
-//        }
-//    }
+    // ********************************************************************************
+    // ***************              UPDATE                     ************************
+    // ********************************************************************************
 
     /**
      * Update one UrlLink on defined criteria
-     *
      * @param urlLinkToUpdate
      * @return
      */
@@ -206,11 +191,14 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         }
     }
 
+    // ********************************************************************************
+    // ***************              DELETE                     ************************
+    // ********************************************************************************
+
     @Override
     public void deleteUrlLink(Long urlLinkIdToBeDeleted) {
         urllinkRepository.deleteById(urlLinkIdToBeDeleted);
     }
-
 
     @Override
     public void deleteUrlLinkList(List<Long> urlLinkIdListToBeDeleted) {

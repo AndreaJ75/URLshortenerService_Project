@@ -16,7 +16,7 @@ public class TokenProvider {
     @Value("${app.jwt.secret:}")
     private String secretKey;
 
-    public JwtToken createToken(Authentication authentication){
+    public JWTToken createToken(Authentication authentication){
 
         String subject;
         if (authentication.getPrincipal() instanceof String) {
@@ -31,7 +31,7 @@ public class TokenProvider {
                 .sign(Algorithm.HMAC512(Base64.getDecoder().decode(secretKey)));
 
 
-       JwtToken token = new JwtToken();
+       JWTToken token = new JWTToken();
        token.setToken(tokenA);
 
        return token;
