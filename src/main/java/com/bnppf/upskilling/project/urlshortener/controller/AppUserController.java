@@ -67,7 +67,7 @@ public class AppUserController {
     // ********************************************************************************
 
     //=> OK testé
-    @PutMapping
+    @PutMapping("/admin")
     public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
         AppUser userToUpdate = appUserService.updateAppUser(appUser);
 
