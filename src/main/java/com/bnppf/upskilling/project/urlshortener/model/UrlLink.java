@@ -41,6 +41,26 @@ public class UrlLink {
     private AppUser appUser;
 
     /**
+     * Empty Constructor
+     */
+    public UrlLink() {
+    }
+
+    public UrlLink(String urlLong, String urlShortKey, String urlPassword,
+                   Double clickNumber, Double maxClickNumber, LocalDateTime expirationDate,
+                   LocalDateTime creationDate, LocalDateTime updateDate, AppUser appUser) {
+        this.urlLong = urlLong;
+        this.urlShortKey = urlShortKey;
+        this.urlPassword = urlPassword;
+        this.clickNumber = clickNumber;
+        this.maxClickNumber = maxClickNumber;
+        this.expirationDate = expirationDate;
+        this.creationDate = creationDate;
+        this.updateDate = LocalDateTime.now();
+        this.appUser = appUser;
+    }
+
+    /**
      * GETTER accessor for all attributes
      * @return
      */

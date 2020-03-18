@@ -6,15 +6,14 @@ import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/urllinks")
@@ -38,7 +37,6 @@ public class UrlLinkController {
     public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         return ResponseEntity.ok(urlLinkService.createUrlLink(urlLinkToBeCreated));
     }
-
 
     /**
      * CREATE URLLink for USER
@@ -69,21 +67,22 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.getUrlListAllSorted(pageable));
     }
 
-    //=> A tester (voir si limitation des MAJ user uniquement sur 3 champs considérés)
+    //=> OK Testé : MAJ limités uniquement sur 3 attributs permis.
     @PutMapping("/user/put")
     public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
-
-        UrlLink urlLinkToUpdate = new UrlLink();
-        urlLinkToUpdate.setMaxClickNumber(urlLink.getMaxClickNumber());
-        urlLinkToUpdate.setExpirationDate(urlLink.getExpirationDate());
-        urlLinkToUpdate.setUrlPassword(urlLink.getUrlPassword());
-        urlLinkToUpdate.setUpdateDate(LocalDateTime.now());
-
-        urlLinkService.updateUrlLink(urlLinkToUpdate);
-
-        if (urlLinkToUpdate != null) {
-            return ResponseEntity.ok(urlLinkToUpdate);
-        } else{
+        // Read UrlLink data being in Database if urlLink exists
+        Optional<UrlLink> urlLinkToUpdate = urlLinkService.getUrlLinkfromUrlId(urlLink.getId());
+        // if exists, update only authorized data
+        if(urlLinkToUpdate.isPresent()) {
+            urlLinkToUpdate.get().setMaxClickNumber(urlLink.getMaxClickNumber());
+            urlLinkToUpdate.get().setExpirationDate(urlLink.getExpirationDate());
+            urlLinkToUpdate.get().setUrlPassword(urlLink.getUrlPassword());
+            urlLinkToUpdate.get().setUpdateDate(LocalDateTime.now());
+            // update inside database
+            urlLinkService.updateUrlLink(urlLinkToUpdate.get());
+            // Return back updated Urllink
+            return ResponseEntity.ok(urlLinkToUpdate.get());
+        }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -94,7 +93,7 @@ public class UrlLinkController {
         urlLinkService.deleteUrlLink(urlId);
     }
 
-    //=> A tester
+    //=> A tester (ne marche pas ainsi)
     @DeleteMapping("/user/deleteurls")
     public void deleteAppUserUrlLinkList(@PathParam("urlIdList") List<Long> urlIdList) {
         urlLinkService.deleteUrlLinkList(urlIdList);

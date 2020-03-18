@@ -29,6 +29,12 @@ public interface UrlLinkService {
     UrlLink createUrlForUser(UrlFeedLink urlToBeCreated);
 
     /**
+     * Get URLLink from urlId
+     */
+    Optional<UrlLink> getUrlLinkfromUrlId(Long urlId);
+
+
+    /**
      * Get URLFromShortURL
      */
     Optional<UrlLink> getUrlLongFromShortUrl(String shortUrl);

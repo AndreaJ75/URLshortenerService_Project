@@ -81,6 +81,7 @@ public class AppUserController {
     // ********************************************************************************
     // ***************           READ   LOGIN ACCESS           ************************
     // ********************************************************************************
+    // => OK testé
     @GetMapping
     public String getCurrentUserLogin () {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -96,7 +97,7 @@ public class AppUserController {
         appUserService.deleteAppUser(appUserId);
     }
 
-    //=> A tester
+    //=> A tester (ne marche pas pour l'heure)
     @DeleteMapping("/admin/{appUserIdList}>")
     public void deleteAppUserList(@PathVariable List<Long> appUserIdList) {
         appUserService.deleteAppUserList(appUserIdList);

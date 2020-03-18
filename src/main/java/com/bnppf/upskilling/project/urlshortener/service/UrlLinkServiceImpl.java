@@ -141,9 +141,17 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     // ********************************************************************************
 
     /**
+     * Get urlLink from its Id
+     */
+    @Override
+    public Optional<UrlLink> getUrlLinkfromUrlId(Long urlId) {
+        return urllinkRepository.findById(urlId);
+    }
+
+    /**
      * Get URLLong from Short URL link
      */
-
+    @Override
     public Optional<UrlLink> getUrlLongFromShortUrl(String urlShort) {
         return urllinkRepository.findOneByUrlShortKey(urlShort);
     }
