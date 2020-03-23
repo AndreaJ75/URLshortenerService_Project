@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/appuser")
 public class AppUserController {
 
     /**
@@ -31,27 +31,30 @@ public class AppUserController {
     // ***************              CREATE                     ************************
     // ********************************************************************************
     /**
+     * AVOIR => QUAND CETTE ETAPE SE FAIT-ELLE => SECURISATION DE CREATION ROLE USER/ADMIN
+     * depend de LDAP => VOIR COMMENT lES RATTACHER (créer user à partir de LDAP suite login/password?)
      * Request/Response for AppUser creation
      * @param appUser
      * @return appUserCreated
      */
     //=> OK testé
-    @PostMapping
+    @PostMapping("/createuser")
     public ResponseEntity<AppUser> createAppUser(@RequestBody AppUser appUser) {
         return ResponseEntity.ok(appUserService.createAppUser(appUser));
     }
+
 
     // ********************************************************************************
     // ***************             READ                        ************************
     // ********************************************************************************
     //=> OK testé
-    @GetMapping("/admin/all")
+    @GetMapping("/admin/userall")
     public ResponseEntity<List<AppUser>> getListOfAllAppUsers() {
         return ResponseEntity.ok(appUserService.getAppUserList());
     }
 
     //=> OK testé
-    @GetMapping("admin/{uid}")
+    @GetMapping("/user/{uid}")
     public ResponseEntity<AppUser> getAppUserByUID(@PathVariable("uid") String UID) {
         Optional<AppUser> userOptional = appUserService.getAppUserByUID(UID);
 
@@ -67,9 +70,22 @@ public class AppUserController {
     // ********************************************************************************
 
     //=> OK testé
+    @PutMapping("/user")
+    public ResponseEntity<AppUser> updateAppUserForUser(@RequestBody AppUser appUser) {
+        //Update only allowed on name/firstName/email
+        AppUser userToUpdate = appUserService.updateAppUserForUser(appUser);
+
+        if (userToUpdate != null) {
+            return ResponseEntity.ok(userToUpdate);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    //=> OK testé
     @PutMapping("/admin")
-    public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
-        AppUser userToUpdate = appUserService.updateAppUser(appUser);
+    public ResponseEntity<AppUser> updateAppUserForAdmin(@RequestBody AppUser appUser) {
+        //Update only allowed on name/firstName/email/authority/urllinksSet (not on uid, id, creation&update dates)
+        AppUser userToUpdate = appUserService.updateAppUserForAdmin(appUser);
 
         if (userToUpdate != null) {
             return ResponseEntity.ok(userToUpdate);
@@ -82,7 +98,7 @@ public class AppUserController {
     // ***************           READ   LOGIN ACCESS           ************************
     // ********************************************************************************
     // => OK testé
-    @GetMapping
+    @GetMapping("/user")
     public String getCurrentUserLogin () {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }

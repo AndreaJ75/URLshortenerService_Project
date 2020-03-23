@@ -31,12 +31,19 @@ public interface AppUserService  {
     Optional<AppUser> getAppUserByUID(String appUserUID);
 
     /**
-     * Update on Application user
+     * Update on Application user for user
      * @param appUserToUpdated
      * @return AppUser updated
      */
 
-    AppUser updateAppUser(AppUser appUserToUpdated);
+    AppUser updateAppUserForUser(AppUser appUserToUpdated);
+    /**
+     * Update on Application user for Admin
+     * @param appUserToUpdated
+     * @return AppUser updated
+     */
+
+    AppUser updateAppUserForAdmin(AppUser appUserToUpdated);
 
 
     /**

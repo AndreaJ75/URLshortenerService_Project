@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,11 +15,11 @@ public class AppUser {
     @SequenceGenerator(name="app_user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     private Long id;
-    @Column(name="UID", unique = true)
+    @Column(name="uid", unique = true)
     private String uid;
     @Column(name="name")
     private String name;
-    @Column(name="firstName")
+    @Column(name="first_name")
     private String firstName;
     @Column(name="email")
     private String email;
@@ -32,10 +33,10 @@ public class AppUser {
      * we generation a jointure table to show this relation
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "app_user_autorization",
+    @JoinTable(name = "app_user_authority",
             joinColumns = @JoinColumn(name = "app_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authorization_id"))
-    private Set<Authority> authorities;
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    private List<Authority> authorities;
 
     /**
      * One user can possess many UrlLink
@@ -78,7 +79,7 @@ public class AppUser {
         return updateDate;
     }
 
-    public Set<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return authorities;
     }
 
@@ -119,7 +120,7 @@ public class AppUser {
         this.updateDate = updateDate;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 

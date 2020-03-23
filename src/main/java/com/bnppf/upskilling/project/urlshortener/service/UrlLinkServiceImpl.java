@@ -125,7 +125,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          * Feed Connected AppUser using its Login = UID
          */
         String loginConnected = SecurityUtils.getCurrentUserLogin();
-        Optional<AppUser> userOptional = appUserRepository.findByUid(loginConnected);
+        Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
 
         // code ci-dessous idem code d'après
 //        if (userOptional.isPresent()) {
@@ -171,7 +171,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          //* Feed Connected AppUser using its Login = UID
          //*/
         String loginConnected = SecurityUtils.getCurrentUserLogin();
-        Optional<AppUser> userOptional = appUserRepository.findByUid(loginConnected);
+        Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
 
         if (userOptional.isPresent()) {
             System.out.println(userOptional.get());
@@ -192,8 +192,18 @@ public class UrlLinkServiceImpl implements UrlLinkService {
      */
     @Override
     public UrlLink updateUrlLink(UrlLink urlLinkToUpdate) {
-        if (urllinkRepository.existsById(urlLinkToUpdate.getId())) {
-            return urllinkRepository.save(urlLinkToUpdate);
+
+        // Retrieve urlLink data if exists
+        Optional<UrlLink> urlLinkOptional = urllinkRepository.findById(urlLinkToUpdate.getId());
+
+        if (urlLinkOptional.isPresent()) {
+            // update only authorized (for update) urlLink data
+            urlLinkOptional.get().setMaxClickNumber(urlLinkToUpdate.getMaxClickNumber());
+            urlLinkOptional.get().setExpirationDate(urlLinkToUpdate.getExpirationDate());
+            urlLinkOptional.get().setUrlPassword(urlLinkToUpdate.getUrlPassword());
+            urlLinkOptional.get().setUpdateDate(LocalDateTime.now());
+            // update inside database
+            return urllinkRepository.save(urlLinkOptional.get());
         } else {
             return null;
         }

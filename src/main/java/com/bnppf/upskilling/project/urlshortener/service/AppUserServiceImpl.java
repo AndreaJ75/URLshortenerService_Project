@@ -18,8 +18,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     /**
-     * Create AppUser
-     *
+     * Create AppUser for user
      * @param appUserToBeCreated
      * @return created AppUser
      */
@@ -47,20 +46,47 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public Optional<AppUser> getAppUserByUID(String appUserUID) {
-        return appUserRepository.findByUid(appUserUID);
+        return appUserRepository.findAppUserByUid(appUserUID);
     }
 
     /**
-     * Update AppUser
+     * Update AppUser for user
      *
      * @param appUserToUpdated
      * @return User updated
      */
     @Override
-    public AppUser updateAppUser(AppUser appUserToUpdated) {
+    public AppUser updateAppUserForUser(AppUser appUserToUpdated) {
 
-        if (appUserRepository.existsById(appUserToUpdated.getId())) {
-            return appUserRepository.save(appUserToUpdated);
+        // User can only update name/firstName/email
+        Optional<AppUser> appUserOptional = appUserRepository.findById(appUserToUpdated.getId());
+
+        if (appUserOptional.isPresent()) {
+            // Update on user's authorized data only
+            appUserOptional.get().setName(appUserToUpdated.getName());
+            appUserOptional.get().setFirstName(appUserToUpdated.getFirstName());
+            appUserOptional.get().setEmail(appUserToUpdated.getEmail());
+            //update in database
+            return appUserRepository.save(appUserOptional.get());
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public AppUser updateAppUserForAdmin(AppUser appUserToUpdated) {
+
+        // Admin can update all data from users/admin excepts  : creation & update date, uid, id
+        Optional<AppUser> appUserOptional = appUserRepository.findById(appUserToUpdated.getId());
+
+        if (appUserOptional.isPresent()) {
+            // Update on admin's authorized data only
+            appUserOptional.get().setName(appUserToUpdated.getName());
+            appUserOptional.get().setFirstName(appUserToUpdated.getFirstName());
+            appUserOptional.get().setEmail(appUserToUpdated.getEmail());
+            appUserOptional.get().setAuthorities(appUserToUpdated.getAuthorities());
+            appUserOptional.get().setUrlLinkSet(appUserToUpdated.getUrlLinkSet());
+            //update in database
+            return appUserRepository.save(appUserOptional.get());
         } else {
             return null;
         }

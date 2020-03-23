@@ -1,29 +1,18 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class Authority {
 
     @Id
-    @SequenceGenerator(name="app_user_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
+    @SequenceGenerator(name="authority_level_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_level_seq")
     private Long id;
 
-    @Column(name="authorization_level")
+    @Column(name="authority_level")
     @Enumerated(EnumType.STRING)
-    private AuthorizationLevel authorizationLevel;
-
-    /**
-     * Many user are linked to many authorization role
-     * we link the set of appuser to the related set of Authority level
-     */
-    @ManyToMany(mappedBy = "authorities")
-    @JsonIgnore
-    private Set<AppUser> appUserSet;
+    private AuthorityLevel authorityLevel;
 
     /**
      * GETTER accessor for all attributes
@@ -34,12 +23,8 @@ public class Authority {
         return id;
     }
 
-    public AuthorizationLevel getAuthorizationLevel() {
-        return authorizationLevel;
-    }
-
-    public Set<AppUser> getAppUserSet() {
-        return appUserSet;
+    public AuthorityLevel getAuthorityLevel() {
+        return authorityLevel;
     }
 
     /**
@@ -50,11 +35,9 @@ public class Authority {
         this.id = id;
     }
 
-    public void setAuthorizationLevel(AuthorizationLevel authorizationLevel) {
-        this.authorizationLevel = authorizationLevel;
+    public void setAuthorityLevel(AuthorityLevel authorityLevel) {
+        this.authorityLevel = authorityLevel;
     }
 
-    public void setAppUserSet(Set<AppUser> appUserSet) {
-        this.appUserSet = appUserSet;
-    }
+
 }
