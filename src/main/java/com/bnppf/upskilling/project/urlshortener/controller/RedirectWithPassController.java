@@ -25,7 +25,7 @@ public class RedirectWithPassController {
 
     @GetMapping("/{urlKey}/{urlPass}")
     public ResponseEntity<String> getUrlRedirection(@PathVariable String urlKey,
-                                                    @PathVariable(required = false) String urlPass) {
+                                                    @PathVariable(required = true) String urlPass) {
         Optional<UrlLink> urlLongRetrieved = urlLinkService.getUrlLongFromShortUrl(urlKey);
 
         if (!urlLongRetrieved.isPresent()) {
