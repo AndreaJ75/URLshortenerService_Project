@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class AuthentificationController {
+public class AuthenticationController {
 
     private AuthenticationManager authenticationManager;
     private TokenProvider tokenProvider;
@@ -24,7 +24,7 @@ public class AuthentificationController {
      * Injection del'authenticationManager rendu possible grâce au @Bean créé dans la security configuration class
      * @param authenticationManager
      */
-    public AuthentificationController(AuthenticationManager authenticationManager, TokenProvider tokenProvider){
+    public AuthenticationController(AuthenticationManager authenticationManager, TokenProvider tokenProvider){
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
     }
@@ -42,6 +42,11 @@ public class AuthentificationController {
                 new UsernamePasswordAuthenticationToken(loginPassword.getLogin(), loginPassword.getPassword());
 
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+
+        /** AVOIR
+         * User creation if authentication is correct
+         * appUserRepository.createUser(authentication.getPrincipal)
+         */
 
 
         /**

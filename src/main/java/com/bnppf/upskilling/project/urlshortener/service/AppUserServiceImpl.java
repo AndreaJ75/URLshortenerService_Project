@@ -1,11 +1,14 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
+import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils.getCurrentUserLogin;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
@@ -25,7 +28,13 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser createAppUser(AppUser appUserToBeCreated) {
-        return appUserRepository.save(appUserToBeCreated);
+        /**
+         * Si user habilité (LDAP) alors création du user (ctrle fait dans URL Link)
+         * La création du user se demandera lorsque celui-ci veut se créer un URLLink
+         * (donc dans l'UrlLinkController)
+         */
+            return appUserRepository.save(appUserToBeCreated);
+
     }
 
     /**

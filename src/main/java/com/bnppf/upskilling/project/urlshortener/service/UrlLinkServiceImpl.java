@@ -30,15 +30,19 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     private UrlLinkRepository urllinkRepository;
 
     private AppUserRepository appUserRepository;
+    private AppUserService appUserService;
 
     /**
      * Injection of Repository inside Service Constructor
      *
      * @param urllinkRepository
      */
-    public UrlLinkServiceImpl(UrlLinkRepository urllinkRepository, AppUserRepository appUserRepository) {
+    public UrlLinkServiceImpl(UrlLinkRepository urllinkRepository,
+                              AppUserRepository appUserRepository,
+                              AppUserService appUserService) {
         this.urllinkRepository = urllinkRepository;
         this.appUserRepository = appUserRepository;
+        this.appUserService = appUserService;
     }
 
     // ********************************************************************************
@@ -126,6 +130,12 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          */
         String loginConnected = SecurityUtils.getCurrentUserLogin();
         Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
+
+//      Check LDAP file to take required data?
+//        AppUser userToBeCreated = new AppUser(data required from LDAP?);
+//        if (!userOptional.isPresent()) {
+//            appUserService.createAppUser(userToBeCreated);
+//        }
 
         // code ci-dessous idem code d'après
 //        if (userOptional.isPresent()) {

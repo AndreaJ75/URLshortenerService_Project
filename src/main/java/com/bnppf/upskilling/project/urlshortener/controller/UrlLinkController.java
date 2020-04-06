@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/urllinks")
+@CrossOrigin("*")
 public class UrlLinkController {
 
     /**
@@ -31,8 +32,8 @@ public class UrlLinkController {
      * @param urlLinkToBeCreated
      * @return
      */
-    //=> OK testé
-    @PostMapping("/guest/post")
+
+    @PostMapping("/guest")
     public ResponseEntity<UrlLink> createUrlLink(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         return ResponseEntity.ok(urlLinkService.createUrlLink(urlLinkToBeCreated));
     }
@@ -42,7 +43,7 @@ public class UrlLinkController {
      * @param urlLinkToBeCreated
      * @return
      */
-    //=> OK testé
+
     @PostMapping("/user/post")
     public ResponseEntity<UrlLink> createUrlForUser(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         /**
@@ -53,20 +54,20 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.createUrlForUser(urlLinkToBeCreated));
     }
 
-    //=> OK testé
+
     @GetMapping("/user/getsorted")
     public ResponseEntity<Page<UrlLink>> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
     }
 
     // Get all Urls from all users (for Admin only)
-    //=> OK testé
+
     @GetMapping("/admin/urlall")
     public ResponseEntity<Page<UrlLink>> getUrlLinkList (Pageable pageable ){
         return ResponseEntity.ok(urlLinkService.getUrlListAllSorted(pageable));
     }
 
-    //=> OK Testé : MAJ limités uniquement sur 3 attributs permis (check dans service)
+    // MAJ limités uniquement sur 3 attributs permis (check dans service)
     @PutMapping("/user/put")
     public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
 
@@ -78,7 +79,7 @@ public class UrlLinkController {
         }
     }
 
-    //=> OK testé
+
     @DeleteMapping("/user/deleteurl")
     public void deleteAppUserUrlLink(@PathParam("urlId") Long urlId){
         urlLinkService.deleteUrlLink(urlId);

@@ -33,6 +33,7 @@ public class AppUser {
      * we generation a jointure table to show this relation
      */
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(name = "app_user_authority",
             joinColumns = @JoinColumn(name = "app_user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
