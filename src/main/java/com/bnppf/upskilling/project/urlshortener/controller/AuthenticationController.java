@@ -2,31 +2,37 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 
 import com.bnppf.upskilling.project.urlshortener.configuration.jwt.JWTToken;
 import com.bnppf.upskilling.project.urlshortener.configuration.jwt.TokenProvider;
+import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
 import com.bnppf.upskilling.project.urlshortener.vm.LoginPassword;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class AuthenticationController {
 
     private AuthenticationManager authenticationManager;
     private TokenProvider tokenProvider;
+    private AppUserService appUserService;
 
     /**
      * Injection del'authenticationManager rendu possible grâce au @Bean créé dans la security configuration class
      * @param authenticationManager
      */
-    public AuthenticationController(AuthenticationManager authenticationManager, TokenProvider tokenProvider){
+    public AuthenticationController(AuthenticationManager authenticationManager,
+                                    TokenProvider tokenProvider,
+                                    AppUserService appUserService){
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
+        this.appUserService = appUserService;
     }
 
 
@@ -42,12 +48,6 @@ public class AuthenticationController {
                 new UsernamePasswordAuthenticationToken(loginPassword.getLogin(), loginPassword.getPassword());
 
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
-
-        /** AVOIR
-         * User creation if authentication is correct
-         * appUserRepository.createUser(authentication.getPrincipal)
-         */
-
 
         /**
          * Security context : on définit le contexte correspondant à l'utilisateur (on le stocke dans security context

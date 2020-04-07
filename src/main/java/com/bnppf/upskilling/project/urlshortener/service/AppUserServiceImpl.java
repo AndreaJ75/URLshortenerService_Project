@@ -1,20 +1,24 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
-import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.model.Authority;
+import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
+import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
-import static com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils.getCurrentUserLogin;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
 
     private AppUserRepository appUserRepository;
+    private Authority authority;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
@@ -22,19 +26,37 @@ public class AppUserServiceImpl implements AppUserService {
 
     /**
      * Create AppUser for user
-     * @param appUserToBeCreated
+     * @param appUser
      * @return created AppUser
      */
 
     @Override
-    public AppUser createAppUser(AppUser appUserToBeCreated) {
+    public AppUser createOrUpdateAppUser(AppUser appUser) {
         /**
-         * Si user habilité (LDAP) alors création du user (ctrle fait dans URL Link)
-         * La création du user se demandera lorsque celui-ci veut se créer un URLLink
-         * (donc dans l'UrlLinkController)
+         * Si user habilité (LDAP) alors création du user (ctrle fait dans Authentication)
+         * La création du user se demandera lorsque celui-ci va s'authentifier pour la première fois
+         * (donc dans l'AuthenticationController)
          */
-            return appUserRepository.save(appUserToBeCreated);
-
+        Optional<AppUser> appUserOptional =
+                appUserRepository.findAppUserByUid(appUser.getUid());
+        if (appUserOptional.isPresent()) {
+            appUserOptional.get().setCompleteName(appUser.getCompleteName());
+            appUserOptional.get().setEmail(appUser.getEmail());
+            appUser.setUpdateDate(LocalDateTime.now());
+            return appUserRepository.save(appUserOptional.get());
+        } else {
+            Authority authority = new Authority();
+            authority.setId(2L);
+            authority.setAuthorityLevel(AuthorityLevel.ROLE_USER);
+            List<Authority> authorities = new ArrayList<>();
+            authorities.add(authority);
+            appUser.setAuthorities(authorities);
+            // Set creation and Update date to today
+            appUser.setCreationDate(LocalDateTime.now());
+            appUser.setUpdateDate(LocalDateTime.now());
+            // Save User in DB
+            return appUserRepository.save(appUser);
+        }
     }
 
     /**
@@ -58,48 +80,6 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserRepository.findAppUserByUid(appUserUID);
     }
 
-    /**
-     * Update AppUser for user
-     *
-     * @param appUserToUpdated
-     * @return User updated
-     */
-    @Override
-    public AppUser updateAppUserForUser(AppUser appUserToUpdated) {
-
-        // User can only update name/firstName/email
-        Optional<AppUser> appUserOptional = appUserRepository.findById(appUserToUpdated.getId());
-
-        if (appUserOptional.isPresent()) {
-            // Update on user's authorized data only
-            appUserOptional.get().setName(appUserToUpdated.getName());
-            appUserOptional.get().setFirstName(appUserToUpdated.getFirstName());
-            appUserOptional.get().setEmail(appUserToUpdated.getEmail());
-            //update in database
-            return appUserRepository.save(appUserOptional.get());
-        } else {
-            return null;
-        }
-    }
-    @Override
-    public AppUser updateAppUserForAdmin(AppUser appUserToUpdated) {
-
-        // Admin can update all data from users/admin excepts  : creation & update date, uid, id
-        Optional<AppUser> appUserOptional = appUserRepository.findById(appUserToUpdated.getId());
-
-        if (appUserOptional.isPresent()) {
-            // Update on admin's authorized data only
-            appUserOptional.get().setName(appUserToUpdated.getName());
-            appUserOptional.get().setFirstName(appUserToUpdated.getFirstName());
-            appUserOptional.get().setEmail(appUserToUpdated.getEmail());
-            appUserOptional.get().setAuthorities(appUserToUpdated.getAuthorities());
-            appUserOptional.get().setUrlLinkSet(appUserToUpdated.getUrlLinkSet());
-            //update in database
-            return appUserRepository.save(appUserOptional.get());
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Delete AppUser from its Id

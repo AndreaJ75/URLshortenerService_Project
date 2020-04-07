@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/urllinks")
+@RequestMapping("/api/urlLinks")
 @CrossOrigin("*")
 public class UrlLinkController {
 

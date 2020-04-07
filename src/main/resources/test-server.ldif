@@ -88,15 +88,16 @@ uid: slash
 userPassword: $2y$12$BVoUaf0RTpLMUlFTviMC4u1SK/XcEX2xwib779cxw.j2mveM2nxdu
 
 
-dn: cn=quote\"guy,ou=\"quoted people\",dc=springframework,dc=org
+dn: uid=andy,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: quote\"guy
+cn: Andrea Jouannin
 sn: Quote
-uid: quoteguy
-userPassword: quoteguyspassword
+uid: andy
+userPassword: $2y$12$/80IAJqp6GgJ1hL01LuxB.mTtuy3EWyGGuvIzZv0G0NDyfsanbHYu
+
 
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
 objectclass: top
