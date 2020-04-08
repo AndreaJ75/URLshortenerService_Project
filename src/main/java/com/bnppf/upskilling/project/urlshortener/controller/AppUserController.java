@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/appuser")
+@CrossOrigin("*")
 public class AppUserController {
 
     /**

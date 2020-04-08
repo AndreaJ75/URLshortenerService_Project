@@ -44,7 +44,7 @@ public class UrlLinkController {
      * @return
      */
 
-    @PostMapping("/user/post")
+    @PostMapping("/user")
     public ResponseEntity<UrlLink> createUrlForUser(@RequestBody UrlFeedLink urlLinkToBeCreated) {
         /**
          * Check if token is OK for considered User
@@ -56,6 +56,7 @@ public class UrlLinkController {
 
 
     @GetMapping("/user/getsorted")
+    @CrossOrigin("*")
     public ResponseEntity<Page<UrlLink>> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
     }
@@ -68,7 +69,7 @@ public class UrlLinkController {
     }
 
     // MAJ limités uniquement sur 3 attributs permis (check dans service)
-    @PutMapping("/user/put")
+    @PutMapping("/user")
     public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
 
         Optional<UrlLink> urlLinkOptional = urlLinkService.getUrlLinkfromUrlId(urlLink.getId());

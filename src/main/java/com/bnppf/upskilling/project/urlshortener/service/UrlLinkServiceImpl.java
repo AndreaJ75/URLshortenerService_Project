@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -75,7 +76,6 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          */
 
         UrlLink urlLinkToCreate = new UrlLink();
-
         urlLinkToCreate.setUrlLong(urlToBeCreated.getUrlLong());
         urlLinkToCreate.setUrlShortKey(generatedKey);
         urlLinkToCreate.setClickNumber(0D);
@@ -130,12 +130,6 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          */
         String loginConnected = SecurityUtils.getCurrentUserLogin();
         Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
-
-//      Check LDAP file to take required data?
-//        AppUser userToBeCreated = new AppUser(data required from LDAP?);
-//        if (!userOptional.isPresent()) {
-//            appUserService.createAppUser(userToBeCreated);
-//        }
 
         // code ci-dessous idem code d'après
 //        if (userOptional.isPresent()) {

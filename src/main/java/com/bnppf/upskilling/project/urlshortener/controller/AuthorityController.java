@@ -11,6 +11,7 @@
 //
 //@RestController
 //@RequestMapping("/api/autolevel")
+//@CrossOrigin("*")
 //public class AuthorityController {
 //
 //    private AuthorityLevelService authorityLevelService;
