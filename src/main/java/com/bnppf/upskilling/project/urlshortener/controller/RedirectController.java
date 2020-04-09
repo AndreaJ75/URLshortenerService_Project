@@ -30,7 +30,8 @@ public class RedirectController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             // for UrlLink without password, we redirect directly to UrlLink
-            if (urlLongRetrieved.get().getUrlPassword() == null) {
+            if (urlLongRetrieved.get().getUrlPassword() == null ||
+                urlLongRetrieved.get().getUrlPassword().isEmpty()) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("Location", urlLongRetrieved.get().getUrlLong());
 
@@ -44,7 +45,7 @@ public class RedirectController {
             } else {
                 // if password required => Open a window to request for Password
                 return ResponseEntity.status(HttpStatus.PROXY_AUTHENTICATION_REQUIRED).build();
-            }
+             }
         }
     }
 }

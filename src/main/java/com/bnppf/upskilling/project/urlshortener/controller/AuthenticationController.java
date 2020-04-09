@@ -2,7 +2,7 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 
 import com.bnppf.upskilling.project.urlshortener.configuration.jwt.JWTToken;
 import com.bnppf.upskilling.project.urlshortener.configuration.jwt.TokenProvider;
-import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
 import com.bnppf.upskilling.project.urlshortener.vm.LoginPassword;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -59,7 +58,28 @@ public class AuthenticationController {
 
         return ResponseEntity.ok().body(tokenProvider.createToken(authentication));
 
-
     }
 
+    @GetMapping("/getAuth")
+    public ResponseEntity<Boolean> getAuthUser() {
+
+        /**
+         *  Check security Context to see if user is still connected and authenticated
+         */
+        System.out.println("IsloggedIn = " + SecurityContextHolder.getContext().getAuthentication()
+        .isAuthenticated());
+        return ResponseEntity.ok()
+                .body(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+    }
+
+    @GetMapping("/getUserLogin")
+    public ResponseEntity<String> getAuthLogin() {
+
+        /**
+         *  Check security Context to see if user is still connected and authenticated
+         */
+        System.out.println("loginLogged = " + SecurityUtils.getCurrentUserLogin());
+        return ResponseEntity.ok()
+                .body(SecurityUtils.getCurrentUserLogin());
+    }
 }
