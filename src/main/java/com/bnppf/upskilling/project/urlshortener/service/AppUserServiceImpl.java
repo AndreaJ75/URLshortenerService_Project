@@ -1,32 +1,59 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.model.Authority;
+import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
+import java.util.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
 
     private AppUserRepository appUserRepository;
+//    private Authority authority;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
     }
 
     /**
-     * Create AppUser
-     *
-     * @param appUserToBeCreated
+     * Create AppUser for user
+     * @param appUser
      * @return created AppUser
      */
 
     @Override
-    public AppUser createAppUser(AppUser appUserToBeCreated) {
-        return appUserRepository.save(appUserToBeCreated);
+    public AppUser createOrUpdateAppUser(AppUser appUser) {
+        /**
+         * Si user habilité (LDAP) alors création du user (ctrle fait dans Authentication)
+         * La création du user se demandera lorsque celui-ci va s'authentifier pour la première fois
+         * (donc dans l'AuthenticationController)
+         */
+        Optional<AppUser> appUserOptional =
+                appUserRepository.findAppUserByUid(appUser.getUid());
+        if (appUserOptional.isPresent()) {
+            // Update user's compleName, email and UpdateDate
+            appUserOptional.get().setCompleteName(appUser.getCompleteName());
+            appUserOptional.get().setEmail(appUser.getEmail());
+            appUser.setUpdateDate(LocalDateTime.now());
+            return appUserRepository.save(appUserOptional.get());
+        } else {
+            Authority authority = new Authority();
+            authority.setId(2L);
+            authority.setAuthorityLevel(AuthorityLevel.ROLE_USER);
+            List<Authority> authorities = new ArrayList<>();
+            authorities.add(authority);
+            appUser.setAuthorities(authorities);
+            // Set creation and Update date to today
+            appUser.setCreationDate(LocalDateTime.now());
+            appUser.setUpdateDate(LocalDateTime.now());
+            // Save User in DB
+            return appUserRepository.save(appUser);
+        }
     }
 
     /**
@@ -47,23 +74,7 @@ public class AppUserServiceImpl implements AppUserService {
      */
     @Override
     public Optional<AppUser> getAppUserByUID(String appUserUID) {
-        return appUserRepository.findByUid(appUserUID);
-    }
-
-    /**
-     * Update AppUser
-     *
-     * @param appUserToUpdated
-     * @return User updated
-     */
-    @Override
-    public AppUser updateAppUser(AppUser appUserToUpdated) {
-
-        if (appUserRepository.existsById(appUserToUpdated.getId())) {
-            return appUserRepository.save(appUserToUpdated);
-        } else {
-            return null;
-        }
+        return appUserRepository.findAppUserByUid(appUserUID);
     }
 
     /**

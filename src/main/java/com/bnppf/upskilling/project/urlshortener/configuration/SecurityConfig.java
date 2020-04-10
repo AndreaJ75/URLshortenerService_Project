@@ -1,6 +1,8 @@
 package com.bnppf.upskilling.project.urlshortener.configuration;
 
 import com.bnppf.upskilling.project.urlshortener.configuration.jwt.JWTAuthorizationFilter;
+import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +13,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private AppUserService appUserService;
+
+    @Autowired
+    private UserDetailsContextMapper userDetailsContextMapper;
 
     @Value("${app.jwt.secret:}")
     private String secretKey;
@@ -32,10 +41,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/urllinks/guest/**").permitAll()
+                .antMatchers("/api/appuser/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/appuser/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/urllinks/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/urllinks/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), secretKey))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), secretKey, appUserService))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
@@ -47,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.ldapAuthentication()
+                .userDetailsContextMapper(userDetailsContextMapper)
                 .userDnPatterns("uid={0},ou=people")
                 .groupSearchBase("ou=groups")
                 .contextSource()

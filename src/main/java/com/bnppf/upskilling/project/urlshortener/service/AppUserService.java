@@ -2,7 +2,6 @@ package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +13,7 @@ public interface AppUserService  {
      * @param appUserToBeCreated
      * @return appUser
      */
-    AppUser createAppUser(AppUser appUserToBeCreated);
+    AppUser createOrUpdateAppUser(AppUser appUserToBeCreated);
 
     /**
      * Get list of all existing registered application users :
@@ -29,15 +28,6 @@ public interface AppUserService  {
      * @return appUser
      */
     Optional<AppUser> getAppUserByUID(String appUserUID);
-
-    /**
-     * Update on Application user
-     * @param appUserToUpdated
-     * @return AppUser updated
-     */
-
-    AppUser updateAppUser(AppUser appUserToUpdated);
-
 
     /**
      * Delete user from its id

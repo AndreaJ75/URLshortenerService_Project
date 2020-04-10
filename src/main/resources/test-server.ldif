@@ -54,7 +54,7 @@ sn: Hamilton
 uid: bob
 userPassword: $2a$05$dSzkLMYmztUwHjdm9Iyv0OMVzZ5fYhzaySMvzaNRfrTxbsUFfnzZK
 
-dn: uid=joe,ou=otherpeople,dc=springframework,dc=org
+dn: uid=joe,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -62,9 +62,11 @@ objectclass: inetOrgPerson
 cn: Joe Smeth
 sn: Smeth
 uid: joe
-userPassword: joespassword
+userPassword: $2y$12$WdrEk6H3RIQRiH5F2ioxRuyxVxyhGVYNBCd20xWUvEwnxe4sU9vwO
 
-dn: cn=mouse\, jerry,ou=people,dc=springframework,dc=org
+
+
+dn: uid=jerry,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -72,27 +74,30 @@ objectclass: inetOrgPerson
 cn: Mouse, Jerry
 sn: Mouse
 uid: jerry
-userPassword: jerryspassword
+userPassword: $2y$12$/gEi1G/.oIn1TJ44mvrreOdop0Dt1454Mg1.POVFAlTqJ39b1evtG
 
-dn: cn=slash/guy,ou=people,dc=springframework,dc=org
+
+dn: uid=slash,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: slash/guy
-sn: Slash
-uid: slashguy
-userPassword: slashguyspassword
+cn: slash,guy
+sn: Slashy
+uid: slash
+userPassword: $2y$12$BVoUaf0RTpLMUlFTviMC4u1SK/XcEX2xwib779cxw.j2mveM2nxdu
 
-dn: cn=quote\"guy,ou=\"quoted people\",dc=springframework,dc=org
+
+dn: uid=andy,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: quote\"guy
+cn: Andrea Jouannin
 sn: Quote
-uid: quoteguy
-userPassword: quoteguyspassword
+uid: andy
+userPassword: $2y$12$/80IAJqp6GgJ1hL01LuxB.mTtuy3EWyGGuvIzZv0G0NDyfsanbHYu
+
 
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
 objectclass: top

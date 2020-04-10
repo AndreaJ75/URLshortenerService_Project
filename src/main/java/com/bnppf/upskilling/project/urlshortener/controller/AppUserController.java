@@ -1,7 +1,10 @@
 package com.bnppf.upskilling.project.urlshortener.controller;
 
+import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
+import com.bnppf.upskilling.project.urlshortener.vm.LoginAuthoLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/appuser")
+@CrossOrigin("*")
 public class AppUserController {
 
     /**
@@ -31,27 +35,26 @@ public class AppUserController {
     // ***************              CREATE                     ************************
     // ********************************************************************************
     /**
-     * Request/Response for AppUser creation
-     * @param appUser
-     * @return appUserCreated
+     *
+     * Creation during Login done inside AuthenticationController calls
+     * LDAP reference for Users's creation and authentication
+     * For User Authorization level : defined for all with level ROLE_USER
+     * Except for webmaster (ROLE_ADMIN)
+     *
      */
-    //=> OK testé
-    @PostMapping
-    public ResponseEntity<AppUser> createAppUser(@RequestBody AppUser appUser) {
-        return ResponseEntity.ok(appUserService.createAppUser(appUser));
-    }
 
     // ********************************************************************************
     // ***************             READ                        ************************
     // ********************************************************************************
-    //=> OK testé
-    @GetMapping("/admin/all")
+
+    // get all Users (for Admin only)
+    @GetMapping("/admin/userall")
     public ResponseEntity<List<AppUser>> getListOfAllAppUsers() {
         return ResponseEntity.ok(appUserService.getAppUserList());
     }
 
-    //=> OK testé
-    @GetMapping("admin/{uid}")
+    // get User by its uid
+    @GetMapping("/user/{uid}")
     public ResponseEntity<AppUser> getAppUserByUID(@PathVariable("uid") String UID) {
         Optional<AppUser> userOptional = appUserService.getAppUserByUID(UID);
 
@@ -62,36 +65,64 @@ public class AppUserController {
         }
     }
 
-    // ********************************************************************************
-    // ***************              UPDATE                     ************************
-    // ********************************************************************************
+    // Get current User's login
+    @GetMapping("/user")
+    public String getCurrentUserLogin () {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
-    //=> OK testé
-    @PutMapping("/admin")
-    public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
-        AppUser userToUpdate = appUserService.updateAppUser(appUser);
+    // get User's login and authorizationLevel
+    @GetMapping("/getUserLoginAndAuthoLevel")
+    public ResponseEntity<LoginAuthoLevel> getUserLoginAndAuthoLevel() {
 
-        if (userToUpdate != null) {
-            return ResponseEntity.ok(userToUpdate);
+        /**
+         * Initialize a LoginAuthoLevel object
+         */
+        LoginAuthoLevel loginAuthoLevel = new LoginAuthoLevel();
+        /**
+         *  Check security Context (ensure user is still connected) and get userUID
+         */
+        String loginCon = SecurityUtils.getCurrentUserLogin();
+        loginAuthoLevel.setLoginCon(loginCon);
+        /**
+         * Get User's security Level
+         */
+        Optional<AppUser> appUserOptional = appUserService.getAppUserByUID(loginCon);
+        if (appUserOptional.isPresent()) {
+            // get user AuthorityLevel number :
+            List<Authority> authorities = appUserOptional.get().getAuthorities();
+            boolean adminAutoLevel = false;
+            for (Authority authority : authorities) {
+                if (authority.getAuthorityLevel().toString().equals("ROLE_ADMIN")) {
+                    adminAutoLevel = true;
+                }
+            }
+            if (adminAutoLevel == true) {
+                loginAuthoLevel.setAuthoLevel("ROLE_ADMIN");
+            } else {
+                loginAuthoLevel.setAuthoLevel("ROLE_USER");
+            }
+            return ResponseEntity.ok().body(loginAuthoLevel);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     // ********************************************************************************
-    // ***************           READ   LOGIN ACCESS           ************************
+    // ***************              UPDATE                     ************************
     // ********************************************************************************
-    // => OK testé
-    @GetMapping
-    public String getCurrentUserLogin () {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+
+    //
+    // Update User's data done from CustomerUserDetailsContextManager
+    // call createOrUpdateAppUser Method to update dedicated User data:
+    // its complete name, email, or updateDate
+    //
 
     // ********************************************************************************
     // ***************              DELETE                     ************************
     // ********************************************************************************
 
-    //=> OK testé
+    // Delete user from its Id
     @DeleteMapping("admin/{appUserId}")
     public void deleteAppUser(@PathVariable Long appUserId) {
         appUserService.deleteAppUser(appUserId);

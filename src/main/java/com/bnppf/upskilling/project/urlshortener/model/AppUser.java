@@ -1,9 +1,9 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,28 +14,27 @@ public class AppUser {
     @SequenceGenerator(name="app_user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     private Long id;
-    @Column(name="UID", unique = true)
+    @Column(name="uid", unique = true)
     private String uid;
     @Column(name="name")
-    private String name;
-    @Column(name="firstName")
-    private String firstName;
+    private String completeName;
     @Column(name="email")
     private String email;
     @Column(name="creation_date")
-    private Date creationDate;
+    private LocalDateTime creationDate;
     @Column(name="update_date")
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
     /**
      * Many user are linked to many authorization role
      * we generation a jointure table to show this relation
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "app_user_autorization",
+    @JsonIgnore
+    @JoinTable(name = "app_user_authority",
             joinColumns = @JoinColumn(name = "app_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authorization_id"))
-    private Set<Authority> authorities;
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    private List<Authority> authorities;
 
     /**
      * One user can possess many UrlLink
@@ -58,27 +57,23 @@ public class AppUser {
         return uid;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getFirstName() {
-        return firstName;
+    public String getCompleteName() {
+        return completeName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public Date getUpdateDate() {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public Set<Authority> getAuthorities() {
+    public List<Authority> getAuthorities() {
         return authorities;
     }
 
@@ -99,27 +94,23 @@ public class AppUser {
         this.uid = uid;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setCompleteName(String completeName) {
+        this.completeName = completeName;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 
@@ -127,13 +118,4 @@ public class AppUser {
         this.urlLinkSet = urlLinkSet;
     }
 
-    /**
-     * Override on equals method to check equality between 2 AppUser
-     * @param obj
-     * @return
-     */
-//    @Override
-//    public boolean equals(Object obj) {
-//        return this.uid.equals((AppUser) obj.);
-//    }
 }
