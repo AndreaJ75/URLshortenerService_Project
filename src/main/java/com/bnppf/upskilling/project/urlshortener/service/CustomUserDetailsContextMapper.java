@@ -1,8 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
-import com.bnppf.upskilling.project.urlshortener.model.Authority;
-import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,13 +9,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.stereotype.Component;
-
 import javax.naming.NamingException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,9 +24,11 @@ public class CustomUserDetailsContextMapper implements UserDetailsContextMapper 
 
     @Override
     public UserDetails mapUserFromContext(DirContextOperations ctx,
-                                          String login, Collection<? extends GrantedAuthority> collection) {
-         //AVOIR
-         //If Authentication is OK && User not existing in DB ==> Create User in DB
+                                          String login,
+                                          Collection<? extends GrantedAuthority> collection) {
+
+         //If Authentication is OK && User not existing in DB
+         // ==> Create User in DB
 
         String completeName = null;
         try {

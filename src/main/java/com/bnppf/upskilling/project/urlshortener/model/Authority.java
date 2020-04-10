@@ -39,5 +39,4 @@ public class Authority {
         this.authorityLevel = authorityLevel;
     }
 
-
 }

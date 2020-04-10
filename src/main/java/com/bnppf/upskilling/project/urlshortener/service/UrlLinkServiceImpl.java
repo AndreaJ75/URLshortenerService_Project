@@ -6,17 +6,10 @@ import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import com.bnppf.upskilling.project.urlshortener.repository.UrlLinkRepository;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
-import javassist.runtime.Desc;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -178,7 +171,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
 
         if (userOptional.isPresent()) {
-            System.out.println(userOptional.get());
+            System.out.println("Check here UID= " + userOptional.get().getUid());
             return urllinkRepository.findAllByAppUser(userOptional.get(), pageable);
         } else {
             return null;

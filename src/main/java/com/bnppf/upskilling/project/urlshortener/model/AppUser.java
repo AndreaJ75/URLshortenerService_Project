@@ -1,10 +1,8 @@
 package com.bnppf.upskilling.project.urlshortener.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -120,13 +118,4 @@ public class AppUser {
         this.urlLinkSet = urlLinkSet;
     }
 
-    /**
-     * Override on equals method to check equality between 2 AppUser
-     * @param obj
-     * @return
-     */
-//    @Override
-//    public boolean equals(Object obj) {
-//        return this.uid.equals((AppUser) obj.);
-//    }
 }

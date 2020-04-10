@@ -4,8 +4,7 @@ import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface AuthorizationService {
-
+public interface AuthorityService {
 
     /**
      * Creation of an Authority level

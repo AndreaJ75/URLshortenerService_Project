@@ -1,9 +1,7 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

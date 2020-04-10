@@ -3,13 +3,11 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +23,6 @@ public class UrlLinkController {
     private UrlLinkService urlLinkService;
 
     public UrlLinkController(UrlLinkService urlLinkService) { this.urlLinkService = urlLinkService;  }
-
 
     /**
      * CREATE URLLink for GUEST
@@ -63,12 +60,12 @@ public class UrlLinkController {
 
     // Get all Urls from all users (for Admin only)
 
-    @GetMapping("/admin/urlall")
+    @GetMapping("/admin/urlsall")
     public ResponseEntity<Page<UrlLink>> getUrlLinkList (Pageable pageable ){
         return ResponseEntity.ok(urlLinkService.getUrlListAllSorted(pageable));
     }
 
-    // MAJ limités uniquement sur 3 attributs permis (check dans service)
+    // Update only allowed on 3 attributes (check in service)
     @PutMapping("/user")
     public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
 
@@ -80,13 +77,12 @@ public class UrlLinkController {
         }
     }
 
-
     @DeleteMapping("/user/deleteurl")
     public void deleteAppUserUrlLink(@PathParam("urlId") Long urlId){
         urlLinkService.deleteUrlLink(urlId);
     }
 
-    //=> A tester (ne marche pas ainsi)
+    //=> To be tested (does not work yet)
     @DeleteMapping("/user/deleteurls")
     public void deleteAppUserUrlLinkList(@PathParam("urlIdList") List<Long> urlIdList) {
         urlLinkService.deleteUrlLinkList(urlIdList);

@@ -6,12 +6,9 @@ public class SecurityUtils {
 
     public static String getCurrentUserLogin(){
 
-        String login = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        System.out.println("Login = " + login);
+        String login = (String) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
 
         return login;
-
     }
-
 }

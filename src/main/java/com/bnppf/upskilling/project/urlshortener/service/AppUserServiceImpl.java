@@ -3,12 +3,8 @@ package com.bnppf.upskilling.project.urlshortener.service;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
-import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -18,7 +14,7 @@ public class AppUserServiceImpl implements AppUserService {
 
 
     private AppUserRepository appUserRepository;
-    private Authority authority;
+//    private Authority authority;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
@@ -40,6 +36,7 @@ public class AppUserServiceImpl implements AppUserService {
         Optional<AppUser> appUserOptional =
                 appUserRepository.findAppUserByUid(appUser.getUid());
         if (appUserOptional.isPresent()) {
+            // Update user's compleName, email and UpdateDate
             appUserOptional.get().setCompleteName(appUser.getCompleteName());
             appUserOptional.get().setEmail(appUser.getEmail());
             appUser.setUpdateDate(LocalDateTime.now());
@@ -79,7 +76,6 @@ public class AppUserServiceImpl implements AppUserService {
     public Optional<AppUser> getAppUserByUID(String appUserUID) {
         return appUserRepository.findAppUserByUid(appUserUID);
     }
-
 
     /**
      * Delete AppUser from its Id

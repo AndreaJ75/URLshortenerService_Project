@@ -3,7 +3,6 @@ package com.bnppf.upskilling.project.urlshortener.service;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.repository.AuthorityRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
