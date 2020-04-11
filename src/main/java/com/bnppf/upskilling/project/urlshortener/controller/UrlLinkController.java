@@ -52,8 +52,19 @@ public class UrlLinkController {
     }
 
 
+    @GetMapping("/user/getById/{urlLinkId}")
+    public ResponseEntity<UrlLink> getUrlLinkById(@PathVariable Long urlLinkId) {
+
+        Optional<UrlLink> urlLinkOptional = urlLinkService.getUrlLinkfromUrlId(urlLinkId);
+        if (urlLinkOptional.isPresent()) {
+            return ResponseEntity.ok(urlLinkOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @GetMapping("/user/getsorted")
-    @CrossOrigin("*")
+//    @CrossOrigin("*")
     public ResponseEntity<Page<UrlLink>> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
     }
@@ -65,26 +76,27 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.getUrlListAllSorted(pageable));
     }
 
-    // Update only allowed on 3 attributes (check in service)
+    // Update urlLink only allowed on 3 attributes (check in service)
     @PutMapping("/user")
-    public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlLink urlLink){
+    public ResponseEntity<UrlLink> updateAppUserUrl(@RequestBody UrlFeedLink urlLinkToUpdate){
 
-        Optional<UrlLink> urlLinkOptional = urlLinkService.getUrlLinkfromUrlId(urlLink.getId());
+        Optional<UrlLink> urlLinkOptional =
+                urlLinkService.getUrlLinkfromUrlId(urlLinkToUpdate.getId());
         if (urlLinkOptional.isPresent())  {
-            return ResponseEntity.ok(urlLinkService.updateUrlLink(urlLink));
+            return ResponseEntity.ok(urlLinkService.updateUrlFeedLink(urlLinkToUpdate));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    @DeleteMapping("/user/deleteurl")
-    public void deleteAppUserUrlLink(@PathParam("urlId") Long urlId){
+    @DeleteMapping("/user/deleteurl/{urlId}")
+    public void deleteAppUserUrlLink(@PathVariable Long urlId){
         urlLinkService.deleteUrlLink(urlId);
     }
 
     //=> To be tested (does not work yet)
-    @DeleteMapping("/user/deleteurls")
-    public void deleteAppUserUrlLinkList(@PathParam("urlIdList") List<Long> urlIdList) {
+    @DeleteMapping("/user/deleteurls/{urlIdList}")
+    public void deleteAppUserUrlLinkList(@PathVariable List<Long> urlIdList) {
         urlLinkService.deleteUrlLinkList(urlIdList);
     }
 
