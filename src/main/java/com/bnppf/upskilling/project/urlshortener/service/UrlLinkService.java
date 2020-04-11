@@ -51,7 +51,14 @@ public interface UrlLinkService {
     Page<UrlLink> getUrlListAllSorted(Pageable pageable);
 
     /**
-     * Update one UrlLink for one user
+     * Update one UrlFeedLink for one user
+     * @param urlFeedLinkToUpdate
+     * @return urlLink updated
+     */
+    UrlLink updateUrlFeedLink(UrlFeedLink urlFeedLinkToUpdate);
+
+    /**
+     * Update one UrlFeedLink for one user
      * @param urlLinkToUpdate
      * @return urlLink updated
      */

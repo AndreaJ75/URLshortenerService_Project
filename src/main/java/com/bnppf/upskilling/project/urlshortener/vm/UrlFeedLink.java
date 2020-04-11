@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 public class UrlFeedLink {
 
+    private Long id;
+
     private String urlLong;
 
     private Double maxClickNumber;
@@ -11,6 +13,8 @@ public class UrlFeedLink {
     private LocalDateTime expirationDate;
 
     private String appPassword;
+
+    public Long getId() {      return id;   }
 
     public String getUrlLong(){
         return urlLong;

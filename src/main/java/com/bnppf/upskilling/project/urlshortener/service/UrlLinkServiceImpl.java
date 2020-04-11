@@ -142,6 +142,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
      */
     @Override
     public Optional<UrlLink> getUrlLinkfromUrlId(Long urlId) {
+
         return urllinkRepository.findById(urlId);
     }
 
@@ -181,6 +182,31 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     // ********************************************************************************
     // ***************              UPDATE                     ************************
     // ********************************************************************************
+
+    /**
+     * Update one UrlLink on defined criteria
+     * @param urlFeedLinkToUpdate
+     * @return
+     */
+    @Override
+    public UrlLink updateUrlFeedLink(UrlFeedLink urlFeedLinkToUpdate) {
+
+        System.out.println("urlFeedLin Id = " + urlFeedLinkToUpdate.getId());
+        // Retrieve urlLink data if exists
+        Optional<UrlLink> urlLinkOptional = urllinkRepository.findById(urlFeedLinkToUpdate.getId());
+
+        if (urlLinkOptional.isPresent()) {
+            // update only authorized (for update) urlLink data
+            urlLinkOptional.get().setMaxClickNumber(urlFeedLinkToUpdate.getMaxClickNumber());
+            urlLinkOptional.get().setExpirationDate(urlFeedLinkToUpdate.getExpirationDate());
+            urlLinkOptional.get().setUrlPassword(urlFeedLinkToUpdate.getAppPassword());
+            urlLinkOptional.get().setUpdateDate(LocalDateTime.now());
+            // update inside database
+            return urllinkRepository.save(urlLinkOptional.get());
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Update one UrlLink on defined criteria
