@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,16 +63,15 @@ public class UrlLinkController {
     }
 
     @GetMapping("/user/getsorted")
-//    @CrossOrigin("*")
     public ResponseEntity<Page<UrlLink>> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
     }
 
     // Get all Urls from all users (for Admin only)
 
-    @GetMapping("/admin/urlsall")
-    public ResponseEntity<Page<UrlLink>> getUrlLinkList (Pageable pageable ){
-        return ResponseEntity.ok(urlLinkService.getUrlListAllSorted(pageable));
+    @GetMapping("/admin/urlsAll")
+    public ResponseEntity<Page<UrlLink>> getUrlLinksPage (Pageable pageable ){
+        return ResponseEntity.ok(urlLinkService.getUrlPageAllSorted(pageable));
     }
 
     // Update urlLink only allowed on 3 attributes (check in service)
@@ -89,13 +87,13 @@ public class UrlLinkController {
         }
     }
 
-    @DeleteMapping("/user/deleteurl/{urlId}")
+    @DeleteMapping("/user/deleteUrl/{urlId}")
     public void deleteAppUserUrlLink(@PathVariable Long urlId){
         urlLinkService.deleteUrlLink(urlId);
     }
 
     //=> To be tested (does not work yet)
-    @DeleteMapping("/user/deleteurls/{urlIdList}")
+    @DeleteMapping("/user/deleteUrls/{urlIdList}")
     public void deleteAppUserUrlLinkList(@PathVariable List<Long> urlIdList) {
         urlLinkService.deleteUrlLinkList(urlIdList);
     }

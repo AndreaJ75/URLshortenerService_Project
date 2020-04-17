@@ -39,7 +39,7 @@ public class AppUser {
     /**
      * One user can possess many UrlLink
      */
-    @OneToMany(mappedBy = "appUser")
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<UrlLink> urlLinkSet;
 

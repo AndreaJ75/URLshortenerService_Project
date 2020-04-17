@@ -4,17 +4,20 @@ import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUti
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
+import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
+import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
 import com.bnppf.upskilling.project.urlshortener.vm.LoginAuthoLevel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/appuser")
+@RequestMapping("/api/appUser")
 @CrossOrigin("*")
 public class AppUserController {
 
@@ -22,13 +25,16 @@ public class AppUserController {
      * Declaration of AppUser Service
      */
     private AppUserService appUserService;
+    private UrlLinkService urlLinkService;
 
     /**
      * AppUser Service injection inside of the controller constructor (to be able to access Services created Method)
      * @param appUserService
      */
-    public AppUserController(AppUserService appUserService) {
+    public AppUserController(AppUserService appUserService,
+                             UrlLinkService urlLinkService) {
         this.appUserService = appUserService;
+        this.urlLinkService = urlLinkService;
     }
 
     // ********************************************************************************
@@ -48,13 +54,19 @@ public class AppUserController {
     // ********************************************************************************
 
     // get all Users (for Admin only)
-    @GetMapping("/admin/userall")
-    public ResponseEntity<List<AppUser>> getListOfAllAppUsers() {
-        return ResponseEntity.ok(appUserService.getAppUserList());
+    @GetMapping("/admin/appUserAll")
+    public ResponseEntity<Page<AppUser>> getListOfAllAppUsers(Pageable pageable) {
+
+        return ResponseEntity.ok(appUserService.getAppUserList(pageable));
+    }
+
+    @GetMapping("admin/appUserAllWithHighestAutho")
+    public ResponseEntity<Page<AppUserAng>> getAllAppUserPageWithHighestAuthority(Pageable pageable) {
+        return ResponseEntity.ok(appUserService.getAllAppUserPageWithHighestAuthority(pageable));
     }
 
     // get User by its uid
-    @GetMapping("/user/{uid}")
+    @GetMapping("/admin/userId/{uid}")
     public ResponseEntity<AppUser> getAppUserByUID(@PathVariable("uid") String UID) {
         Optional<AppUser> userOptional = appUserService.getAppUserByUID(UID);
 
@@ -72,8 +84,8 @@ public class AppUserController {
     }
 
     // get User's login and authorizationLevel
-    @GetMapping("/getUserLoginAndAuthoLevel")
-    public ResponseEntity<LoginAuthoLevel> getUserLoginAndAuthoLevel() {
+    @GetMapping("/getCurrentUserLoginAndAuthoLevel")
+    public ResponseEntity<LoginAuthoLevel> getCurrentUserLoginAndAuthoLevel() {
 
         /**
          * Initialize a LoginAuthoLevel object
@@ -118,13 +130,22 @@ public class AppUserController {
     // its complete name, email, or updateDate
     //
 
+    @PutMapping("/admin/createAutho")
+    public ResponseEntity<AppUser> createAppUserAuthority(@RequestBody AppUser appUser) {
+        return ResponseEntity.ok(appUserService.createAppUserAuthority(appUser.getId()));
+    }
+
+    @PutMapping("/admin/removeAutho")
+    public ResponseEntity<AppUser> deleteAppUserAuthority(@RequestBody AppUser appUser) {
+        return ResponseEntity.ok(appUserService.removeAppUserAuthority(appUser.getId()));
+    }
     // ********************************************************************************
     // ***************              DELETE                     ************************
     // ********************************************************************************
-
     // Delete user from its Id
-    @DeleteMapping("admin/{appUserId}")
+    @DeleteMapping("/admin/userId/{appUserId}")
     public void deleteAppUser(@PathVariable Long appUserId) {
+        // Delete UrlLinks related to users and then delete Users
         appUserService.deleteAppUser(appUserId);
     }
 
