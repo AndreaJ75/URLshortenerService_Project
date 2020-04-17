@@ -65,8 +65,7 @@ public class AuthenticationController {
         /**
          *  Check security Context to see if user is still connected and authenticated
          */
-        System.out.println("IsloggedIn = " + SecurityContextHolder.getContext().getAuthentication()
-        .isAuthenticated());
+
         return ResponseEntity.ok()
                 .body(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
     }

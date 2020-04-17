@@ -1,5 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
+import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 import org.springframework.data.domain.Page;
@@ -48,8 +49,15 @@ public interface UrlLinkService {
      * Get all URL link sorted (for ADMIN users only)
      * @return url List
      */
-    Page<UrlLink> getUrlListAllSorted(Pageable pageable);
+    Page<UrlLink> getUrlPageAllSorted(Pageable pageable);
 
+    /**
+     * Get List of URLLinks to delete for one AppUserToDelete
+     * @param appUserIdToDelete
+     * @return
+     */
+    Page<UrlLink> getUrlLinksToDeleteForOneUser (Long appUserIdToDelete,
+                                                 Pageable pageable);
     /**
      * Update one UrlFeedLink for one user
      * @param urlFeedLinkToUpdate

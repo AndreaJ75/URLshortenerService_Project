@@ -1,6 +1,9 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +19,30 @@ public interface AppUserService  {
     AppUser createOrUpdateAppUser(AppUser appUserToBeCreated);
 
     /**
+     * Update AppUser Authoritylevel
+     * @param appUserId
+     * @return
+     */
+    AppUser createAppUserAuthority(Long appUserId);
+
+    /**
+     * Remove AppUser AuthorityLevel
+     * @param appUserId
+     */
+    AppUser removeAppUserAuthority(Long appUserId);
+    /**
      * Get list of all existing registered application users :
      * include ADMIN and USER only (not GUEST)
      * @return
      */
-    List<AppUser> getAppUserList();
+    Page<AppUser> getAppUserList(Pageable pageable);
 
+    /**
+     * Get All AppUser with their highest authority level
+     * @param pageable
+     * @return
+     */
+    Page<AppUserAng> getAllAppUserPageWithHighestAuthority(Pageable pageable);
     /**
      * Get user from Application user by its UID
      * @param appUserUID

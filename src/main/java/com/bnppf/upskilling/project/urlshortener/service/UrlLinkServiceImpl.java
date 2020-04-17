@@ -154,12 +154,27 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         return urllinkRepository.findOneByUrlShortKey(urlShort);
     }
 
+    // Get urlLinks List related to one user
+    @Override
+    public Page<UrlLink> getUrlLinksToDeleteForOneUser(Long appUserIdToDelete,
+                                                       Pageable pageable) {
+
+        Optional<AppUser> userOptional = appUserRepository.findById(appUserIdToDelete);
+
+        if (userOptional.isPresent()) {
+            return urllinkRepository.findAllByAppUser(userOptional.get(), pageable);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Find all UrlLink for all users => Admin functionnality
      * @return List of UrlLink of all users
      */
     @Override
-    public Page<UrlLink> getUrlListAllSorted(Pageable pageable) {
+    public Page<UrlLink> getUrlPageAllSorted(Pageable pageable) {
+
         return urllinkRepository.findAll(pageable);
     }
 
@@ -172,7 +187,6 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
 
         if (userOptional.isPresent()) {
-            System.out.println("Check here UID= " + userOptional.get().getUid());
             return urllinkRepository.findAllByAppUser(userOptional.get(), pageable);
         } else {
             return null;
@@ -191,7 +205,6 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     @Override
     public UrlLink updateUrlFeedLink(UrlFeedLink urlFeedLinkToUpdate) {
 
-        System.out.println("urlFeedLin Id = " + urlFeedLinkToUpdate.getId());
         // Retrieve urlLink data if exists
         Optional<UrlLink> urlLinkOptional = urllinkRepository.findById(urlFeedLinkToUpdate.getId());
 

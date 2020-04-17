@@ -4,6 +4,10 @@ import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
+import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -56,14 +60,89 @@ public class AppUserServiceImpl implements AppUserService {
         }
     }
 
+    @Override
+    public AppUser createAppUserAuthority(Long appUserId) {
+        /**
+         * Update AppUser AuthorityLevel requested by Admin
+         */
+        Optional<AppUser> appUserOptional =
+                appUserRepository.findById(appUserId);
+        if (appUserOptional.isPresent()) {
+            // Update user's authorityLevel
+            Authority authority = new Authority();
+            authority.setId(1L);
+            authority.setAuthorityLevel(AuthorityLevel.ROLE_ADMIN);
+            List<Authority> authorities = appUserOptional.get().getAuthorities();
+            authorities.add(authority);
+            appUserOptional.get().setAuthorities(authorities);
+            return appUserRepository.save(appUserOptional.get());
+        } else {
+            // return Httpstatus error (user should already exists)
+            return null;
+        }
+    }
+
+    @Override
+    public AppUser removeAppUserAuthority(Long appUserId) {
+        /**
+         * Update AppUser AuthorityLevel requested by Admin
+         */
+        Optional<AppUser> appUserOptional =
+                appUserRepository.findById(appUserId);
+        if (appUserOptional.isPresent()) {
+            // get user's authorities
+            List<Authority> authorities = appUserOptional.get().getAuthorities();
+            // Remove authorityLevel ROLE_ADMIN (set on position 1 as users always
+            // created with default ROLE_USER first
+            authorities.remove(1);
+
+            appUserOptional.get().setAuthorities(authorities);
+            return appUserRepository.save(appUserOptional.get());
+        } else {
+            // return Httpstatus error (user should already exists)
+            return null;
+        }
+    }
+
     /**
      * Find all existing AppUser
      *
      * @return List of all existing App users
      */
     @Override
-    public List<AppUser> getAppUserList() {
-        return this.appUserRepository.findAll();
+    public Page<AppUser> getAppUserList(Pageable pageable) {
+
+        return this.appUserRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<AppUserAng> getAllAppUserPageWithHighestAuthority(Pageable pageable){
+
+        Page<AppUser> appUserPage = this.appUserRepository.findAll(pageable);
+        List<AppUserAng> appUserAngs = new ArrayList<>();
+
+        // get user AuthorityLevel number :
+        for (AppUser appUser: appUserPage) {
+            AppUserAng appUserAng = new AppUserAng();
+            appUserAng.setAppUser(appUser);
+            boolean adminAutoLevel = false;
+            List<Authority> authorities = appUser.getAuthorities();
+            for (Authority authority : authorities) {
+                if (authority.getAuthorityLevel().toString().equals("ROLE_ADMIN")) {
+                    adminAutoLevel = true;
+                }
+            }
+
+            if (adminAutoLevel == true) {
+                appUserAng.setHighestAuthorityLevel("ROLE_ADMIN");
+            } else {
+                appUserAng.setHighestAuthorityLevel("ROLE_USER");
+            }
+            appUserAngs.add(appUserAng);
+        }
+        Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs);
+        return appUserAngPage;
+//       return this.appUserRepository.findAllAppUserWithHighestAuthority(pageable);
     }
 
     /**
