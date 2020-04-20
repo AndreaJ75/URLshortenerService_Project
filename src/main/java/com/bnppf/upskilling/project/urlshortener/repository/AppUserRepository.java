@@ -14,7 +14,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long>{
 
     Optional<AppUser> findAppUserByUid(String uid);
 
-    // Problème de creation de VIEW (ici AppUserAngl) à partir
+
+    // Problème de creation de VIEW (ici AppUserAngl <=> Entité considéré) à partir
     // de AppUserRepository + AuthorityRepository
 //
 //    @Query(value=

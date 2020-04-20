@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.stereotype.Component;
 import javax.naming.NamingException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -54,4 +56,7 @@ public class CustomUserDetailsContextMapper implements UserDetailsContextMapper 
     public void mapUserToContext(UserDetails userDetails, DirContextAdapter dirContextAdapter) {
 
     }
+
 }
+
+
