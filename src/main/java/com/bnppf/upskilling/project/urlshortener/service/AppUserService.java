@@ -37,12 +37,20 @@ public interface AppUserService  {
      */
     Page<AppUser> getAppUserList(Pageable pageable);
 
-    /**
+     /**
      * Get All AppUser with their highest authority level
      * @param pageable
      * @return
      */
     Page<AppUserAng> getAllAppUserPageWithHighestAuthority(Pageable pageable);
+
+    /**
+     * Get List of all appuser's roles
+     * @param appUserLogin
+     * @return
+     */
+    List<String> getAppUserRoles(String appUserLogin);
+
     /**
      * Get user from Application user by its UID
      * @param appUserUID

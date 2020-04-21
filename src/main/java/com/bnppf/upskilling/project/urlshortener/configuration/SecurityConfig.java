@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${app.jwt.secret:}")
     private String secretKey;
 
+
     /**
      * Definition of the HTTP authorized and users authorized
      * @param http
@@ -37,14 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/urlLinks/guest/**").permitAll()
-                .antMatchers("/api/urllinks/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/urllinks/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/appuser/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/appuser/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/appUser/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/urlLinks/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/urlLinks/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/api/appUser/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -59,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         auth.ldapAuthentication()
                 .userDetailsContextMapper(userDetailsContextMapper)
                 .userDnPatterns("uid={0},ou=people")

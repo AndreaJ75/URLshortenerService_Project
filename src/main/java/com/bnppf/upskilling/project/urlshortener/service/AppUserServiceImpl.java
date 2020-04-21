@@ -8,9 +8,15 @@ import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -143,6 +149,21 @@ public class AppUserServiceImpl implements AppUserService {
         Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs);
         return appUserAngPage;
 //       return this.appUserRepository.findAllAppUserWithHighestAuthority(pageable);
+    }
+
+    @Override
+    public List<String> getAppUserRoles(String appUserLogin){
+        // Roles in Database
+        Optional<AppUser> appUserOptional =
+                this.appUserRepository.findAppUserByUid(appUserLogin);
+
+        List<String> appUserRoles = new ArrayList<>();
+        if (appUserOptional.isPresent()) {
+            for (int i = 0; i < appUserOptional.get().getAuthorities().size(); i++) {
+                appUserRoles.add(appUserOptional.get().getAuthorities().get(i).toString());
+            }
+        }
+        return appUserRoles;
     }
 
     /**

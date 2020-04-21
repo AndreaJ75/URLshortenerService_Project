@@ -29,6 +29,6 @@ build/
 
 # Remove yaml from git
 /home/bnp-renault-005/Bureau/ANDY/DIGITAL_FACTORY/URLShortenerService/URLshortenerService_Project/src/main/resources/application.yml
-
+/home/bnp-renault-005/Bureau/ANDY/DIGITAL_FACTORY/URLShortenerService/URLshortenerAPI/src/main/resources/application.yml
 ### VS Code ###
 .vscode/
