@@ -1,11 +1,9 @@
 package com.bnppf.upskilling.project.urlshortener.repository;
 
+// TODO check how to retrieve appUser based on object not DB SQL select
+
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
-import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
