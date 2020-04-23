@@ -1,5 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.controller;
 
+import com.bnppf.upskilling.project.urlshortener.exception.UrlExpireDateException;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import org.springframework.http.HttpHeaders;
@@ -7,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -21,7 +24,7 @@ public class RedirectController {
     }
 
     @GetMapping("/{urlKey}")
-    public ResponseEntity<String> getUrlRedirection(@PathVariable String urlKey) {
+    public ResponseEntity<String> getUrlRedirection(@PathVariable String urlKey)  {
 
         Optional<UrlLink> urlLongRetrieved = urlLinkService.getUrlLongFromShortUrl(urlKey);
 
@@ -31,6 +34,12 @@ public class RedirectController {
             // for UrlLink without password, we redirect directly to UrlLink
             if (urlLongRetrieved.get().getUrlPassword() == null ||
                 urlLongRetrieved.get().getUrlPassword().isEmpty()) {
+                if (LocalDateTime.now()
+                        .isAfter(urlLongRetrieved.get().getExpirationDate())
+                || (urlLongRetrieved.get().getClickNumber()
+                        >= urlLongRetrieved.get().getMaxClickNumber())) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                }
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("Location", urlLongRetrieved.get().getUrlLong());
 
