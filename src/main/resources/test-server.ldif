@@ -99,6 +99,62 @@ uid: andy
 userPassword: $2y$12$/80IAJqp6GgJ1hL01LuxB.mTtuy3EWyGGuvIzZv0G0NDyfsanbHYu
 
 
+dn: uid=alice,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: alice Cooper
+sn: aliceC
+uid: alice
+userPassword: $2y$12$I9fRdv9aiyOKpFxwY2ZmwemG9bLpnfnP2DoWYdW9rDA8bYoGhYN6O
+
+
+dn: uid=alan,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: alan Parson
+sn: alanP
+uid: alan
+userPassword: $2y$12$XqmPpkXuu..ecF01fUt0n..RO6gREynCENSsU2BgBW85mLKzA2eCi
+
+
+dn: uid=lenny,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: lenny Kravitz
+sn: lennyK
+uid: lenny
+userPassword: $2y$12$FhMApTyfYmsXURHH59yqI.fRnOfxbB2yRtcwKxEh9udAoWmDkhgGS
+
+
+dn: uid=celia,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: celia Cruz
+sn: celiaC
+uid: celia
+userPassword: $2y$12$cRBckrt6Sp9sgYkFjemdvuR4/7O4EpVKeSvWK6vu1pCfx2UoT2I46
+
+
+dn: uid=ana,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: ana Karenine
+sn: anaK
+uid: ana
+userPassword: $2y$12$wWSsd9hvTi4eD6qth4kS.uj/Z9V/hzv/Vi29q/Q5jH7ZdknABgEPi
+
+
+
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
 objectclass: top
 objectclass: person
