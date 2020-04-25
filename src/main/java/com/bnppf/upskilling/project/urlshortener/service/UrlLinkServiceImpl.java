@@ -17,7 +17,7 @@ import java.util.Optional;
 public class UrlLinkServiceImpl implements UrlLinkService {
 
 
-    private final Double MAXCLICKNUMBER = Double.MAX_VALUE;
+    private final Double MAXCLICKNUMBER = 50000D;
     /**
      * Instance of Repository declaration
      */
