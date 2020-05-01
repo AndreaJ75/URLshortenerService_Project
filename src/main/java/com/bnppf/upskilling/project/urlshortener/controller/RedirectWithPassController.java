@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -30,6 +32,15 @@ public class RedirectWithPassController {
         } else {
             if (urlLongRetrieved.get().getUrlPassword() != null &&
                     (urlLongRetrieved.get().getUrlPassword().equals(urlPass))) {
+
+                if (LocalDateTime.now()
+                        .isAfter(urlLongRetrieved.get().getExpirationDate())
+                        || (urlLongRetrieved.get().getClickNumber()
+                        >= urlLongRetrieved.get().getMaxClickNumber())) {
+
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                }
+
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("Location", urlLongRetrieved.get().getUrlLong());
 

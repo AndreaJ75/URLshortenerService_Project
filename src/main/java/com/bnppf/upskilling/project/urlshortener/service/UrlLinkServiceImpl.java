@@ -107,16 +107,23 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         /**
          * Feed max click number provided by user
          */
-        urlLinkToBeCreated.setMaxClickNumber(urlToBeCreated.getMaxClickNumber());
+        if (!(urlToBeCreated.getMaxClickNumber() == null)) {
+            urlLinkToBeCreated.setMaxClickNumber(urlToBeCreated.getMaxClickNumber());
+        }
 
         /**
          * Feed provided Url Password
          */
         urlLinkToBeCreated.setUrlPassword(urlToBeCreated.getAppPassword());
         /**
-         * Feed provided Expiration Date
+         * Feed provided Expiration Date (if provided with today date, set to todayday +1)
          */
-        urlLinkToBeCreated.setExpirationDate(urlToBeCreated.getExpirationDate());
+        if (LocalDateTime.now().getDayOfYear() == urlToBeCreated.getExpirationDate().getDayOfYear()
+                && LocalDateTime.now().getYear() == urlToBeCreated.getExpirationDate().getYear()){
+            urlLinkToBeCreated.setExpirationDate(LocalDateTime.now().plusDays(1));
+        } else {
+            urlLinkToBeCreated.setExpirationDate(urlToBeCreated.getExpirationDate());
+        }
 
         /**
          * Feed Connected AppUser using its Login = UID
