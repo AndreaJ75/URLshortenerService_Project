@@ -66,7 +66,7 @@ public class UrlLinkController {
 
     @GetMapping("/user/getsorted")
     public ResponseEntity<Page<UrlLink>> getUrlLinksSortedBySortCriteriaandOrder(
-            @PageableDefault(size=50, page = 0, sort = {"creationDate"},
+            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
                     direction = Sort.Direction.ASC)
             Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
@@ -76,7 +76,7 @@ public class UrlLinkController {
 
     @GetMapping("/admin/urlsAll")
     public ResponseEntity<Page<UrlLink>> getUrlLinksPage (
-            @PageableDefault(size=50, page = 0, sort = {"creationDate"},
+            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
                     direction = Sort.Direction.ASC)
                     Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlPageAllSorted(pageable));

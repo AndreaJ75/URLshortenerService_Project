@@ -155,6 +155,40 @@ userPassword: $2y$12$wWSsd9hvTi4eD6qth4kS.uj/Z9V/hzv/Vi29q/Q5jH7ZdknABgEPi
 
 
 
+dn: uid=liza,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: liza Minelli
+sn: lizaM
+uid: liza
+userPassword: $2y$12$ozz7a5f.U/Gy1yo2g2wiPe1p00Fy1JaeD.kDN9eGddy8Cz8Xamy4m
+
+
+
+dn: uid=yves,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: yves Leconte
+sn: yvesL
+uid: yves
+userPassword: $2y$12$7h1tINq2ioRfJ3G2kuG1De.t/G16WleAN/s1q4t.lpBPpkzvd8TQu
+
+
+dn: uid=bin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: bin TAZ
+sn: binT
+uid: bin
+userPassword: $2y$12$aO/TisuHNcnOzYlzqAn0M.a0ogcA..stN.tlCVi23jK4RoX8foOnG
+
+
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
 objectclass: top
 objectclass: person
