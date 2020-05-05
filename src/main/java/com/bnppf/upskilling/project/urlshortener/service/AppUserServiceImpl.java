@@ -46,8 +46,9 @@ public class AppUserServiceImpl implements AppUserService {
         Optional<AppUser> appUserOptional =
                 appUserRepository.findAppUserByUid(appUser.getUid());
         if (appUserOptional.isPresent()) {
-            // Update user's compleName, email and UpdateDate
-            appUserOptional.get().setCompleteName(appUser.getCompleteName());
+            // Update user's firstName, name, email and UpdateDate
+            appUserOptional.get().setFirstName(appUser.getFirstName());
+            appUserOptional.get().setName(appUser.getName());
             appUserOptional.get().setEmail(appUser.getEmail());
             appUser.setUpdateDate(LocalDateTime.now());
             return appUserRepository.save(appUserOptional.get());
@@ -146,7 +147,7 @@ public class AppUserServiceImpl implements AppUserService {
             }
             appUserAngs.add(appUserAng);
         }
-        Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs);
+        Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs, pageable, appUserAngs.size());
         return appUserAngPage;
 //       return this.appUserRepository.findAllAppUserWithHighestAuthority(pageable);
     }

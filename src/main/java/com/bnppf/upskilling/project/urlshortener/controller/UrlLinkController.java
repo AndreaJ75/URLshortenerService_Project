@@ -77,7 +77,6 @@ public class UrlLinkController {
 
 //    @GetMapping("/user/getFiltered")
 //    public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredForOneUser(
-//            @RequestParam(value="user") Long appUserId,
 //            @RequestParam(value="clickNumber", required = false) Integer clickNumber,
 //            @RequestParam(value="creationDate", required = false) LocalDateTime creationDate,
 //            @RequestParam(value="expirationDate", required = false) LocalDateTime expirationDate,
@@ -88,7 +87,7 @@ public class UrlLinkController {
 //            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
 //                    direction = Sort.Direction.ASC)
 //                    Pageable pageable){
-//        return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForOneUser (appUserId,
+//        return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForOneUser (
 //                clickNumber,
 //                creationDate,
 //                expirationDate,
@@ -108,10 +107,22 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.getUrlPageAllSorted(pageable));
     }
 
-    // Get all Urls from all users (for Admin only)
+    // Get all Urls filtered from all users (for Admin only)
+    @GetMapping("admin/getFiltered")
+    public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredOnAppUserForAdmin(
+        @RequestParam(value="firstName", required = false) String firstName,
+        @RequestParam(value="name", required = false) String name,
+            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
+                    direction = Sort.Direction.ASC) Pageable pageable){
+
+        return ResponseEntity.ok(urlLinkService
+                .getUrlLinkFilteredOnAppUserForAdmin(firstName, name,
+                pageable));
+
+    }
 //    @GetMapping("/admin/getFiltered")
 //    public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredForAdmin(
-//            @RequestParam(value="user") AppUser appUser,
+//            @RequestParam(value="userName", required = false) String appUserName,
 //            @RequestParam(value="clickNumber", required = false) Integer clickNumber,
 //            @RequestParam(value="creationDate", required = false) LocalDateTime creationDate,
 //            @RequestParam(value="expirationDate", required = false) LocalDateTime expirationDate,
@@ -122,7 +133,7 @@ public class UrlLinkController {
 //            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
 //                    direction = Sort.Direction.ASC)
 //                    Pageable pageable){
-//        return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForAdmin (appUser,
+//        return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForAdmin (appUserName,
 //                clickNumber,
 //                creationDate,
 //                expirationDate,
@@ -132,6 +143,7 @@ public class UrlLinkController {
 //                urlShortKey,
 //                pageable));
 //    }
+
 
     // Update urlLink only allowed on 3 attributes (check in service)
     @PutMapping("/user")
