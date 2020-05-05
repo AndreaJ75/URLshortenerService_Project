@@ -1,5 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.controller;
 
+import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
@@ -10,6 +11,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,8 +75,31 @@ public class UrlLinkController {
         return ResponseEntity.ok(urlLinkService.getUrlLinksSortedBySortCriteriaandOrder(pageable));
     }
 
-    // Get all Urls from all users (for Admin only)
+//    @GetMapping("/user/getFiltered")
+//    public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredForOneUser(
+//            @RequestParam(value="user") Long appUserId,
+//            @RequestParam(value="clickNumber", required = false) Integer clickNumber,
+//            @RequestParam(value="creationDate", required = false) LocalDateTime creationDate,
+//            @RequestParam(value="expirationDate", required = false) LocalDateTime expirationDate,
+//            @RequestParam(value="maxClickNumber", required = false) Integer maxClickNumber,
+//            @RequestParam(value="updateDate", required = false) LocalDateTime updateDate,
+//            @RequestParam(value="urlLong", required = false) String urlLong,
+//            @RequestParam(value="urlShortKey", required = false) String urlShortKey,
+//            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
+//                    direction = Sort.Direction.ASC)
+//                    Pageable pageable){
+//        return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForOneUser (appUserId,
+//                clickNumber,
+//                creationDate,
+//                expirationDate,
+//                maxClickNumber,
+//                updateDate,
+//                urlLong,
+//                urlShortKey,
+//                pageable));
+//    }
 
+    // Get all Urls from all users (for Admin only)
     @GetMapping("/admin/urlsAll")
     public ResponseEntity<Page<UrlLink>> getUrlLinksPage (
             @PageableDefault(size=10, page = 0, sort = {"updateDate"},
@@ -81,6 +107,31 @@ public class UrlLinkController {
                     Pageable pageable) {
         return ResponseEntity.ok(urlLinkService.getUrlPageAllSorted(pageable));
     }
+
+    // Get all Urls from all users (for Admin only)
+//    @GetMapping("/admin/getFiltered")
+//    public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredForAdmin(
+//            @RequestParam(value="user") AppUser appUser,
+//            @RequestParam(value="clickNumber", required = false) Integer clickNumber,
+//            @RequestParam(value="creationDate", required = false) LocalDateTime creationDate,
+//            @RequestParam(value="expirationDate", required = false) LocalDateTime expirationDate,
+//            @RequestParam(value="maxClickNumber", required = false) Integer maxClickNumber,
+//            @RequestParam(value="updateDate", required = false) LocalDateTime updateDate,
+//            @RequestParam(value="urlLong", required = false) String urlLong,
+//            @RequestParam(value="urlShortKey", required = false) String urlShortKey,
+//            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
+//                    direction = Sort.Direction.ASC)
+//                    Pageable pageable){
+//        return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForAdmin (appUser,
+//                clickNumber,
+//                creationDate,
+//                expirationDate,
+//                maxClickNumber,
+//                updateDate,
+//                urlLong,
+//                urlShortKey,
+//                pageable));
+//    }
 
     // Update urlLink only allowed on 3 attributes (check in service)
     @PutMapping("/user")

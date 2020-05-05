@@ -6,6 +6,8 @@ import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,37 @@ public interface UrlLinkService {
      */
     Page <UrlLink> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable);
 
+    /**
+     * Get UrlLinks for one user filtered
+     * @param pageable
+     * @return
+     */
+//    Page<UrlLink> getUrlLinkFilteredForOneUser(Long appUserIdTofilter,
+//                                               Integer clickNumber,
+//                                               LocalDateTime creationDate,
+//                                               LocalDateTime expirationDate,
+//                                               Integer maxClickNumber,
+//                                               LocalDateTime updateDate,
+//                                               String urlLong,
+//                                               String urlShortKey,
+//                                               Pageable pageable);
+//
+//
+//    /**
+//     * Get UrlLinks for all users filtered
+//     * @param pageable
+//     * @return
+//     */
+//    Page<UrlLink> getUrlLinkFilteredForAdmin(AppUser appUser,
+//                                             Integer clickNumber,
+//                                             LocalDateTime creationDate,
+//                                             LocalDateTime expirationDate,
+//                                             Integer maxClickNumber,
+//                                             LocalDateTime updateDate,
+//                                             String urlLong,
+//                                             String urlShortKey,
+//                                             Pageable pageable);
+//
     /**
      * Get all URL link sorted (for ADMIN users only)
      * @return url List

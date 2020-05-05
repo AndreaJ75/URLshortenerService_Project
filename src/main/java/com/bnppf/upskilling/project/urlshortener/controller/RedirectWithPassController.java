@@ -2,6 +2,7 @@ package com.bnppf.upskilling.project.urlshortener.controller;
 
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
+import com.bnppf.upskilling.project.urlshortener.vm.UrlRedirect;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class RedirectWithPassController {
     }
 
     @GetMapping("/{urlKey}/{urlPass}")
-    public ResponseEntity<String> getUrlRedirection(@PathVariable String urlKey,
+    public ResponseEntity<UrlRedirect> getUrlRedirection(@PathVariable String urlKey,
                                                     @PathVariable(required = true) String urlPass) {
         Optional<UrlLink> urlLongRetrieved = urlLinkService.getUrlLongFromShortUrl(urlKey);
 
@@ -41,16 +42,16 @@ public class RedirectWithPassController {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                 }
 
-                HttpHeaders headers = new HttpHeaders();
-                headers.set("Location", urlLongRetrieved.get().getUrlLong());
-
                 // Update Number of click for given clicked UrlshortLink :
                 Double clickNumberForGivenUrl = urlLongRetrieved.get().getClickNumber() + 1D;
                 urlLongRetrieved.get().setClickNumber(clickNumberForGivenUrl);
                 urlLinkService.updateUrlLink(urlLongRetrieved.get());
 
-                // Redirect to Long url
-                return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).headers(headers).build();
+                // create JSON object urlRedirect to provide to Angular for redirection
+                UrlRedirect urlRedirect = new UrlRedirect();
+                urlRedirect.setUrlLongForRedirect(urlLongRetrieved.get().getUrlLong());
+                // Redirect to Long url is done from Angular with provided UrlLong
+                return ResponseEntity.ok(urlRedirect);
             } else {
                 // if wrong password provided do not follow the link and provide error message
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

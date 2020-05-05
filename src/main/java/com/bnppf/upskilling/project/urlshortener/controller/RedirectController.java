@@ -52,7 +52,11 @@ public class RedirectController {
                 return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).headers(headers).build();
             } else {
                 // if password required => Open a window to request for Password
-                return ResponseEntity.status(HttpStatus.PROXY_AUTHENTICATION_REQUIRED).build();
+                HttpHeaders headers = new HttpHeaders();
+                String urlForPassword = "http://localhost:4200/url-password/" + urlKey;
+                headers.set("Location", urlForPassword);
+
+                return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).headers(headers).build();
              }
         }
     }
