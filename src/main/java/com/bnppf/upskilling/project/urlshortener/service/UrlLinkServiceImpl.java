@@ -175,6 +175,64 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         }
     }
 
+    // Get filtered urlLinks List (on list of filter criteria) related to one user
+//    @Override
+//    public Page<UrlLink> getUrlLinkFilteredForOneUser
+//        (Long appUserIdTofilter,
+//         Integer clickNumber,
+//         LocalDateTime creationDate,
+//         LocalDateTime expirationDate,
+//         Integer maxClickNumber,
+//         LocalDateTime updateDate,
+//         String urlLong,
+//         String urlShortKey,
+//         Pageable pageable) {
+//
+//        Optional<AppUser> userOptional = appUserRepository.findById(appUserIdTofilter);
+//
+//        if (userOptional.isPresent()) {
+//            return urllinkRepository.findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAAndUrlShortKey
+//                    (userOptional.get(),
+//                            clickNumber,
+//                            creationDate,
+//                            expirationDate,
+//                            maxClickNumber,
+//                            updateDate,
+//                            urlLong,
+//                            urlShortKey,
+//                            pageable
+//                    );
+//        } else {
+//            return null;
+//        }
+//    }
+
+    // Get filtered urlLinks List (on list of filter criteria) related to one user
+//    @Override
+//    public Page<UrlLink> getUrlLinkFilteredForAdmin
+//    (AppUser appUser,
+//     Integer clickNumber,
+//     LocalDateTime creationDate,
+//     LocalDateTime expirationDate,
+//     Integer maxClickNumber,
+//     LocalDateTime updateDate,
+//     String urlLong,
+//     String urlShortKey,
+//     Pageable pageable) {
+//        return urllinkRepository.findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAAndUrlShortKey
+//                    (appUser,
+//                     clickNumber,
+//                     creationDate,
+//                     expirationDate,
+//                     maxClickNumber,
+//                     updateDate,
+//                     urlLong,
+//                     urlShortKey,
+//                     pageable
+//                    );
+//    }
+
+
     /**
      * Find all UrlLink for all users => Admin functionnality
      * @return List of UrlLink of all users
