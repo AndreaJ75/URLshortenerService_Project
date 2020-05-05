@@ -16,8 +16,10 @@ public class AppUser {
     private Long id;
     @Column(name="uid", unique = true)
     private String uid;
+    @Column(name="firstName")
+    private String firstName;
     @Column(name="name")
-    private String completeName;
+    private String name;
     @Column(name="email")
     private String email;
     @Column(name="creation_date")
@@ -57,8 +59,12 @@ public class AppUser {
         return uid;
     }
 
-    public String getCompleteName() {
-        return completeName;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getEmail() {
@@ -94,8 +100,12 @@ public class AppUser {
         this.uid = uid;
     }
 
-    public void setCompleteName(String completeName) {
-        this.completeName = completeName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {

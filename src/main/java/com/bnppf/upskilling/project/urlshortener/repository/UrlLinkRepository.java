@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,7 +21,8 @@ public interface UrlLinkRepository extends PagingAndSortingRepository <UrlLink, 
                                        @PageableDefault(sort = { "urlLong",
                "maxClickNumber" }, value = 10) Pageable pageable);
 
-//       Page<UrlLink> findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAAndUrlShortKey
+
+//       List<UrlLink> findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAndUrlShortKey
 //               (AppUser appUser,
 //                Integer clickNumber,
 //                LocalDateTime creationDate,
@@ -28,8 +30,7 @@ public interface UrlLinkRepository extends PagingAndSortingRepository <UrlLink, 
 //                Integer maxClickNumber,
 //                LocalDateTime updateDate,
 //                String urlLong,
-//                String urlShortKey,
-//                @PageableDefault(sort = { "maxClickNumber" }, value = 10) Pageable pageable);
+//                String urlShortKey);
 
        Page<UrlLink> findAll(@PageableDefault (sort = { "urlLong",
                "maxClickNumber" }, value = 10) Pageable pageable);

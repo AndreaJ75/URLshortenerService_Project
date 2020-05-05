@@ -40,7 +40,28 @@ public class CustomUserDetailsContextMapper implements UserDetailsContextMapper 
         }
 
         AppUser appUserToBeCreated = new AppUser();
-        appUserToBeCreated.setCompleteName(completeName);
+        // firstName & Name separator
+        StringBuilder nameSeparator = new StringBuilder();
+        StringBuilder firstNameSeparator = new StringBuilder();
+
+        for (int i=0; i< completeName.length(); i++) {
+            while (completeName.charAt(i) != ' ') {
+                firstNameSeparator.append(completeName.charAt(i));
+                i = i+1;
+            }
+            while (i < completeName.length()) {
+                if (completeName.charAt(i) == ' ') {
+                    i = i+1;
+                }
+                nameSeparator.append(completeName.charAt(i));
+                i = i+1;
+            }
+        }
+        System.out.println("Name = " + nameSeparator);
+        System.out.println("firstName = " + firstNameSeparator);
+
+        appUserToBeCreated.setFirstName(firstNameSeparator.toString());
+        appUserToBeCreated.setName(nameSeparator.toString());
         appUserToBeCreated.setUid(login);
         // Set email to space (for the start)
         appUserToBeCreated.setEmail("");

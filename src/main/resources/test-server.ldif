@@ -118,7 +118,8 @@ objectclass: inetOrgPerson
 cn: alan Parson
 sn: alanP
 uid: alan
-userPassword: $2y$12$XqmPpkXuu..ecF01fUt0n..RO6gREynCENSsU2BgBW85mLKzA2eCi
+userPassword: $2y$12$TWXGSNtWthn2ncI0.L6Bb.LspIDwj/z/G4ThfXLO8nw3Pt.92ieMm
+
 
 
 dn: uid=lenny,ou=people,dc=springframework,dc=org
@@ -129,7 +130,7 @@ objectclass: inetOrgPerson
 cn: lenny Kravitz
 sn: lennyK
 uid: lenny
-userPassword: $2y$12$FhMApTyfYmsXURHH59yqI.fRnOfxbB2yRtcwKxEh9udAoWmDkhgGS
+userPassword: $2y$12$1oV40dwqujbo.OVQVcdtTuYYG47/RNEGECYUnIS37Uxtu8ZO5Yv7m
 
 
 dn: uid=celia,ou=people,dc=springframework,dc=org
@@ -140,7 +141,7 @@ objectclass: inetOrgPerson
 cn: celia Cruz
 sn: celiaC
 uid: celia
-userPassword: $2y$12$cRBckrt6Sp9sgYkFjemdvuR4/7O4EpVKeSvWK6vu1pCfx2UoT2I46
+userPassword: $2y$12$phuZpZ43L94AUjEXIa.cx.z0aPu799eszI.7SzGu9THy81cDfX6IC
 
 
 dn: uid=ana,ou=people,dc=springframework,dc=org
@@ -151,7 +152,7 @@ objectclass: inetOrgPerson
 cn: ana Karenine
 sn: anaK
 uid: ana
-userPassword: $2y$12$wWSsd9hvTi4eD6qth4kS.uj/Z9V/hzv/Vi29q/Q5jH7ZdknABgEPi
+userPassword: $2y$12$Uaz/PfzKynLFmQ5H0GJaeuvJRCUGcJ3LI.o2p25Kxv6rB5IOCAJ62
 
 
 
@@ -163,7 +164,7 @@ objectclass: inetOrgPerson
 cn: liza Minelli
 sn: lizaM
 uid: liza
-userPassword: $2y$12$ozz7a5f.U/Gy1yo2g2wiPe1p00Fy1JaeD.kDN9eGddy8Cz8Xamy4m
+userPassword: $2y$12$z5mPGLEpvXTM1b0bieOMxeDti1kwoy41aFjHe7KhqpfD8e5Iarg1S
 
 
 
@@ -175,7 +176,7 @@ objectclass: inetOrgPerson
 cn: yves Leconte
 sn: yvesL
 uid: yves
-userPassword: $2y$12$7h1tINq2ioRfJ3G2kuG1De.t/G16WleAN/s1q4t.lpBPpkzvd8TQu
+userPassword: $2y$12$mGmXznXE6kBFJ61PXvqi3./wML23UnVb.e.XiVbmzHkHgrjituA3.
 
 
 dn: uid=bin,ou=people,dc=springframework,dc=org
@@ -186,7 +187,7 @@ objectclass: inetOrgPerson
 cn: bin TAZ
 sn: binT
 uid: bin
-userPassword: $2y$12$aO/TisuHNcnOzYlzqAn0M.a0ogcA..stN.tlCVi23jK4RoX8foOnG
+userPassword: $2y$12$qMAlqdCrl.YW0qEqIHBOSeIhMYca4mGLWjzdOAzF3NQk//PPZRaVO
 
 
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org

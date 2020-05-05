@@ -47,13 +47,12 @@ public interface UrlLinkService {
      */
     Page <UrlLink> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable);
 
-    /**
-     * Get UrlLinks for one user filtered
-     * @param pageable
-     * @return
-     */
-//    Page<UrlLink> getUrlLinkFilteredForOneUser(Long appUserIdTofilter,
-//                                               Integer clickNumber,
+//    /**
+//     * Get UrlLinks for one user filtered
+//     * @param pageable
+//     * @return
+//     */
+//    Page<UrlLink> getUrlLinkFilteredForOneUser(Integer clickNumber,
 //                                               LocalDateTime creationDate,
 //                                               LocalDateTime expirationDate,
 //                                               Integer maxClickNumber,
@@ -62,13 +61,21 @@ public interface UrlLinkService {
 //                                               String urlShortKey,
 //                                               Pageable pageable);
 //
-//
+
+//    /**
+//     * Get UrlLinks filtered on urlShorkey for one user
+//     * @param urlShortKey
+//     * @param pageable
+//     * @return
+//     */
+//    Page<UrlLink> getUrlLinkFilteredOnShorkeyForOneUser(String urlShortKey, Pageable pageable);
+
 //    /**
 //     * Get UrlLinks for all users filtered
 //     * @param pageable
 //     * @return
 //     */
-//    Page<UrlLink> getUrlLinkFilteredForAdmin(AppUser appUser,
+//    Page<UrlLink> getUrlLinkFilteredForAdmin(String appUserName,
 //                                             Integer clickNumber,
 //                                             LocalDateTime creationDate,
 //                                             LocalDateTime expirationDate,
@@ -77,7 +84,17 @@ public interface UrlLinkService {
 //                                             String urlLong,
 //                                             String urlShortKey,
 //                                             Pageable pageable);
-//
+
+    /**
+     * Get UrlLinks filtered on AppUserName for Admin
+     * @param firstName
+     * @param name
+     * @param pageable
+     * @return
+     */
+    Page <UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String firstName,
+                                                       String name,
+                                                       Pageable pageable);
     /**
      * Get all URL link sorted (for ADMIN users only)
      * @return url List

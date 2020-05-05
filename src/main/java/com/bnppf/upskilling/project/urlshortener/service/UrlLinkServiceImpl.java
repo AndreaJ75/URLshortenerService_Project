@@ -7,9 +7,12 @@ import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
 import com.bnppf.upskilling.project.urlshortener.repository.UrlLinkRepository;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -175,64 +178,27 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         }
     }
 
-    // Get filtered urlLinks List (on list of filter criteria) related to one user
 //    @Override
-//    public Page<UrlLink> getUrlLinkFilteredForOneUser
-//        (Long appUserIdTofilter,
-//         Integer clickNumber,
-//         LocalDateTime creationDate,
-//         LocalDateTime expirationDate,
-//         Integer maxClickNumber,
-//         LocalDateTime updateDate,
-//         String urlLong,
-//         String urlShortKey,
-//         Pageable pageable) {
+//    public Page<UrlLink> getUrlLinkFilteredOnShorkeyForOneUser(String urlShortKey,
+//                                                               Pageable pageable) {
 //
-//        Optional<AppUser> userOptional = appUserRepository.findById(appUserIdTofilter);
-//
-//        if (userOptional.isPresent()) {
-//            return urllinkRepository.findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAAndUrlShortKey
-//                    (userOptional.get(),
-//                            clickNumber,
-//                            creationDate,
-//                            expirationDate,
-//                            maxClickNumber,
-//                            updateDate,
-//                            urlLong,
-//                            urlShortKey,
-//                            pageable
-//                    );
-//        } else {
-//            return null;
-//        }
+//        return
 //    }
+    @Override
+    public Page<UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String firstName,
+                                                             String name,
+                                                             Pageable pageable){
 
-    // Get filtered urlLinks List (on list of filter criteria) related to one user
-//    @Override
-//    public Page<UrlLink> getUrlLinkFilteredForAdmin
-//    (AppUser appUser,
-//     Integer clickNumber,
-//     LocalDateTime creationDate,
-//     LocalDateTime expirationDate,
-//     Integer maxClickNumber,
-//     LocalDateTime updateDate,
-//     String urlLong,
-//     String urlShortKey,
-//     Pageable pageable) {
-//        return urllinkRepository.findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAAndUrlShortKey
-//                    (appUser,
-//                     clickNumber,
-//                     creationDate,
-//                     expirationDate,
-//                     maxClickNumber,
-//                     updateDate,
-//                     urlLong,
-//                     urlShortKey,
-//                     pageable
-//                    );
-//    }
+        List<AppUser> appUsers = appUserRepository
+                .findByFirstNameAndName(firstName, name);
 
+        Page<UrlLink> urlLinkPage = null;
+        for (AppUser appUser: appUsers) {
+            urlLinkPage = urllinkRepository.findAllByAppUser(appUser, pageable);
+        }
+        return urlLinkPage;
 
+    }
     /**
      * Find all UrlLink for all users => Admin functionnality
      * @return List of UrlLink of all users
