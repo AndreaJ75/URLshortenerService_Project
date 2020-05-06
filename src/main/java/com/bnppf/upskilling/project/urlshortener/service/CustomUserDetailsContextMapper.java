@@ -57,8 +57,6 @@ public class CustomUserDetailsContextMapper implements UserDetailsContextMapper 
                 i = i+1;
             }
         }
-        System.out.println("Name = " + nameSeparator);
-        System.out.println("firstName = " + firstNameSeparator);
 
         appUserToBeCreated.setFirstName(firstNameSeparator.toString());
         appUserToBeCreated.setName(nameSeparator.toString());
