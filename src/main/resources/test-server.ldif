@@ -71,7 +71,7 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
+cn: Mouse Jerry
 sn: Mouse
 uid: jerry
 userPassword: $2y$12$/gEi1G/.oIn1TJ44mvrreOdop0Dt1454Mg1.POVFAlTqJ39b1evtG
@@ -82,10 +82,10 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: slash,guy
+cn: slash guy
 sn: Slashy
 uid: slash
-userPassword: $2y$12$BVoUaf0RTpLMUlFTviMC4u1SK/XcEX2xwib779cxw.j2mveM2nxdu
+userPassword: $2y$12$2Ryf44Ib/jPulF.19X.ANuXl6wSRTOmwRDBAt3XHc9O4QQPwyoziW
 
 
 dn: uid=andy,ou=people,dc=springframework,dc=org
@@ -188,6 +188,52 @@ cn: bin TAZ
 sn: binT
 uid: bin
 userPassword: $2y$12$qMAlqdCrl.YW0qEqIHBOSeIhMYca4mGLWjzdOAzF3NQk//PPZRaVO
+
+
+dn: uid=sam,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: sam Legrand
+sn: Legrand
+uid: sam
+userPassword: $2y$12$qYd8O4P.8lDegzaovxJOg.tweOLo7jC.CQDwOWcTJlWQFI8m9ITU6
+
+
+
+dn: uid=dan,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: dan Alby
+sn: Alby
+uid: dan
+userPassword: $2y$12$JjXEKtYiCp2Mawl6CMIX4O2iVPqLPeuXpi666sL1sE5rDOP4TispK
+
+
+
+dn: uid=paul,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: paul Daffy
+sn: Daffy
+uid: paul
+userPassword: $2y$12$eQTxN870mN5kgLYdcz5Lau.VBwzt32PYM0Cs1gqUawXrss.7uzHJG
+
+
+dn: uid=sid,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: sid Lords
+sn: Lords
+uid: sid
+userPassword: $2y$12$1Wfm/fooEaC2gVfe1NaHSu/WtJcuGI472oVzuAjt36zR6r8sWqcee
 
 
 dn: uid=space cadet,ou=space cadets,dc=springframework,dc=org
