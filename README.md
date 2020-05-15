@@ -13,13 +13,13 @@
  - can create a new URL shortlink at any neede time
 
 # USER accessible functionnalities :
- - can create/update their user profile
  - can create a short URL link
  - can manage their short created URL link
  - can have multiple role allocation
 
 # ADMIN accessible functionnalities :
- - can manage users
+ - have all user's rights
+ - can manage users's authorization level
 
 --------------------------------------
 

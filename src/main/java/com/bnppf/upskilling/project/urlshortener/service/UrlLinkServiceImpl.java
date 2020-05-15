@@ -119,11 +119,11 @@ public class UrlLinkServiceImpl implements UrlLinkService {
          */
         urlLinkToBeCreated.setUrlPassword(urlToBeCreated.getAppPassword());
         /**
-         * Feed provided Expiration Date (if provided with today date, set to todayday +1)
+         * Feed provided Expiration Date (if provided with today date, set to todayday +10)
          */
         if (LocalDateTime.now().getDayOfYear() == urlToBeCreated.getExpirationDate().getDayOfYear()
                 && LocalDateTime.now().getYear() == urlToBeCreated.getExpirationDate().getYear()){
-            urlLinkToBeCreated.setExpirationDate(LocalDateTime.now().plusDays(1));
+            urlLinkToBeCreated.setExpirationDate(LocalDateTime.now().plusDays(10));
         } else {
             urlLinkToBeCreated.setExpirationDate(urlToBeCreated.getExpirationDate());
         }
