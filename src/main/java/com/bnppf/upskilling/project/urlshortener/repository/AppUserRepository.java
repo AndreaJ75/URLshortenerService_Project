@@ -16,6 +16,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long>{
 
     List<AppUser> findByFirstNameAndName(String firstName, String name);
 
+
+
     // Problème de creation de VIEW (ici AppUserAngl <=> Entité considéré) à partir
     // de AppUserRepository + AuthorityRepository
 //
@@ -33,7 +35,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long>{
 //                    " GROUP BY ap.id, ap_au.app_user_id " +
 //                    " ORDER BY ap_au.app_user_id ASC",
 //        countQuery =
-//                "SELECT COUT(*) " +
+//                "SELECT COUNT(*) " +
 //                        "FROM app_user ap " +
 //                        "  JOIN app_user_authority ap_au ON ap.id = ap_au.app_user.id " +
 //                        "ORDER BY au.app_user.id ASC",

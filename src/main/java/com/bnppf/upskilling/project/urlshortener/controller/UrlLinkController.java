@@ -1,7 +1,11 @@
 package com.bnppf.upskilling.project.urlshortener.controller;
 
+import com.bnppf.upskilling.project.urlshortener.configuration.SecurityConfig;
+import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUtils;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
+import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
 import com.bnppf.upskilling.project.urlshortener.model.UrlLink;
+import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import com.bnppf.upskilling.project.urlshortener.vm.UrlFeedLink;
 import org.springframework.data.domain.Page;
@@ -25,8 +29,12 @@ public class UrlLinkController {
      * Declaration du service pour access aux données en Base de données via repository
      */
     private UrlLinkService urlLinkService;
+    private AppUserService appUserService;
 
-    public UrlLinkController(UrlLinkService urlLinkService) { this.urlLinkService = urlLinkService;  }
+    public UrlLinkController(UrlLinkService urlLinkService,
+                             AppUserService appUserService) {
+        this.urlLinkService = urlLinkService;
+        this.appUserService = appUserService;}
 
     /**
      * CREATE URLLink for GUEST
@@ -113,7 +121,7 @@ public class UrlLinkController {
         @RequestParam(value="firstName", required = false) String firstName,
         @RequestParam(value="name", required = false) String name,
             @PageableDefault(size=10, page = 0, sort = {"updateDate"},
-                    direction = Sort.Direction.ASC) Pageable pageable){
+                    direction = Sort.Direction.DESC) Pageable pageable){
 
         return ResponseEntity.ok(urlLinkService
                 .getUrlLinkFilteredOnAppUserForAdmin(firstName, name,
@@ -152,7 +160,20 @@ public class UrlLinkController {
         Optional<UrlLink> urlLinkOptional =
                 urlLinkService.getUrlLinkfromUrlId(urlLinkToUpdate.getId());
         if (urlLinkOptional.isPresent())  {
-            return ResponseEntity.ok(urlLinkService.updateUrlFeedLink(urlLinkToUpdate));
+            // prevent from updating urlLink not linked to authenticated user
+            // (if direct access done by appUser with urlId)
+             Optional<AppUser> appUserOptional=appUserService
+                     .getAppUserByUID(SecurityUtils.getCurrentUserLogin());
+             if (appUserOptional.isPresent() &&
+                appUserOptional.get() == urlLinkOptional.get().getAppUser()
+             || (appUserOptional.get().getAuthorities()
+                     .get(0).getAuthorityLevel() == AuthorityLevel.ROLE_ADMIN
+             ||  appUserOptional.get().getAuthorities()
+                     .get(1).getAuthorityLevel() == AuthorityLevel.ROLE_ADMIN)) {
+                 return ResponseEntity.ok(urlLinkService.updateUrlFeedLink(urlLinkToUpdate));
+             } else {
+                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
