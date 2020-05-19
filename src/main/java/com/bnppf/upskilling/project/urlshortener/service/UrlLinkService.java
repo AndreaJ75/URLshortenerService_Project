@@ -47,53 +47,33 @@ public interface UrlLinkService {
      */
     Page <UrlLink> getUrlLinksSortedBySortCriteriaandOrder(Pageable pageable);
 
-//    /**
-//     * Get UrlLinks for one user filtered
-//     * @param pageable
-//     * @return
-//     */
-//    Page<UrlLink> getUrlLinkFilteredForOneUser(Integer clickNumber,
-//                                               LocalDateTime creationDate,
-//                                               LocalDateTime expirationDate,
-//                                               Integer maxClickNumber,
-//                                               LocalDateTime updateDate,
-//                                               String urlLong,
-//                                               String urlShortKey,
-//                                               Pageable pageable);
-//
+    /**
+     * Get UrlLinks for one user filtered
+     * @param pageable
+     * @param urlLong
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    Page<UrlLink> getUrlLinkFilteredForOneUser(String name,String urlLong,
+                                               LocalDateTime startDate,
+                                               LocalDateTime endDate,
+                                               Pageable pageable);
 
-//    /**
-//     * Get UrlLinks filtered on urlShorkey for one user
-//     * @param urlShortKey
-//     * @param pageable
-//     * @return
-//     */
-//    Page<UrlLink> getUrlLinkFilteredOnShorkeyForOneUser(String urlShortKey, Pageable pageable);
-
-//    /**
-//     * Get UrlLinks for all users filtered
-//     * @param pageable
-//     * @return
-//     */
-//    Page<UrlLink> getUrlLinkFilteredForAdmin(String appUserName,
-//                                             Integer clickNumber,
-//                                             LocalDateTime creationDate,
-//                                             LocalDateTime expirationDate,
-//                                             Integer maxClickNumber,
-//                                             LocalDateTime updateDate,
-//                                             String urlLong,
-//                                             String urlShortKey,
-//                                             Pageable pageable);
 
     /**
      * Get UrlLinks filtered on AppUserName for Admin
-     * @param firstName
-     * @param name
      * @param pageable
+     * @param name
+     * @param urlLong
+     * @param startDate
+     * @param endDate
      * @return
      */
-    Page <UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String firstName,
-                                                       String name,
+    Page <UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String name,
+                                                       String urlLong,
+                                                       LocalDateTime startDate,
+                                                       LocalDateTime endDate,
                                                        Pageable pageable);
     /**
      * Get all URL link sorted (for ADMIN users only)

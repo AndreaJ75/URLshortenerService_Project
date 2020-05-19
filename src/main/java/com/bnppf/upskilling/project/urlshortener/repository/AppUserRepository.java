@@ -16,6 +16,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long>{
 
     List<AppUser> findByFirstNameAndName(String firstName, String name);
 
+    List<AppUser> findByFirstNameOrName(String name, String firstName);
 
 
     // Problème de creation de VIEW (ici AppUserAngl <=> Entité considéré) à partir

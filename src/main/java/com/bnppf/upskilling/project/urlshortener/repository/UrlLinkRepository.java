@@ -18,19 +18,27 @@ public interface UrlLinkRepository extends PagingAndSortingRepository <UrlLink, 
        Optional<UrlLink> findOneByUrlShortKey(String urlKeyToCheck);
 
        Page <UrlLink> findAllByAppUser(AppUser appUser,
-                                       @PageableDefault(sort = { "urlLong",
+                                       @PageableDefault(sort = { "updateDate",
                "maxClickNumber" }, value = 10) Pageable pageable);
 
 
-//       List<UrlLink> findAllByAppUserAndClickNumberAndCreationDateAndExpirationDateAndMaxClickNumberAndUpdateDateAndUrlLongAndUrlShortKey
-//               (AppUser appUser,
-//                Integer clickNumber,
-//                LocalDateTime creationDate,
-//                LocalDateTime expirationDate,
-//                Integer maxClickNumber,
-//                LocalDateTime updateDate,
-//                String urlLong,
-//                String urlShortKey);
+       Page <UrlLink> findAllByAppUserContainsOrUrlLongContainsOrExpirationDateBetween(
+               String name,
+               String urlLong,
+               LocalDateTime startDate,
+               LocalDateTime endDate,
+               @PageableDefault(sort = { "updateDate",
+                       "maxClickNumber" }, value = 10) Pageable pageable);
+
+
+       Page <UrlLink> findAllByAppUserOrUrlLongContainsOrExpirationDateBetween(
+               AppUser appUser,
+               String urlLong,
+               LocalDateTime startDate,
+               LocalDateTime endDate,
+               @PageableDefault(sort = { "updateDate",
+                       "maxClickNumber" }, value = 10) Pageable pageable);
+
 
        Page<UrlLink> findAll(@PageableDefault (sort = { "urlLong",
                "maxClickNumber" }, value = 10) Pageable pageable);
