@@ -21,17 +21,37 @@ public interface UrlLinkRepository extends PagingAndSortingRepository <UrlLink, 
                                        @PageableDefault(sort = { "updateDate",
                "maxClickNumber" }, value = 10) Pageable pageable);
 
+       /**
+        * FOR ADMIN : Get all UrlLinks having provided appuserName, or containing
+        * UrlLong, or expiration date between defined start and end date
+        * @param appUserName
+        * @param urlLong
+        * @param startDate
+        * @param endDate
+        * @param pageable
+        * @return
+        */
 
-       Page <UrlLink> findAllByAppUserContainsOrUrlLongContainsOrExpirationDateBetween(
-               String name,
+       Page<UrlLink> findAllByAppUserNameAndUrlLongContainsAndExpirationDateBetween(
+               String appUserName,
                String urlLong,
                LocalDateTime startDate,
                LocalDateTime endDate,
                @PageableDefault(sort = { "updateDate",
                        "maxClickNumber" }, value = 10) Pageable pageable);
 
+       /**
+        * FOR USER : Get all its UrlLinks having provided
+        * Urllong, or expiration start and date date
+        * @param appUser
+        * @param urlLong
+        * @param startDate
+        * @param endDate
+        * @param pageable
+        * @return
+        */
 
-       Page <UrlLink> findAllByAppUserOrUrlLongContainsOrExpirationDateBetween(
+       Page <UrlLink> findAllByAppUserAndUrlLongContainsAndExpirationDateBetween(
                AppUser appUser,
                String urlLong,
                LocalDateTime startDate,

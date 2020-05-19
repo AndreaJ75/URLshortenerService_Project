@@ -85,18 +85,16 @@ public class UrlLinkController {
 
     @GetMapping("/user/getFiltered")
     public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredForOneUser(
-            @RequestParam(value="name", required=false) String name,
             @RequestParam(value="urlLong", required = false) String urlLong,
             @RequestParam(value="startDate", required = false)
-                    LocalDateTime startDate,
+                    String startDate,
             @RequestParam(value="endDate", required = false)
-                    LocalDateTime endDate,
+                    String endDate,
 
             @PageableDefault(size=10, page = 0, sort = {"updateDate"},
                     direction = Sort.Direction.ASC)
                     Pageable pageable){
         return ResponseEntity.ok(urlLinkService.getUrlLinkFilteredForOneUser(
-                name,
                 urlLong,
                 startDate,
                 endDate,
@@ -117,8 +115,8 @@ public class UrlLinkController {
     public ResponseEntity<Page<UrlLink>> getUrlLinkFilteredOnAppUserForAdmin(
         @RequestParam(value="name", required = false) String name,
         @RequestParam(value="urlLong", required = false) String urlLong,
-        @RequestParam(value="startDate", required=false) LocalDateTime startDate,
-        @RequestParam(value ="endDate", required = false) LocalDateTime endDate,
+        @RequestParam(value="startDate", required=false) String startDate,
+        @RequestParam(value ="endDate", required = false) String endDate,
             @PageableDefault(size=10, page = 0, sort = {"updateDate"},
                     direction = Sort.Direction.DESC) Pageable pageable){
 

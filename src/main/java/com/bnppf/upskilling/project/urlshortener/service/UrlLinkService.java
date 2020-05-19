@@ -55,9 +55,9 @@ public interface UrlLinkService {
      * @param endDate
      * @return
      */
-    Page<UrlLink> getUrlLinkFilteredForOneUser(String name,String urlLong,
-                                               LocalDateTime startDate,
-                                               LocalDateTime endDate,
+    Page<UrlLink> getUrlLinkFilteredForOneUser(String urlLong,
+                                               String startDate,
+                                               String endDate,
                                                Pageable pageable);
 
 
@@ -72,8 +72,8 @@ public interface UrlLinkService {
      */
     Page <UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String name,
                                                        String urlLong,
-                                                       LocalDateTime startDate,
-                                                       LocalDateTime endDate,
+                                                       String startDate,
+                                                       String endDate,
                                                        Pageable pageable);
     /**
      * Get all URL link sorted (for ADMIN users only)
