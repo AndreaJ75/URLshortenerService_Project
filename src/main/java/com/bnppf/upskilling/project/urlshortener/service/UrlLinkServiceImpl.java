@@ -178,27 +178,45 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         }
     }
 
-//    @Override
-//    public Page<UrlLink> getUrlLinkFilteredOnShorkeyForOneUser(String urlShortKey,
-//                                                               Pageable pageable) {
-//
-//        return
-//    }
     @Override
-    public Page<UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String firstName,
-                                                             String name,
+    public Page<UrlLink> getUrlLinkFilteredForOneUser(String urlLong,
+                                                               String startDate,
+                                                               String endDate,
+                                                               Pageable pageable) {
+        String loginConnected = SecurityUtils.getCurrentUserLogin();
+        Optional<AppUser> userOptional = appUserRepository.findAppUserByUid(loginConnected);
+
+        LocalDateTime dateStart = LocalDateTime.parse(startDate);
+        LocalDateTime dateEnd = LocalDateTime.parse(endDate);
+
+        if (userOptional.isPresent()) {
+            return urllinkRepository.findAllByAppUserAndUrlLongContainsAndExpirationDateBetween(
+                    userOptional.get(),
+                    urlLong,
+                    dateStart,
+                    dateEnd,
+                    pageable);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Page<UrlLink> getUrlLinkFilteredOnAppUserForAdmin(String name,
+                                                             String urlLong,
+                                                             String startDate,
+                                                             String endDate,
                                                              Pageable pageable){
 
-        List<AppUser> appUsers = appUserRepository
-                .findByFirstNameAndName(firstName, name);
+        LocalDateTime dateStart = LocalDateTime.parse(startDate);
+        LocalDateTime dateEnd = LocalDateTime.parse(endDate);
 
-        Page<UrlLink> urlLinkPage = null;
-        for (AppUser appUser: appUsers) {
-            urlLinkPage = urllinkRepository.findAllByAppUser(appUser, pageable);
-        }
-        return urlLinkPage;
-
+        return urllinkRepository.findAllByAppUserNameAndUrlLongContainsAndExpirationDateBetween(
+                name, urlLong, dateStart, dateEnd, pageable
+        );
     }
+
+
     /**
      * Find all UrlLink for all users => Admin functionnality
      * @return List of UrlLink of all users
