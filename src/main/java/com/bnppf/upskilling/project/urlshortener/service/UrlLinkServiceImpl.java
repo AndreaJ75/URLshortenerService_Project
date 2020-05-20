@@ -110,7 +110,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         /**
          * Feed max click number provided by user
          */
-        if (!(urlToBeCreated.getMaxClickNumber() == null)) {
+        if ((urlToBeCreated.getMaxClickNumber() != null)) {
             urlLinkToBeCreated.setMaxClickNumber(urlToBeCreated.getMaxClickNumber());
         }
 
@@ -121,6 +121,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         /**
          * Feed provided Expiration Date (if provided with today date, set to todayday +10)
          */
+        //TODO mettre (10) dans constante (default days)
         if (LocalDateTime.now().getDayOfYear() == urlToBeCreated.getExpirationDate().getDayOfYear()
                 && LocalDateTime.now().getYear() == urlToBeCreated.getExpirationDate().getYear()){
             urlLinkToBeCreated.setExpirationDate(LocalDateTime.now().plusDays(10));
