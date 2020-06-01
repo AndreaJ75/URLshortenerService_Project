@@ -1,5 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
+import com.bnppf.upskilling.project.urlshortener.controller.AppUserController;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
@@ -147,7 +148,8 @@ public class AppUserServiceImpl implements AppUserService {
             }
             appUserAngs.add(appUserAng);
         }
-        Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs, pageable, appUserAngs.size());
+        Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs,
+                pageable, appUserAngs.size());
         return appUserAngPage;
 //       return this.appUserRepository.findAllAppUserWithHighestAuthority(pageable);
     }

@@ -144,18 +144,6 @@ uid: celia
 userPassword: $2y$12$phuZpZ43L94AUjEXIa.cx.z0aPu799eszI.7SzGu9THy81cDfX6IC
 
 
-dn: uid=ana,ou=people,dc=springframework,dc=org
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: ana Karenine
-sn: anaK
-uid: ana
-userPassword: $2y$12$Uaz/PfzKynLFmQ5H0GJaeuvJRCUGcJ3LI.o2p25Kxv6rB5IOCAJ62
-
-
-
 dn: uid=liza,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
@@ -177,6 +165,17 @@ cn: yves Leconte
 sn: yvesL
 uid: yves
 userPassword: $2y$12$mGmXznXE6kBFJ61PXvqi3./wML23UnVb.e.XiVbmzHkHgrjituA3.
+
+
+dn: uid=ana,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: ana Karenine
+sn: anaK
+uid: ana
+userPassword: $2y$12$Uaz/PfzKynLFmQ5H0GJaeuvJRCUGcJ3LI.o2p25Kxv6rB5IOCAJ62
 
 
 dn: uid=bin,ou=people,dc=springframework,dc=org
