@@ -37,7 +37,7 @@ public interface AppUserService  {
      */
     Page<AppUser> getAppUserList(Pageable pageable);
 
-     /**
+    /**
      * Get All AppUser with their highest authority level
      * @param pageable
      * @return

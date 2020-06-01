@@ -58,14 +58,15 @@ public class AppUserController {
 
     // get all Users (for Admin only)
     @GetMapping("/admin/appUserAll")
-    public ResponseEntity<Page<AppUser>> getListOfAllAppUsers(Pageable pageable) {
-
+    public ResponseEntity<Page<AppUser>> getListOfAllAppUsers(
+        @PageableDefault(size=10, page = 0, sort = {"uid"},
+        direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(appUserService.getAppUserList(pageable));
     }
 
     @GetMapping("admin/appUserAllWithHighestAutho")
     public ResponseEntity<Page<AppUserAng>> getAllAppUserPageWithHighestAuthority(
-            @PageableDefault(size=20, page = 0, sort = {"uid"},
+            @PageableDefault(size=10, page = 0, sort = {"uid"},
                     direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(appUserService
                 .getAllAppUserPageWithHighestAuthority(pageable));
