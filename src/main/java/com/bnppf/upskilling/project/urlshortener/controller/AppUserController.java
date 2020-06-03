@@ -5,7 +5,6 @@ import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
 import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
-import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
 import com.bnppf.upskilling.project.urlshortener.vm.LoginAuthoLevel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,14 +61,6 @@ public class AppUserController {
         @PageableDefault(size=10, page = 0, sort = {"uid"},
         direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(appUserService.getAppUserList(pageable));
-    }
-
-    @GetMapping("admin/appUserAllWithHighestAutho")
-    public ResponseEntity<Page<AppUserAng>> getAllAppUserPageWithHighestAuthority(
-            @PageableDefault(size=10, page = 0, sort = {"uid"},
-                    direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(appUserService
-                .getAllAppUserPageWithHighestAuthority(pageable));
     }
 
     // get User by its uid

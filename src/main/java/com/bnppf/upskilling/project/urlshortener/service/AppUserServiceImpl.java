@@ -1,23 +1,14 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
-import com.bnppf.upskilling.project.urlshortener.controller.AppUserController;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.model.AuthorityLevel;
 import com.bnppf.upskilling.project.urlshortener.repository.AppUserRepository;
-import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -25,7 +16,6 @@ public class AppUserServiceImpl implements AppUserService {
 
 
     private AppUserRepository appUserRepository;
-//    private Authority authority;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository) {
         this.appUserRepository = appUserRepository;
@@ -123,36 +113,6 @@ public class AppUserServiceImpl implements AppUserService {
         return this.appUserRepository.findAll(pageable);
     }
 
-    @Override
-    public Page<AppUserAng> getAllAppUserPageWithHighestAuthority(Pageable pageable){
-
-        Page<AppUser> appUserPage = this.appUserRepository.findAll(pageable);
-        List<AppUserAng> appUserAngs = new ArrayList<>();
-
-        // get user AuthorityLevel number :
-        for (AppUser appUser: appUserPage) {
-            AppUserAng appUserAng = new AppUserAng();
-            appUserAng.setAppUser(appUser);
-            boolean adminAutoLevel = false;
-            List<Authority> authorities = appUser.getAuthorities();
-            for (Authority authority : authorities) {
-                if (authority.getAuthorityLevel().toString().equals("ROLE_ADMIN")) {
-                    adminAutoLevel = true;
-                }
-            }
-
-            if (adminAutoLevel == true) {
-                appUserAng.setHighestAuthorityLevel("ROLE_ADMIN");
-            } else {
-                appUserAng.setHighestAuthorityLevel("ROLE_USER");
-            }
-            appUserAngs.add(appUserAng);
-        }
-        Page<AppUserAng> appUserAngPage = new PageImpl<>(appUserAngs,
-                pageable, appUserAngs.size());
-        return appUserAngPage;
-//       return this.appUserRepository.findAllAppUserWithHighestAuthority(pageable);
-    }
 
     @Override
     public List<String> getAppUserRoles(String appUserLogin){
