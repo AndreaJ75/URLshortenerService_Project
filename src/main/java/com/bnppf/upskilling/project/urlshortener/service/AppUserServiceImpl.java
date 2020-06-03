@@ -113,6 +113,13 @@ public class AppUserServiceImpl implements AppUserService {
         return this.appUserRepository.findAll(pageable);
     }
 
+    // Get AppUser filtered on provided criteria
+    @Override
+    public Page<AppUser> getAppUsersFilteredsOnName(String name,
+                                                             Pageable pageable){
+        return appUserRepository.findAllByNameContains(name, pageable);
+    }
+
 
     @Override
     public List<String> getAppUserRoles(String appUserLogin){

@@ -3,6 +3,7 @@ package com.bnppf.upskilling.project.urlshortener.service;
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,12 @@ public interface AppUserService  {
      */
     Page<AppUser> getAppUserList(Pageable pageable);
 
+    /**
+     * Get AppUser filtered on name criteria
+     * @param pageable
+     * @return
+     */
+    Page<AppUser> getAppUsersFilteredsOnName(String name, Pageable pageable);
     /**
      * Get List of all appuser's roles
      * @param appUserLogin
