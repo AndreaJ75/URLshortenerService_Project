@@ -63,6 +63,17 @@ public class AppUserController {
         return ResponseEntity.ok(appUserService.getAppUserList(pageable));
     }
 
+    // Get all AppUsers filtered on uid, name or firstName provided (for Admin only)
+    @GetMapping("admin/getAppUserFiltered")
+    public ResponseEntity<Page<AppUser>> getAppUsersFilteredOnCriteria(
+            @RequestParam(value="name", required = false) String name,
+            @PageableDefault(size=10, page = 0, sort = {"updateDate"},
+                    direction = Sort.Direction.DESC) Pageable pageable){
+        return ResponseEntity.ok(appUserService
+                .getAppUsersFilteredsOnName(name,pageable));
+    }
+
+
     // get User by its uid
     @GetMapping("/admin/userId/{uid}")
     public ResponseEntity<AppUser> getAppUserByUID(@PathVariable("uid") String UID) {

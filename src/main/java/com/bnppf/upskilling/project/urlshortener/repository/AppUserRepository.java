@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -19,4 +20,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long>{
     Page<AppUser> findAll(@PageableDefault(sort = { "uid"}, value = 10)
                                   Pageable pageable);
 
+    Page <AppUser> findAllByNameContains(String name,
+            @PageableDefault(sort = { "updateDate" }, value = 10) Pageable pageable);
 }
