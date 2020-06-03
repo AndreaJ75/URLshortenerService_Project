@@ -1,7 +1,6 @@
 package com.bnppf.upskilling.project.urlshortener.service;
 
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
-import com.bnppf.upskilling.project.urlshortener.vm.AppUserAng;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,13 +35,6 @@ public interface AppUserService  {
      * @return
      */
     Page<AppUser> getAppUserList(Pageable pageable);
-
-    /**
-     * Get All AppUser with their highest authority level
-     * @param pageable
-     * @return
-     */
-    Page<AppUserAng> getAllAppUserPageWithHighestAuthority(Pageable pageable);
 
     /**
      * Get List of all appuser's roles
