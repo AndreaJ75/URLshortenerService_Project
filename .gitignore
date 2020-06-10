@@ -31,6 +31,10 @@ build/
 /home/bnp-renault-005/Bureau/ANDY/DIGITAL_FACTORY/URLShortenerService/URLshortenerService_Project/src/main/resources/application.yml
 /home/bnp-renault-005/Bureau/ANDY/DIGITAL_FACTORY/URLShortenerService/URLshortenerAPI/src/main/resources/application.yml
 /home/bnp-renault-005/Bureau/ANDY/DIGITAL_FACTORY/URLShortenerService/URLshortenerService_Project/src/main/resources/application.yml
+
+# Remove LDIF file from git
+/home/bnp-renault-005/Bureau/ANDY/DIGITAL_FACTORY/URLShortenerService/URLshortenerService_Project/src/main/resources/test-server.ldif
+
 ### VS Code ###
 .vscode/
 /src/main/resources/application.yml
