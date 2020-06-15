@@ -51,6 +51,7 @@ public class RedirectController {
                 // Redirect to Long url
                 return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).headers(headers).build();
             } else {
+                //TODO mettre le localhost (http://localhost:4200) en dynamique
                 // if password required => Open a window to request for Password
                 HttpHeaders headers = new HttpHeaders();
                 String urlForPassword = "http://localhost:4200/url-password/" + urlKey;

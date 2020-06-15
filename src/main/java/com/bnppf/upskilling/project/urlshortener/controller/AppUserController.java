@@ -4,7 +4,6 @@ import com.bnppf.upskilling.project.urlshortener.configuration.utils.SecurityUti
 import com.bnppf.upskilling.project.urlshortener.model.AppUser;
 import com.bnppf.upskilling.project.urlshortener.model.Authority;
 import com.bnppf.upskilling.project.urlshortener.service.AppUserService;
-import com.bnppf.upskilling.project.urlshortener.service.UrlLinkService;
 import com.bnppf.upskilling.project.urlshortener.vm.LoginAuthoLevel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+//TODO cross origin à configurer direct dans websecurity (+ rajouter url exacte du serveur front 4200)
 @RestController
 @RequestMapping("/api/appUser")
 @CrossOrigin("*")
@@ -27,16 +27,13 @@ public class AppUserController {
      * Declaration of AppUser Service
      */
     private AppUserService appUserService;
-    private UrlLinkService urlLinkService;
 
     /**
      * AppUser Service injection inside of the controller constructor (to be able to access Services created Method)
      * @param appUserService
      */
-    public AppUserController(AppUserService appUserService,
-                             UrlLinkService urlLinkService) {
+    public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
-        this.urlLinkService = urlLinkService;
     }
 
     // ********************************************************************************
@@ -158,9 +155,4 @@ public class AppUserController {
         appUserService.deleteAppUser(appUserId);
     }
 
-    //=> A tester (ne marche pas pour l'heure)
-    @DeleteMapping("/admin/{appUserIdList}>")
-    public void deleteAppUserList(@PathVariable List<Long> appUserIdList) {
-        appUserService.deleteAppUserList(appUserIdList);
-    }
 }
