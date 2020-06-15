@@ -1,0 +1,48 @@
+@startuml
+
+url_link "0..*" *- "   1" app_user: < have
+
+app_user "1..*" - "1..*" authority
+(app_user, authority) .. app_user_authority
+
+
+class app_user {
+id
+uid
+first_name
+name
+email
+creation_date
+update_date
+}
+
+class authority {
+id
+authority_level
+}
+
+class app_user_authority {
+app_user_id
+authority_id
+}
+
+
+class url_link {
+id
+url_long
+url_short_key
+url_password
+click_number
+max_click_number
+expiration_date
+creation_date
+update_date
+app_user_id
+}
+
+enum authority_level {
+ROLE_ADMIN
+ROLE_USER
+}
+
+@enduml

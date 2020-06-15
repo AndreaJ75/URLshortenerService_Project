@@ -1,0 +1,38 @@
+@startuml
+
+class UrlLink
+class AppUser
+class Authority
+
+UrlLink "0..*" *- "   1" AppUser: < have
+AppUser "1..*" - "1..*" Authority
+(AppUser, Authority) .. AppUserAuthority
+
+class UrlLink {
+id
+urlLong
+urlShortKey
+urlPassword
+clickNumber
+maxClickNumber
+expirationDate
+creationDate
+updateDate
+}
+
+class AppUser {
+id
+uid
+firstName
+name
+email
+creationDate
+updateDate
+}
+
+enum AuthorityLevel {
+ROLE_ADMIN
+ROLE_USER
+}
+
+@enduml
